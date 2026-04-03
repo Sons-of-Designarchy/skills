@@ -664,51 +664,90 @@ END CONTAINER
 
 ### Yardzen
 
-**Stack:** NX monorepo (pnpm), Next.js 14 (App Router), Tailwind CSS, GraphQL, TypeScript, Font Awesome Pro, Contentful CMS
+**Stack:** NX monorepo (pnpm), Next.js 15 (App Router), TypeScript strict, Tailwind CSS, GraphQL (Apollo codegen), Prisma + PostgreSQL, Contentful CMS, NextAuth v4 + custom V2 JWT auth, Split.io feature flags
 
-**Monorepo layout:**
-- `apps/build-marketplace` — primary frontend (port 4200)
-- `libs/next-components` — Contentful-rendered components
-- `libs/contentful/types` — generated Contentful types
-- `libs/hooks`, `libs/ui`, `libs/media`, `libs/rest-api-client`
+**Dev commands** (run from monorepo root):
+```bash
+nx serve build-marketplace                    # dev — port 4200
+nx build build-marketplace                    # production build
+nx lint build-marketplace                     # lint
+nx test build-marketplace                     # tests
+nx run build-marketplace:graphql-codegen      # regenerate GQL types
+```
 
-**Dev server:**
-- Run: `pnpm nx serve build-marketplace` (port 4200)
-- Kill port: `lsof -ti :4200 | xargs kill -9`
-- Node version: check team-specified `.nvmrc`
-- Lint: `pnpm nx lint build-marketplace`
-- Run Prettier before pushing: `pnpm prettier --write <file>`
+**Route groups in `app/`:**
+| Group | Paths | Purpose |
+|---|---|---|
+| `(default)` | `/login`, `/profile`, `/gallery`, `/build-studio`, `/payments/[invoiceId]` | Authenticated user flows |
+| `(marketing)` | `/home`, `/packages`, `/[...slug]` | Public marketing, Contentful-driven |
+| `(minimal)` | `/checkout`, `/checkout/extras` | Stripped shell, no main nav |
+| `(quiz)` | `/design-consultation/[survey_id]/[[...slug]]` | Multi-step design quiz |
+
+**Key files to read first:**
+1. `middleware.ts` — auth gating, `PUBLIC_PATHS`, anonymous ID creation
+2. `app/(default)/layout.tsx` + `ClientsideLayout.tsx` — full provider stack (Apollo, GTM, Split, Datadog)
+3. `app/(default)/ServerContext.ts` — `getUserIdFromServerContext()` — canonical user getter in server components
+4. `providers/V2Auth/serverSideV2Auth.ts` — dual-token (V1 Firebase / V2 JWT) auth chain
+5. `app/(marketing)/packages/ContentfulPage.tsx` — Contentful section router (`isTypeXxx` chain)
+6. `libs/contentful/utils/getEntry.ts` — caching, overrides, preview logic
+7. `app/(default)/prisma.ts` — Prisma singleton
+8. `codegen.ts` + `gql/apollo.ts` — generated GQL types imported everywhere
+
+**Shared libs (most-used):**
+| Alias | Role |
+|---|---|
+| `@contentful/types` | Generated TypeScript skeletons for every Contentful type |
+| `@contentful/utils` | `getPage()`, `getPackageDetail()`, `getBanner()` with ISR cache tagging |
+| `@yardzen/components/*` | Granular component subpath exports |
+| `@yardzen/ui/components/*` | Base design system (Page, Footer, Spinner, Link, etc.) |
+| `@yardzen/next-api-util` | `fetchYzGqlApi()` — server-side typed GQL fetcher |
+| `@yardzen/next-client-util` | `GQLClient()`, GTM events, analytics helpers |
+| `@yardzen/splitio` | Feature flags — `SplitTreatmentName` enum, server/client wrappers |
+| `@yardzen/auth` | `validateV2Token()`, `validateLegacyToken()`, `exchangeV1ForV2Token()` |
+
+**Auth:**
+- Two systems coexist: V1 (Firebase JWT) and V2 (custom JWT, preferred)
+- Server components: use `getUserIdFromServerContext()` or `getAuthedUserInfo()`
+- If V2 token missing, auto-generated from V1 — no redirect
+- Add new public routes to `PUBLIC_PATHS` in `middleware.ts`
+
+**GraphQL:**
+- Run codegen after any schema change: `nx run build-marketplace:graphql-codegen`
+- Queries in co-located `queries.ts` files using `gql` tag
+- Server-side: `fetchYzGqlApi<QueryType, VariablesType>({ query, variables })`
+- Client-side: standard Apollo hooks from `gql/apollo.ts`
+- Never write raw fetch calls — always use typed helpers
 
 **Contentful integration:**
-- Types auto-generated in `libs/contentful/types/` — use them
-- Fields accessed as `entry.fields.fieldName` — can be `undefined` (guard with `?.`)
-- `customStyles` prop = scoped `<style>` tag injected into component root — this is intentional architecture, not a hack
-- `internalYardzenId` field value → prefix with `hero-` → add as class for per-instance CSS scoping
-- Class goes on the **correct inner element**, not a generic outer wrapper
+- Types in `libs/contentful/types/` — always use generated types
+- Fields accessed as `entry.fields.fieldName` — guard with `?.` (can be `undefined`)
+- `customStyles` prop = scoped `<style>` tag in component root — intentional architecture, not a hack
+- `internalYardzenId` field → prefix with `hero-` → CSS class for per-instance scoping
+- Class goes on the **correct inner element**, never a generic outer wrapper
+- Section routing: `isTypeXxx(section) && <Component />` chain — no switch/case
+
+**Styling:**
+- Tailwind extends `libs/ui/src/tailwind.config.js`
+- Fonts: `Arsenal` (serif) and `Roboto` via `next/font/google`
+- Custom tokens: `action-main` (#1B6245), `typo-primary` (#323232), `texture-primary` (#F6F5F4)
+- Run Prettier before pushing — formatting failures are the most common CI break
+
+**Conventions:**
+- No `@/` alias — use relative paths within the app; monorepo libs via `@yardzen/<lib>`
+- Server components: async functions, no directive. Client components: `"use client"` as first line.
+- Pattern: server component fetches → passes serializable props to client leaf
+- Co-located: `queries.ts` (GQL), `actions.ts` (server actions), `classes.ts` (Tailwind strings)
 
 **Scope discipline:**
-- Only touch the files relevant to the task
-- Unrelated files (lockfiles, go files, other components) must NOT appear in a feature branch commit
-- He will call this out immediately: "I only want the HeroShowcase"
-
-**Syntax preferences:**
-- Optional chaining: `?.` everywhere
-- Null guard in `.map()`: `if (!item) return null`
-- `openInNewTab` prop gates `target="_blank"` + `rel="noopener noreferrer"` — never hardcode
-- `cn()` for conditional class composition
-
-**CSS rules:**
-- Never use child-combinator selectors (`> div`) as workarounds
-- Put the class on the correct element in JSX instead
-- Contentful-authored CSS targets the component's root class — keep it stable
+- Only touch files relevant to the task
+- Lockfiles, unrelated components, go files must NOT appear in a feature branch commit
 
 **Icons:**
-- Font Awesome Pro is the icon library — don't swap it out
-- Don't add icon changes without explicit confirmation
+- Font Awesome Pro — don't swap it, don't add icon changes without explicit confirmation
 
 **CI:**
-- Formatting errors are a common real cause of CI failures — run Prettier
-- Re-run failed jobs via GitHub Actions UI before panicking
+- Formatting errors are the most common real cause of CI failures — run Prettier first
+- Re-run failed jobs via GitHub Actions UI before diagnosing code issues
 
 ---
 
