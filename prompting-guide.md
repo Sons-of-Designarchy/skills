@@ -615,23 +615,109 @@ When in doubt: if something *feels* off, it probably is. Flag it.
 
 ### Finsera
 
-**Stack:** React + TypeScript, MUI (Material UI), Turborepo monorepo, PostHog analytics
+**Stack:** Turborepo (Yarn classic), React 19, TypeScript 5, MUI 7, Vite 7, Vitest, Redux + redux-thunk, amCharts 5, MUI X Data Grid Premium, lodash-es, PostHog, Sentry
 
 **Monorepo layout:**
-- `apps/thematic-baskets` — public-facing product (basket discovery)
-- `apps/finsera` — main dashboard (logged-in)
-- `packages/finsera-core` — shared business logic and components
-- `packages/sign-system` — design system (add new components here first)
+```
+apps/
+  finsera/            # Main dashboard SPA (Vite, client-only) — localhost:3000
+  thematic-baskets/   # Public SSR app (React Router v7, SSR) — localhost:3002
+  portfolios/         # localhost:3001
+  design-system/      # Component QA gallery — localhost:3003
+packages/
+  finsera-core/       # @local/finsera-core — shared components, theme, API, types
+```
+
+**Dev workflow:**
+```bash
+# Setup
+nvm use 20.19.3
+yarn start            # runs all apps in parallel via Turborepo
+
+# If it fails:
+yarn                  # reinstall all packages
+
+# Clean install (nuclear):
+rm -rf .turbo apps/finsera/.turbo/ apps/portfolios/.turbo/ packages/finsera-core/.turbo/ packages/thematic-baskets/.turbo/
+rm -rf node_modules apps/finsera/node_modules/ apps/portfolios/node_modules/ packages/finsera-core/node_modules/ packages/thematic-baskets/node_modules/
+yarn
+
+# Lint, type check, test
+yarn lint
+yarn tsc
+yarn test:no-watch    # CI single-run
+yarn format           # prettier --write
+```
+
+**Git workflow:**
+- Base branch: `master`
+- Always `git pull` before starting new work
+- Branch names come from Shortcut — use the "copy branch" setting in Shortcut
+- Use Finsera Chrome browser profile when working in Shortcut
+
+**Environments:**
+| Name | URL |
+|---|---|
+| localhost | `localhost:3002/` (thematic-baskets) |
+| development | `https://themes.finseradev.net/` |
+| staging | `https://themes.finserastg.net/` |
+| production | `https://themes.finsera.com/` |
+
+**Tools used:** Shortcut (tasks), GitLab (code hosting), Pitch (presentations), RB2B (tracking), PostHog (analytics)
+
+**Meetings:**
+- Monday 12pm — testing meeting + new feature demo
+
+**Shared package — `@local/finsera-core`:**
+```ts
+import { ui, uitheme, hooks, helpers, enums, types, coreData } from '@local/finsera-core';
+import { FinseraCoreProvider } from '@local/finsera-core';
+```
+- `ui.*` — all shared UI components (Button, Card, FinDataGrid, LineChart, PieChart, AssetSelector, etc.)
+- `uitheme.blue` / `uitheme.green` — MUI theme objects
+- `mui.core.*`, `mui.icons.*`, `mui.lab.*` — all MUI re-exports (never import from `@mui/material` directly)
 
 **Theme:**
-- All variant changes go in `baseconfig theme` — not in local `ThemeProvider` wrappers
-- MUI filled variant is preferred for all inputs, autocompletes, date pickers (actively migrating from outlined)
-- Use MUI's `useMediaQuery` and theme breakpoint hooks — never calculate window size manually
+- Theme files: `packages/finsera-core/src/theme/`
+- All MUI overrides → `base-config-theme.ts` — never in local `ThemeProvider` wrappers
+- MUI spacing base: `4px` (so `theme.spacing(2) = 8px`)
+- Custom breakpoints: `xs:0, sm:600, md:900, lg:1300, xl:1536`
+- Design tokens in `layout-size.ts`: `FONT_SIZE`, `INPUT_SIZE`, `APP_BAR_HEIGHT (50px)`, `LEFT_DRAWER_WIDTH (270px)`, `SECTION_BG`, `Z_INDEX`
+- Fonts: Libre Caslon Condensed (serif heading) + Inter (body), loaded via `fonts.css`
+- MUI filled variant is preferred for all inputs, autocompletes, date pickers (migrating from outlined)
+- Use `uitheme.blue` by default, `uitheme.green` for production mode
+- Custom button variant added: `'light'`
+
+**Import pattern in apps:**
+```ts
+// Everything comes from the _core barrel — never direct imports
+import { mui, React, ts, ui, api } from '_core';
+// baseUrl is "src" so all imports are from src/
+import Layout from 'views/layout';
+```
+
+**Data fetching — REST only (no GraphQL):**
+```ts
+// SCRUD factory generates get/search/create/update/delete per resource
+const basket = await api.baskets.get(id);
+await api.baskets.update(id, data);
+// thematic-baskets uses adminApi/usersApi for server-side loaders
+const data = await adminApi(request.headers).baskets.search({ query: [...] });
+```
+
+**Auth:**
+- `finsera` app: cookie `fauth`, session fetched on mount via `api.auth.getSession()`
+- `thematic-baskets`: cookie `fauth` read in root middleware, role-based access via `checkAccessByRole()`
+- Role hierarchy: `ANONYMOUS → FREE → PREMIUM → ADMIN`
+
+**Routing:**
+- `finsera`: React Router v7 as library in Vite SPA — `logged-in-router.tsx` + `logged-out-router.tsx`, all lazy-loaded
+- `thematic-baskets`: React Router v7 SSR — config-based route table in `app/routes.ts`
 
 **Layout model:**
 ```
 CONTAINER (100vh)
-  NAVBAR (sticky)
+  NAVBAR (sticky, always visible — APP_BAR_HEIGHT: 50px)
   LEFT COLUMN (scrolls) | RIGHT COLUMN (scrolls)
 END CONTAINER
 ```
@@ -639,26 +725,31 @@ END CONTAINER
 - Dialogs never scroll — only inner panes scroll
 - Page-level `overflow` is almost always wrong
 
+**Key files to read first:**
+1. `packages/finsera-core/src/index.ts` — everything exported from the shared library
+2. `packages/finsera-core/src/theme/base-config-theme.ts` — all MUI overrides
+3. `packages/finsera-core/src/theme/layout-size.ts` — all design tokens
+4. `apps/finsera/src/_core/index.ts` — the import barrel
+5. `apps/finsera/src/in-app.tsx` — auth boot, session fetch, router switching
+6. `apps/thematic-baskets/app/routes.ts` — complete SSR route table
+7. `apps/thematic-baskets/app/_helpers/server/with-access-control.ts` — role-based auth guard
+
 **Visual rules:**
-- Padding: less is more. He actively hunts excessive padding.
-- Shadows on chart legends: remove them
-- Backgrounds on accordions: remove them
+- Padding: less is more — he actively hunts excessive padding
+- Shadows on chart legends: remove
+- Backgrounds on accordions: remove
 - Dividers: `showDivider` prop, default `false`
 - No link underlines
 - Table numbers (market cap, weight, price): right-aligned
 - Chips in autocompletes: darker background
-- Fonts: non-blocking `<link>` in HTML head — never CSS `@import`
+- Fonts loaded via `<link>` in HTML head — never CSS `@import`
 
 **Syntax preferences:**
 - Optional chaining everywhere: `?.length` not `&& .length > 0`
-- Lodash for utility operations (e.g., uppercase)
+- Lodash (`lodash-es`) for utility operations
 - `useMemo` for expensive calculations
-- Null guard pattern in map: `if (!item) return null`
-
-**Session habits:**
-- Sends rapid-fire follow-ups mid-task — queue them, don't restart
-- Defers lint to end of session ("stop running lint for now")
-- Uses design system app as live QA environment for isolated components
+- MUI breakpoint hooks — never calculate window size manually
+- Null guard in map: `if (!item) return null`
 
 ---
 
@@ -666,13 +757,45 @@ END CONTAINER
 
 **Stack:** NX monorepo (pnpm), Next.js 15 (App Router), TypeScript strict, Tailwind CSS, GraphQL (Apollo codegen), Prisma + PostgreSQL, Contentful CMS, NextAuth v4 + custom V2 JWT auth, Split.io feature flags
 
+**Dev setup:**
+```bash
+cd yardzen-app        # or wherever the monorepo is cloned
+nvm use 24.0.0
+git checkout dev && git pull    # base branch is dev (not main/master)
+```
+
 **Dev commands** (run from monorepo root):
 ```bash
-nx serve build-marketplace                    # dev — port 4200
+# Run only build-marketplace (most common)
+npx nx run-many --target=serve --projects=build-marketplace
+
+# Run with API backend too
+npx nx run-many --target=serve --projects=api,build-marketplace
+
+# Run single app directly
+nx serve build-marketplace                    # port 4200
+
 nx build build-marketplace                    # production build
 nx lint build-marketplace                     # lint
 nx test build-marketplace                     # tests
 nx run build-marketplace:graphql-codegen      # regenerate GQL types
+
+# Always run before pushing:
+pnpm run lint
+```
+
+**Git & PR workflow:**
+- Base branch: **`dev`** (not `main` — that's a different branch)
+- Always pull from `dev` before starting
+- Open Jira ticket first, create branch from the ticket
+- Run `pnpm run lint` before every push
+- PR must include: title matching ticket name, bullet-point description of changes, before/after screenshots, local URL + which component to test
+- Use the Yardzen Chrome browser profile for Claude and GitLab access
+
+**Yard Capture (mobile app) setup:**
+```bash
+cd yardzen/mobile-apps/yardzen-capture
+./start.sh            # loads QR code for the mobile app
 ```
 
 **Route groups in `app/`:**
@@ -753,66 +876,179 @@ nx run build-marketplace:graphql-codegen      # regenerate GQL types
 
 ### Fawnroad
 
-**Stack:** React + TypeScript, Tailwind CSS, GraphQL, Drizzle ORM, CVA
+**Stack:** React 19, TypeScript 5.9, Vite 7, Wouter 3.7 (routing), Apollo Client 3.12, Hono 4.11 (server), GraphQL 16, Drizzle ORM 0.45, AWS Aurora Data API, Tailwind CSS 4.1, CVA 0.7, Biome 2.3 (lint+format), Vitest 3.2, Playwright 1.50
 
-**Dev server:** port 8888 — `localhost:8888`
+**Node requirement:** >= 24.12.0, npm >= 11.6.0
 
-**Route structure:**
-- `/h/` — home dashboard (logged-in)
-- `/p/` — profile section
-- `/l/` — landing page
-- `/auth/` — auth flow (magic link, no passwords)
-- `/admin/` — admin panel
-- `/d/components` — design system component gallery (one page for all variants of a component, not one sidebar entry per variant)
+**Dev server — port 8888:**
+```bash
+cd apps/web
+npm run dev              # foreground
+npm run dev:start        # background daemon
+npm run dev:status       # check if running + URL
+npm run dev:stop         # stop
+npm run dev:logs         # tail logs
 
-**Auth:** Magic link only — no passwords. Signed-out routes redirect silently to the landing page.
+# With public tunnel (Stripe webhooks, OAuth testing only)
+TUNNEL=1 npm run dev:start
+```
 
-**AppLayout (logged-in shell):**
-- Background: `bg-[#f0ede8]` (beige) — all logged-in pages
-- Header: sticky, white, `border-b border-black/10`, `60px` height
-- All group pages, profile pages, dashboard inherit from this same shell
+**First-time setup:**
+```bash
+npm run setup:dev        # from repo root or apps/web
+# After first login, grant yourself super admin:
+node .opencode/skills/local-db/scripts/set-super-admin.mjs you@example.com
+```
 
-**Component system:**
-- CVA is required for all variant-based components
-- Polymorphic `as` prop pattern for Typography
-- ShadCN API structure for Card: `<Card>`, `<CardHeader>`, `<CardTitle>`, `<CardDescription>`, `<CardAction>`, `<CardContent>`, `<CardFooter>`
-- `cn()` / `clsx` for class merging
+**All commands from `apps/web/`:**
+```bash
+npm run lint             # Biome format + check (writes)
+npm run lint:tsc         # TypeScript check
+npm run format           # Biome format only
+npm run graphql:codegen  # Regenerate types after schema change
+npm run db:generate      # Generate migration from schema changes
+npm run db:migrate       # Apply migrations
+npm run test:backend     # Backend/resolver tests
+npm run test:frontend    # Component tests
+npm run test:watch       # Watch mode
+```
+
+**Project structure (`apps/web/src/`):**
+```
+app/                    # App wiring (providers, router, layouts)
+features/               # Domain modules — self-contained, never import each other
+  auth/                 # Magic link flow
+  home/                 # Home feed (/h)
+  messaging/            # Direct messages
+  profile/              # User profiles (/p/*)
+  supporter/            # Supporter dashboard
+  admin/group/          # Group admin
+  admin/platform/       # Platform admin (/a/*)
+shared/
+  ui/                   # Design system (barrel-exported from shared/ui/index.ts)
+  hooks/                # useAuth, useRouting, etc.
+  lib/routes.ts         # ALL route helpers as typed factory functions
+db/schema/              # Drizzle schema (modular by domain)
+graphql/
+  schema.graphql        # Single source of truth (~109 types)
+  resolvers/            # Function-based resolvers by domain
+  generated/            # Auto-generated — never edit manually
+server/app/             # Hono server (index.tsx, services/)
+```
+
+**Import aliases:**
+```ts
+@/*         → ./src/*
+@app/*      → ./src/app/*
+@features/* → ./src/features/*
+@shared/*   → ./src/shared/*
+```
+
+**Design system — always import from barrel:**
+```ts
+import { Button, Card, Typography, Input, Badge, EmptyState } from '@/shared/ui';
+// NEVER: import { Button } from '@/shared/ui/Button/Button'
+```
+
+**Full component list:** Alert, Badge, Button (polymorphic, variants: primary/secondary/danger/ghost), Card/CardHeader/CardContent/CardFooter/CardTitle/CardDescription/CardAction (variants: default/outlined/shadowed), Checkbox, ColorPicker, ConfirmDialog, DataTable, Drawer, Dropdown, EmptyState, ErrorBoundary, FawnroadEditor, Footer/Header, GroupAvatar/UserAvatar, Input/Select/Textarea, LoadingBar/LoadingSpinner, MediaRenderer/MediaUpload, MemberAccessGate, Modal, PageLoader, Popover, Skeleton (PageSkeleton/SkeletonCard/SkeletonLine/SkeletonTable/SkeletonAvatar/SkeletonButton), StatCard, Tabs, Typography
 
 **Typography component:**
 - Variants: `display1`, `display2`, `h1`–`h6`, `body1`, `body2`, `caption`, `legend`
 - Colors: `primary`, `secondary`, `muted`, `inherit`
-- Font family: `sans` | `mono` — always explicit, never auto-resolved from variant
+- Font family: `sans` | `mono` — always explicit, **never auto-resolved from variant**
 - `uppercase` — boolean prop, **never a default**
-- Always include a space before `className=` in JSX — `variant='h1' className=` not `variant='h1'className=`
+- Always include a space before `className=` — `variant='h1' className=` not `variant='h1'className=`
+
+**Component patterns:**
+- CVA for all variant-based components
+- Polymorphic `as` prop on Button and Typography
+- `import { clsx as cn } from 'clsx'` for class merging
+- `export function ComponentName` — named exports, no arrow functions at module level
+- `interface XxxProps` for prop types — never `type`
+- `import type` for all type-only imports
+
+**Routing (Wouter):**
+- All routes defined as factory functions in `shared/lib/routes.ts` — always use these, never hardcode strings
+- Route guards: `NeedsAuth` (redirects to `/o/login`), `NeedsAdmin`, `NotInProduction`
+- All major route groups are `React.lazy()` loaded
+
+**Route segments:**
+| Segment | What | Auth |
+|---|---|---|
+| `/h` | Home feed | NeedsAuth |
+| `/o/*` | Auth (login, verify, logout) | Public |
+| `/p/*` | Supporter/personal | NeedsAuth |
+| `/a/*` | Platform admin | NeedsAdmin |
+| `/d/*` | Dev tools / component viewer | Non-prod only |
+| `/u/:username` | User profile | Public |
+| `/:groupSlug/*` | Group pages (catch-all, must be last) | Mixed |
+
+**GraphQL — exclusive data layer (no REST for mutations):**
+```ts
+import { useQuery, useMutation } from '@apollo/client';
+// Queries in feature api/ files or graphql/documents/
+// Run codegen after any schema change: npm run graphql:codegen
+```
+- `@auth` directive — requires authenticated user
+- `@requiresRole(role: ADMIN)` — role-based access
+- Resolver pattern: `const { user, helpers } = getContext(_ctx)` — always destructure first
+
+**Database:**
+- Drizzle ORM, AWS Aurora Data API — ALL environments (no local Postgres)
+- Primary keys: nanoid strings — not auto-increment integers
+- Types: `InferSelectModel<typeof table>` / `InferInsertModel<typeof table>`
+- DB is read-only by default — state changes via browser UI or GraphQL mutations, never direct SQL
+- Migrations: `npm run db:generate` then `npm run db:migrate` — never write migration SQL manually
+
+**Auth — magic link only:**
+1. `/o/login` → `requestMagicLink` mutation
+2. User clicks link → `/o/verify?email=...&code=...` → `verifyMagicLink`
+3. Session cookie set, redirect to original path
+- In dev: login form shows "Continue as [random user]" button that auto-navigates the magic link
+- Auth state in `FawnroadContext` — access via `useAuth()` hook
+
+**Styling:**
+- Tailwind CSS 4 — semantic classes only, never raw hex colors or Tailwind gray utilities
+- Primary display font: `font-mono` (Geist Mono) — for headings, buttons, badges
+- Design tokens (CSS custom properties): `--color-surface`, `--color-text-primary`, `--color-border`, `--color-accent` (#f4ea60 yellow), `--color-accent-cta` (#c1d8ec blue)
+- Brand palette: yellow `#f4ea60`, blue `#c1d8ec`, lime `#c0dc6a`, orange `#e66e34`
+- Body: white (`bg-white`), black text — no dark mode
 
 **Card rules:**
-- One Card component, one style. Kill parallel card components.
-- Three variants: Default (white), Outlined (subtle outline), Shadowed (subtle shadow)
-- No solid black border variant — it should not exist
-- Empty states: use a "darker beige" card variant, not white, not a plain div
+- Three variants: default (white), outlined, shadowed — no solid black border variant
+- Empty states: use `EmptyState` component with emoji icon, title, description, optional CTA action
 - Empty states get emojis — "make them feel as alive as possible"
 
 **Global visual rules:**
 - All borders 1px — no exceptions
-- No black borders anywhere on cards or containers
-- Beige (`#f0ede8`) background on all authenticated pages
-- Buttons: `font-mono` text, `rounded-sm` (4px), no uppercase default
-- Font Awesome is the icon library — don't remove or swap it
-
-**Database discipline:**
-- Read-only by default
-- State changes via browser UI or GraphQL mutations via curl — never direct SQL
-- DB migrations proposed first, confirmed before running
+- No black solid borders on cards or containers (`border-border` or `border-border-secondary` only)
+- 1px borders: `border border-border` or `border-border-secondary`
 
 **PR workflow:**
 - Draft PRs for work-in-progress
 - Include testing plan in every PR
 - Document merge order when PRs have dependencies
-- Other devs need to understand the order — be explicit
 
-**Skills available in this project:**
-- `dev-server` — start/stop/restart local dev
-- `local-db` — read-only database access
-- `magic-link-auth` — autonomous magic link generation
-- `seed` — generate test content with AI images
-- `punk` / `frontend-bible` — this file
+**Skills in `.opencode/skills/` (also at `.claude/skills/`):**
+- `frontend-conventions` — full architecture guide, component patterns, import rules
+- `graphql-policy` — GraphQL-only mutation policy
+- `dev-server` — start/stop/restart commands
+- `local-db` — read-only DB access
+- `magic-link-auth` — local and staging auth flows
+- `seed` — generate test groups/tiers/posts/polls
+- `git-conventions` — branch naming, commit format
+- `targeted-testing` — TDD process, test naming
+- `deploy` — deployment pipeline (develop → staging, v* tags → production)
+- `onboard` — first-time setup and health check
+
+**Key files to read first:**
+1. `shared/lib/routes.ts` — every route as typed factory functions
+2. `app/router/routes.tsx` — full Wouter route tree with guards
+3. `graphql/schema.graphql` — entire GraphQL contract
+4. `styles.css` — design tokens, CSS variables
+5. `shared/ui/index.ts` — full design system component catalog
+6. `shared/ui/Button/Button.tsx` — canonical CVA + polymorphic pattern
+7. `app/providers/FawnroadContext.tsx` — global auth/SSR state
+8. `db/schema.ts` — all DB table re-exports
+9. `.opencode/skills/frontend-conventions/skill.md` — most comprehensive coding guide
+10. `.opencode/skills/graphql-policy/skill.md` — data fetching rules
