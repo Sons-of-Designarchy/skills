@@ -21,8 +21,11 @@ He moves fast, pivots often, gives short commands, and trusts you to make decisi
 
 > "I can see the design in my mind and prompt design without using any design software."
 
-### Junior Dev (Webflow/Framer background)
-Currently focused on QA and transitioning into code. Comes from visual tools — Webflow, Framer — and needs clear, structured QA processes. See the **QA Guide** section below for how to work with her effectively.
+### Junior Dev / QA (Framer + Webflow background)
+Comes from visual tools — Framer and Webflow. Currently focused on QA. Short-term goal: learn to use CLI tools and vibe code prototypes. Doesn't need to write production code — needs to be able to spin up prototypes, run dev servers, and validate designs without Figma. See the **QA Guide** and **Designer → CLI Guide** sections below.
+
+### Designer (transitioning to prompting)
+Pure designer background. The goal for the next few weeks is to prompt effectively — describing design intent in words that an AI agent can act on directly. Doesn't need to touch code. Needs to communicate design with enough precision that the agent can execute without back-and-forth. See the **Designer → CLI Guide** section below.
 
 ---
 
@@ -462,7 +465,153 @@ Dan doesn't use design software. He sees the layout in his head and describes it
 
 ---
 
-## QA Guide (For the Junior Dev)
+## Designer → CLI Guide
+
+This section is for designers transitioning from Figma/Framer/Webflow into the terminal + AI-agent workflow. The goal isn't to become a developer. The goal is to **stop being blocked by not having a dev** — to spin up prototypes, validate ideas, and ship design decisions independently.
+
+---
+
+### The Mental Shift
+
+In Figma/Framer: you drag, click, and see results instantly.
+In this workflow: you describe, and the agent builds. The tool is language, not a mouse.
+
+The quality of what you get back = the quality of how you describe it.
+
+This is not harder than design — it's just different. Your design vocabulary is your superpower here. You already know what things are called, what good looks like, and what's wrong. That's 80% of the skill.
+
+---
+
+### Track 1 — CLI + Vibe Coding (Junior Dev / QA)
+
+**Goal:** Run dev servers, make small code changes with AI help, build throwaway prototypes to validate ideas before they go into production.
+
+#### Terminal Basics (the only 10 commands you need)
+
+```bash
+# Navigate
+ls                    # list files in current folder
+cd folder-name        # go into a folder
+cd ..                 # go up one level
+pwd                   # show where you are right now
+
+# Dev servers
+npm run dev           # start the dev server (Fawnroad)
+yarn start            # start the dev server (Finsera)
+ctrl+C                # stop whatever is running
+
+# Git basics
+git status            # what changed?
+git pull              # get latest from team
+
+# When something breaks
+rm -rf node_modules && npm install   # nuclear reset for dependencies
+```
+
+**Rule:** You don't need to understand everything. You need to recognize patterns. When you see an error in red, copy it and paste it to Claude. It knows what to do.
+
+#### Vibe Coding Workflow
+
+This is the loop for prototyping:
+
+1. **Open Claude Code** in the project folder
+2. **Load the skill:** `/soda-front`
+3. **Describe what you want** — use the prompt structure below
+4. **Watch it build** — don't interrupt unless it's clearly going wrong
+5. **Open the browser** — check `localhost:3000` (or whatever port)
+6. **Screenshot what's wrong** — paste into Claude, say "fix this"
+7. **Repeat until it looks right**
+
+You don't commit or push. Dan or another dev takes it from there.
+
+#### How to Describe What You Want
+
+```
+"I want [WHAT] on [WHERE].
+It should look like [REFERENCE or DESCRIPTION].
+Use [COMPONENT or STYLE] if it exists.
+Don't touch [WHAT TO LEAVE ALONE]."
+```
+
+**Examples:**
+
+> "I want a card component on the home feed that shows a user avatar, their name, and a short bio. It should look like a Twitter/X profile card — minimal, no borders, just subtle shadow. Use the existing Card component. Don't touch the layout around it."
+
+> "The spacing between the header and the first card feels too big. Reduce it by about half. Only change that gap, nothing else."
+
+> "Add an empty state to this page. Use an emoji, a short title, and a button that says 'Get started'. Make it feel alive, not corporate."
+
+#### What NOT to Ask the Agent to Do (as a prototype)
+
+- Don't ask it to connect real data — use hardcoded dummy content for prototypes
+- Don't ask it to add auth — skip it, just show the logged-in state
+- Don't ask it to "make it production ready" — prototype first, polish later
+- Don't ask it to change multiple screens at once — one component at a time
+
+---
+
+### Track 2 — Design Prompting (Designer)
+
+**Goal:** Describe design decisions with enough precision that an AI agent (or a developer) can execute without asking follow-up questions.
+
+The shift from Figma to prompting is this: instead of showing pixels, you describe intent.
+
+#### The Precision Test
+
+Before sending a prompt, ask yourself: if 3 different people read this, would they all build the same thing?
+
+If no → add more specifics.
+
+#### Prompt Formula
+
+```
+[COMPONENT or SCREEN] should [DO WHAT / LOOK LIKE WHAT].
+[SPECIFIC visual detail: color, spacing, size, alignment].
+[What it should feel like — emotional/brand tone].
+[What to avoid].
+[Reference — a product, a pattern, a screenshot].
+```
+
+**Weak prompt:**
+> "The button should look better."
+
+**Strong prompt:**
+> "The primary CTA button should feel more confident. Increase the padding so it's wider — more Wise-style, less Bootstrap. Keep the existing color. The text should be slightly larger, not uppercase. It should feel like it deserves to be clicked."
+
+**Weak prompt:**
+> "The empty state looks sad."
+
+**Strong prompt:**
+> "The empty state needs to feel alive. Add a large emoji (pick something relevant to groups, like 👥 or ✨). Title in bold, one line max, friendly tone. A short subtitle — one sentence, lowercase, muted color. A primary CTA button below. The whole thing should feel like Duolingo — encouraging, not apologetic."
+
+#### The 5 Things Designers Know That Make Prompts Better
+
+1. **Name the component** — "the card", "the nav", "the input field" not "that thing"
+2. **Name the state** — "on hover", "when loading", "when empty", "on mobile"
+3. **Reference something real** — "like Wise", "like the card on the home page", "like the existing Button component"
+4. **Specify what to leave alone** — "don't change the desktop layout, only mobile"
+5. **Describe the feeling, not just the pixels** — "feels corporate → make it warmer" is a valid design note
+
+#### Common Design Decisions → How to Prompt Them
+
+| You notice | You say |
+|---|---|
+| Too much whitespace | "Reduce the vertical gap between X and Y by about half" |
+| Color feels off | "The background should match the beige (#f0ede8) used on all other logged-in pages" |
+| Text hierarchy broken | "The title should be bigger/bolder than the subtitle. Make the hierarchy more obvious" |
+| Component looks inconsistent | "This button doesn't match the style of the other buttons on this page — align it" |
+| Mobile layout broken | "On screens below 768px, stack these two columns vertically instead of side by side" |
+| Animation feels wrong | "Remove the animation — it's distracting. Just show the content immediately" |
+| Border looks too heavy | "Change the border to 1px, subtle — like `border-black/10`, not a solid black line" |
+
+#### First Week Goals (Designer)
+
+1. Load `/soda-front` in a Claude Code session and read through it
+2. Pick one existing screen across any project and write a prompt to improve one thing
+3. Share the prompt in the team channel — Dan gives feedback
+4. Repeat until prompts get executed without clarifying questions
+
+---
 
 This section is for the junior dev coming from Webflow/Framer. Your job is to be the last line of defense before anything ships. You don't need to write code — you need to verify it works exactly as intended and report back clearly.
 
