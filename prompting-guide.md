@@ -222,6 +222,7 @@ These mistakes were made on actual projects. Don't repeat them.
 - **Don't use black solid borders on cards or containers.** Subtle borders only.
 - **Don't say "it's ready" without QA at all viewports.** Before presenting any UI work as done, screenshot it at desktop (1280×800), tablet (768×1024), and mobile (390×844). Walk through the full flow at each size. Check focus states, borders, overflow, touch targets. Fix everything before showing Dan. He should review design, not bugs.
 - **Don't use `focus:ring-*` on form inputs.** Fawnroad has a global `*:focus-visible` rule that adds a 2px gray outline. Use `outline-none focus-visible:outline-none ring-0 focus:ring-0 focus:border-black` to get a clean single-border focus state.
+- **Never hardcode color hex values.** Always use the Fawnroad brand palette from CSS vars (`--fawnroad-yellow`, `--fawnroad-blue`, `--fawnroad-lime`, `--fawnroad-purple`, `--fawnroad-orange`, `--fawnroad-green`, `--fawnroad-red`, `--fawnroad-brown`). When you need a tint/pastel version, derive it from the brand color. In JS/TSX components, reference the constants — never invent new colors.
 
 ---
 
