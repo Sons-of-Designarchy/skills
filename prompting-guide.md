@@ -220,6 +220,8 @@ These mistakes were made on actual projects. Don't repeat them.
 - **Don't use `@import` for Google Fonts.** Use a non-blocking `<link>` in the HTML head.
 - **Don't wrap theme changes in local ThemeProviders.** Global theme changes go in the base theme config.
 - **Don't use black solid borders on cards or containers.** Subtle borders only.
+- **Don't say "it's ready" without QA at all viewports.** Before presenting any UI work as done, screenshot it at desktop (1280×800), tablet (768×1024), and mobile (390×844). Walk through the full flow at each size. Check focus states, borders, overflow, touch targets. Fix everything before showing Dan. He should review design, not bugs.
+- **Don't use `focus:ring-*` on form inputs.** Fawnroad has a global `*:focus-visible` rule that adds a 2px gray outline. Use `outline-none focus-visible:outline-none ring-0 focus:ring-0 focus:border-black` to get a clean single-border focus state.
 
 ---
 
