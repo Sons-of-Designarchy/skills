@@ -1209,6 +1209,14 @@ import { useQuery, useMutation } from '@apollo/client';
 
 **New to the project?** Start by reading `docs/ux-testing-bible.md` — it maps every user journey (10 flows across 6 personas) with exact routes and expected behavior. It's the fastest way to understand what the app does and how to test it.
 
+**Target audiences** (full list in `docs/ux-testing-bible.md`):
+- Groups that outgrew Facebook (neighborhood clubs, parent co-ops, Buy Nothing groups)
+- Groups that collect money but hate their tools (tenant associations, youth sports, community gardens, maker spaces)
+- Activist / advocacy orgs (mutual aid, tenant unions, immigrant defense, environmental justice, harm reduction)
+- Faith & cultural (small congregations, cultural preservation, diaspora orgs)
+- Creative & professional (journalism collectives, zine distros, DIY music venues, freelancer co-ops)
+- Solo operators (tutors, personal trainers, community educators, doulas)
+
 ---
 
 ### Fawnroad — Active Work Context (April 2026)
