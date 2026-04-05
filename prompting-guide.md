@@ -1025,6 +1025,8 @@ cd yardzen/mobile-apps/yardzen-capture
 
 ### Fawnroad
 
+> **First time here?** Read `docs/ux-testing-bible.md` first — it has every user flow mapped out by persona with step-by-step test plans. Best way to understand what the app does.
+
 **Stack:** React 19, TypeScript 5.9, Vite 7, Wouter 3.7 (routing), Apollo Client 3.12, Hono 4.11 (server), GraphQL 16, Drizzle ORM 0.45, AWS Aurora Data API, Tailwind CSS 4.1, CVA 0.7, Biome 2.3 (lint+format), Vitest 3.2, Playwright 1.50
 
 **Node requirement:** >= 24.12.0, npm >= 11.6.0
@@ -1201,3 +1203,92 @@ import { useQuery, useMutation } from '@apollo/client';
 8. `db/schema.ts` — all DB table re-exports
 9. `.opencode/skills/frontend-conventions/skill.md` — most comprehensive coding guide
 10. `.opencode/skills/graphql-policy/skill.md` — data fetching rules
+11. `docs/ux-testing-bible.md` — all user flows by persona, step-by-step test plans
+
+**New to the project?** Start by reading `docs/ux-testing-bible.md` — it maps every user journey (10 flows across 6 personas) with exact routes and expected behavior. It's the fastest way to understand what the app does and how to test it.
+
+---
+
+### Fawnroad — Active Work Context (April 2026)
+
+#### UX Testing Bible
+`docs/ux-testing-bible.md` — the team-wide source of truth for all user flows. 6 personas (P1–P6), 10 end-to-end flows with step-by-step test tables. Any team member can follow a flow to test the app. Update this file when flows change.
+
+#### User Story Specs
+Jorge wrote 18 product specs in `docs/specs/*/user-stories.md`. They are organized by feature, not by user flow. The 15 key product areas:
+
+| # | Story | Spec folder |
+|---|-------|-------------|
+| 1 | Group Public Page | `group-public-page` |
+| 2 | Group Navigation & Redesign | `group-redesign` |
+| 3 | Group Posts & Broadcasts | `group-posts`, `group-broadcasts`, `broadcast-image-upload` |
+| 4 | Group Events & Ticketing | `group-events` |
+| 5 | Group Polls | `group-polls` |
+| 6 | Group File Manager | `group-file-manager` |
+| 7 | Group Email & Mailing Lists | `group-email-archive` |
+| 8 | Messaging (DMs) | `messaging-system` |
+| 9 | Notifications & Digests | `notifications` |
+| 10 | Tiers & Checkout | `tier-system-rework`, `admin-tier` |
+| 11 | User Profile & Avatar | `user-avatar`, `sc-1273-profile-settings` |
+| 12 | Admin Dashboard & Platform Admin | (permissions in `permissions-matrix.md`) |
+| 13 | Billing & Payments | `sc-1291-billing-advance` |
+| 14 | App Polish & Beta-Ready | `beta-test-ready` |
+| 15 | UX Audit & Production Readiness | `ux-audit`, `production-readiness` |
+
+#### New Design System Components (April 2026)
+These were added to `shared/ui/` for the quiz-style application flow. Use them in any multi-step form or onboarding:
+
+| Component | Path | What it does |
+|-----------|------|-------------|
+| `SelectionCard` | `shared/ui/SelectionCard/` | Clickable card with icon + title + description. Selected state has yellow tint + ring. CVA-based. Use for single-select card grids (org type, tier picker, etc.) |
+| `ChipSelector` | `shared/ui/ChipSelector/` | Pill/tag grid for single or multi-select. Use for category pickers, tag selectors. |
+| `InfoBox` | `shared/ui/InfoBox/` | Gray rounded box for helper text, requirements lists, disclaimers. |
+| `QuizLayout` | `shared/ui/QuizLayout/` | Two-column layout: white left panel (sticky headline + step counter) + gray right panel (form content). Bottom nav bar with back arrow, progress bar, continue button. Supports overlay prop for modals. GoFundMe-inspired. |
+
+All exported from `shared/ui/index.ts`.
+
+#### Application Flow Refactor (In Progress — branch `danpliego/apply-quiz-stepper`)
+The group application form (`/j/form`) is being rebuilt from a single giant form into a Duolingo/GoFundMe-style quiz stepper:
+
+- **Route:** `/j/form` — no longer requires auth (removed `NeedsAuth` wrapper)
+- **Layout:** `QuizLayout` — two-column, left sticky headline, right form content
+- **Steps:** 7 steps (name → description → org type → nonprofit details [conditional] → website → fiscal sponsorship → review + terms)
+- **Auth:** happens at the END via inline modal overlay — not a redirect. User fills everything first, then signs in/up to submit.
+- **Backend:** unchanged — same `submitMembershipGroupApplication` GraphQL mutation, same fields
+- **File:** `src/features/public/routes/ApplyFormRoute.tsx`
+
+#### How to Work on User Flows
+Dan's process for tackling flows:
+1. Pick a flow from the UX Testing Bible
+2. Dan provides an audio transcript scoping the work
+3. Create a branch: `danpliego/<flow-slug>`
+4. Read the relevant spec(s) in `docs/specs/`
+5. Build frontend only — no backend/schema changes without Dan's approval
+6. Use existing design system components (`Button`, `Card`, `Typography`, `SelectionCard`, `QuizLayout`, etc.)
+7. Screenshot each state with Playwright, upload to files.fwnrd.net
+8. One flow at a time, finish completely before starting the next
+
+#### Branch Naming for Flows
+- `danpliego/apply-quiz-stepper` — Flow 1 (organizer application)
+- Pattern: `danpliego/<flow-name>`
+
+#### Login for Testing
+```bash
+# Get a magic link code in dev
+curl -s -X POST http://localhost:8888/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"mutation { requestMagicLink(input: { email: \"hola@casasoda.com\", path: \"/h\" }) { magicCode } }"}'
+
+# Then navigate to:
+# http://localhost:8888/oauth/verify?email=hola@casasoda.com&code=<CODE>&path=/h
+```
+
+#### Super Admin
+```bash
+# Grant via Aurora Data API (env vars from apps/web/.env.default)
+# 1. Get user ID
+aws rds-data execute-statement --resource-arn "$RESOURCE_ARN" --secret-arn "$SECRET_ARN" --database "$DB_NAME" --sql "SELECT id FROM users WHERE email = 'hola@casasoda.com'" --region us-east-1
+
+# 2. Insert role
+aws rds-data execute-statement --resource-arn "$RESOURCE_ARN" --secret-arn "$SECRET_ARN" --database "$DB_NAME" --region us-east-1 --sql "INSERT INTO user_roles (id, \"userId\", role, \"createdAt\", \"updatedAt\") VALUES ('$(openssl rand -hex 11)', '<USER_ID>', 'SUPER_ADMIN', NOW(), NOW()) ON CONFLICT DO NOTHING"
+```
