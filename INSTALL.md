@@ -58,6 +58,7 @@ This links the file from the repo into Claude's config so you always have the la
 ```bash
 ln -s ~/projects/soda/skills/prompting-guide.md ~/.claude/skills/soda-front.md
 ln -s ~/projects/soda/skills/prompting-guide.md ~/.claude/commands/soda-front.md
+ln -s ~/projects/soda/skills/soda-quote.md ~/.claude/skills/soda-quote.md
 ```
 
 ---
