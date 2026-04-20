@@ -330,6 +330,22 @@ Keep it under 10 slides. No fluff. The brief summary on slide 2 is the most impo
 
 ---
 
+## Contract
+
+We have a contract template. Karla will add it here.
+
+Use it for every project — fixed or retainer. Send it after the client approves the quote, before any work starts.
+
+---
+
+## Fixed website costs per platform
+
+We have defined costs per platform (Figma Sites, Webflow, custom React, etc.). Karla will add the breakdown here.
+
+Use this section to quickly price a build based on the chosen platform before applying the project formula.
+
+---
+
 ## Site quiz
 
 There's a live site-quiz at `/Users/casasoda/projects/soda/site-quiz` connected to Netlify. It collects: project type, website type, main goal, ideal user, primary CTA, site size, visual style, additional services, content readiness, and timeline — then sends everything to Google Sheets and routes to Calendly.
