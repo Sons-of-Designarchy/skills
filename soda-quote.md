@@ -10,63 +10,104 @@ Always show the tutorial below first, every single time the skill loads. Then sa
 
 **Soda. Quoting a project. Today is [current date].**
 
-Quoting at Soda has three moves: understand the project → pick a plan (or build a custom one) → send the number with confidence.
+Quoting at Soda has three moves: understand the project → pick a plan → send the number with confidence.
 
 ---
 
 ### 1. What are we selling?
 
-We sell three things:
+We sell ongoing partnerships, not one-off projects. Every quote maps to a monthly plan. The plan defines what we can do, how fast, and with how many people.
 
 | Type | What it is |
 |------|------------|
-| **Branding** | Logo, identity system, brand guidelines, visual language |
-| **Website** | Design + dev of a marketing or product site |
-| **Package** | Branding + Website together (better value for client, better project for us) |
-
-If a client asks for something outside these three, it's a **custom scope** — price it line by line.
+| **Retainer** | Monthly plan — ongoing delivery across design, web, strategy |
+| **Project** | Scoped one-time engagement (still maps to a plan tier for sizing) |
+| **Package** | Branding + Website bundled — better for client, better project for us |
 
 ---
 
 ### 2. The plans
 
-We have fixed plans for websites. They anchor the conversation so we're not inventing prices from scratch every time.
+These are monthly retainer plans. Use them to anchor the conversation and the price.
 
-| Plan | Who it's for | Starting price |
-|------|-------------|----------------|
-| **WEBSITE SUPPORT** | Existing site, maintenance or small changes | [ADD PRICE] |
-| **EARLY** | Small businesses, first website, simple scope | [ADD PRICE] |
-| **MID** | Growing companies, some complexity, clear brand | [ADD PRICE] |
-| **SENIOR** | Established brand, complex site, multiple sections | [ADD PRICE] |
-| **PRO / ANCHOR** | Enterprise, long-term, highest complexity | [ADD PRICE] |
+| Plan | Price/month | Who it's for | Team | Velocity |
+|------|-------------|--------------|------|----------|
+| **WEBSITE SUPPORT** | $250–350 | Past clients, maintenance only | 1 part-time | Small fixes in 48h |
+| **EARLY** | $650–900 | Solo founders, no team, simple scope | 1 person | 1 deliverable / 2 weeks |
+| **MID** | $1,500–2,000 | Founder + small team (2–4 people) | 2 people | 2 deliverables / 2 weeks |
+| **SENIOR** | $3,000–4,000 | Companies with internal teams | 2–3 people | Continuous delivery |
+| **PRO / ANCHOR** | $10,000–14,000 | Digital-first companies (Yardzen-level) | 3–5 people | Continuous delivery |
+
+**One-liners for each plan:**
+- WEBSITE SUPPORT → "Keep your site running smoothly"
+- EARLY → "Turn ideas into execution"
+- MID → "Progress on multiple fronts"
+- SENIOR → "Strategic execution partner"
+- PRO / ANCHOR → "Integrated digital team"
 
 AI does a lot of the heavy lifting now — that's priced in. We're not charging 2019 rates.
 
-**Addons** are line items on top of any plan:
-- [ADD YOUR ADDON LIST — e.g. copywriting, SEO setup, extra pages, animations, etc.]
+---
 
-**Custom quote:** If none of the plans fit, build from scratch using the Excel calculator. List deliverables → estimate hours → multiply by rate → add buffer.
+### 3. What each plan includes
+
+**STRATEGY & DIRECTION**
+| | SUPPORT | EARLY | MID | SENIOR | PRO |
+|-|---------|-------|-----|--------|-----|
+| Product prioritization | ✗ | Limited (async) | Monthly planning | Ongoing strategic | Continuous |
+| Roadmap definition | ✗ | ✗ | Basic | Yes | Full ownership |
+| Strategic guidance | ✗ | Check-ins only | Planning calls | Weekly input | Daily direction |
+
+**PLANNING & OVERSIGHT**
+| | SUPPORT | EARLY | MID | SENIOR | PRO |
+|-|---------|-------|-----|--------|-----|
+| Planning cadence | ✗ | Planning call | Planning call | Strategic planning | Continuous |
+| Senior involvement | ✗ | Monthly review | Bi-weekly review | Weekly review | Daily oversight |
+| Client access | Email/WhatsApp | Slack/WhatsApp | Slack/WhatsApp + calls | Slack/WhatsApp + calls | Slack/WhatsApp + calls |
+
+**DESIGN & PRODUCTION**
+| | SUPPORT | EARLY | MID | SENIOR | PRO |
+|-|---------|-------|-----|--------|-----|
+| Branding + brand system | ✗ | Basic | Full (Figma + tokens) | Full + MCP | Full + MCP |
+| Product & UX/UI design | ✗ | Basic | Full | Complex | Enterprise |
+| Asset design | ✗ | Marketing, social, presentation | Launch, sales, social/ad/web | Full suite | Complete ownership |
+| AI-assisted prototyping (Figma Make) | ✗ | ✗ | Yes | Yes | Yes |
+
+**WEB & APPS**
+| | SUPPORT | EARLY | MID | SENIOR | PRO |
+|-|---------|-------|-----|--------|-----|
+| Website builds | ✗ | Landing pages | Multi-page sites | Complex sites | Enterprise sites |
+| Webflow / Framer / Figma Sites | Copy/image only | Yes | Yes | Yes | Yes |
+| CMS (Contentful, etc.) | ✗ | ✗ | Basic (content only) | Yes (schema + content) | Yes |
+| Custom code | ✗ | ✗ | Basic | Yes | Full + architecture |
+| Shopify | ✗ | ✗ | Basic | Yes | Yes |
+| Web apps | ✗ | ✗ | ✗ | Yes | Yes |
+| Native apps | ✗ | ✗ | ✗ | ✗ | Yes |
+
+**SUPPORT & MAINTENANCE**
+| | SUPPORT | EARLY | MID | SENIOR | PRO |
+|-|---------|-------|-----|--------|-----|
+| Maintenance | Small changes only | Yes | Yes | Yes | Yes |
+| Technical support | Bug fixes only | Full | Full | Full | Priority |
+| Performance optimization | ✗ | ✗ | Yes | Yes | Yes |
 
 ---
 
-### 3. What you need to know before quoting
+### 4. What you need to know before quoting
 
-Before assigning a plan, you need to know:
-
-1. **Project type** — branding, website, or both?
+1. **Project type** — branding, website, retainer, or package?
 2. **Scope clarity** — do they know what they want, or is it vague?
-3. **Number of pages / sections** — for websites
+3. **Team size / company stage** — solo founder, small team, or established company?
 4. **Existing brand?** — do they have one or does it need to be created?
-5. **Timeline** — when do they need it? Rush = premium
-6. **Who decides?** — are we talking to the decision maker?
-7. **Budget signal** — have they mentioned a number? Don't assume.
-8. **Tech requirements** — CMS? E-commerce? Custom integrations?
-
-The Figma quiz covers these in the discovery call. Use those answers to lock the plan.
+5. **Number of pages / sections** — for websites
+6. **Tech requirements** — CMS? E-commerce? Custom integrations? Apps?
+7. **Timeline** — when do they need it? Rush = premium
+8. **Who decides?** — are we talking to the decision maker?
+9. **Budget signal** — have they mentioned a number? Don't assume.
 
 ---
 
-### 4. How to use this skill
+### 5. How to use this skill
 
 1. Paste a transcript (audio transcription, WhatsApp, email, notes — anything)
 2. I extract all the info I can and create the ClickUp task in **Soda Ventas → Nuevos Leads**
@@ -87,13 +128,14 @@ From any input, extract:
 - **Contact person name** → Contact field
 - **Email** → Email field
 - **Website** → Website field
-- **Project type** → branding / website / package / custom
+- **Project type** → branding / website / retainer / package / custom
 - **Scope description** → what they want, in plain language
+- **Company stage** → solo founder / small team / established / enterprise
+- **Existing brand?** → yes/no/partial
 - **Timeline** → any deadline or urgency signals
 - **Budget signal** → any numbers they mentioned
 - **Decision maker?** → yes/no/unclear
-- **Tech requirements** → CMS, e-commerce, integrations, etc.
-- **Existing brand?** → yes/no/partial
+- **Tech requirements** → CMS, e-commerce, integrations, apps, etc.
 
 ### Step 2 — Create ClickUp task
 
@@ -107,35 +149,43 @@ Create a task in list **Nuevos Leads** (`901324607712`) with:
   - `Notes` → scope summary in 2-3 sentences
   - `Next Step` → "Answer open questions → assign plan"
   - `Plan` → best match from dropdown, or leave blank if custom
-  - `Opportunity` → estimated price if plan is assigned
+  - `Opportunity` → estimated monthly price if plan is assigned
 
 ### Step 3 — Flag gaps and ask questions
 
 After creating the task, output a numbered list of specific questions — only what's actually missing. Do not ask about things already in the transcript.
 
-Use this question bank (add the Figma quiz questions here):
-- What type of project is this? (if unclear)
+Question bank:
+- What type of engagement is this — one-time project or ongoing retainer?
 - How many pages / sections does the site need?
 - Do they have an existing brand identity?
-- What's the deadline?
-- Is this person the decision maker, or is there someone else?
+- What's the deadline or desired start date?
+- Is this person the decision maker, or is there someone else involved?
 - Do they have a budget in mind?
-- Does the site need a CMS (e.g. Webflow, WordPress)?
-- Any e-commerce or custom integrations?
-- Are there reference sites they like?
-- [ADD FIGMA QUIZ QUESTIONS HERE]
+- Does the site need a CMS (e.g. Webflow, Contentful)?
+- Any e-commerce, Shopify, or custom integrations?
+- Do they need a web app or native app?
+- Are there reference sites or brands they admire?
+- How big is their team? Are they a solo founder or do they have internal people?
 
 ### Step 4 — Suggest a plan
 
-Based on what you know, pick the best plan and explain your reasoning in one sentence. If it's clearly custom, say so and list the line items to build from.
+Based on what you know, pick the best plan and explain in one sentence. If custom, list the line items.
+
+Match logic:
+- Maintenance-only existing client → **WEBSITE SUPPORT** ($250–350/mo)
+- Solo founder, simple landing page or first site → **EARLY** ($650–900/mo)
+- Small team, multi-page site, some brand work → **MID** ($1,500–2,000/mo)
+- Established company, complex site, ongoing strategy → **SENIOR** ($3,000–4,000/mo)
+- Digital-first company, full ownership, apps or enterprise → **PRO / ANCHOR** ($10k–14k/mo)
+- Branding only or unclear ongoing need → flag as custom, list deliverables
 
 Format:
-> **Suggested plan: MID** — Three-section marketing site, existing brand, no CMS complexity, 6-week timeline.
-> **Estimated: $[X]** + [addon if any]
+> **Suggested plan: MID** — Small team, multi-page marketing site, existing brand, no CMS complexity, 6-week timeline. ~$1,500–2,000/mo.
 
 or:
 
-> **Custom scope** — Client needs e-commerce + brand creation + 8+ pages. Build from Excel: [list deliverables].
+> **Custom scope** — One-time branding project, no ongoing need. Deliverables: logo, brand system, Figma file. Quote as fixed project price.
 
 ---
 
@@ -164,9 +214,6 @@ or:
 
 ---
 
-## What to fill in next
+## Still missing
 
-Before this skill is complete, add:
-1. **Plan prices** — replace `[ADD PRICE]` in the tutorial table
-2. **Addon list** — replace `[ADD YOUR ADDON LIST]` with real line items
-3. **Figma quiz questions** — paste them into the question bank in Step 3
+- **Figma quiz questions** — paste them and they'll be added to the question bank in Step 3
