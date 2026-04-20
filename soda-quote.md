@@ -77,7 +77,9 @@ AI does a lot of the heavy lifting now — that's priced in. We're not charging 
 | | SUPPORT | EARLY | MID | SENIOR | PRO |
 |-|---------|-------|-----|--------|-----|
 | Website builds | ✗ | Landing pages | Multi-page sites | Complex sites | Enterprise sites |
-| Webflow / Framer / Figma Sites | Copy/image only | Yes | Yes | Yes | Yes |
+| Platform sites (Webflow / Figma Sites) | Copy/image only | Yes | Yes | Yes | Yes |
+| AI-built custom site (React/Vite + Tailwind) | ✗ | Simple | Yes | Yes | Yes |
+| Framer template → custom migration | ✗ | ✗ | Yes | Yes | Yes |
 | CMS (Contentful, etc.) | ✗ | ✗ | Basic (content only) | Yes (schema + content) | Yes |
 | Custom code | ✗ | ✗ | Basic | Yes | Full + architecture |
 | Shopify | ✗ | ✗ | Basic | Yes | Yes |
@@ -188,6 +190,14 @@ Match logic:
 - Established company, complex site, ongoing strategy → **SENIOR** ($3,000–4,000/mo)
 - Digital-first company, full ownership, apps or enterprise → **PRO / ANCHOR** ($10k–14k/mo)
 - Branding only or unclear ongoing need → flag as custom, list deliverables
+
+**Delivery method note (updated 2026):**
+We no longer default to Framer. Delivery options by complexity:
+- Simple/landing page → Figma Sites or AI-built React (fast, no vendor lock-in)
+- Multi-page marketing site → AI-built React/Vite + Tailwind (custom, ownable, Claude Code builds it)
+- Existing Framer template → can migrate to custom codebase (we do this, it's a real service)
+- CMS-heavy → Webflow or Contentful-backed custom site
+The AI-built custom site is now competitive at MID tier and up. It's faster than it used to be and the client owns the code.
 
 Format:
 > **Suggested plan: MID** — Small team, multi-page marketing site, existing brand, no CMS complexity, 6-week timeline. ~$1,500–2,000/mo.
