@@ -155,18 +155,27 @@ Create a task in list **Nuevos Leads** (`901324607712`) with:
 
 After creating the task, output a numbered list of specific questions — only what's actually missing. Do not ask about things already in the transcript.
 
-Question bank:
-- What type of engagement is this — one-time project or ongoing retainer?
-- How many pages / sections does the site need?
-- Do they have an existing brand identity?
-- What's the deadline or desired start date?
-- Is this person the decision maker, or is there someone else involved?
-- Do they have a budget in mind?
-- Does the site need a CMS (e.g. Webflow, Contentful)?
-- Any e-commerce, Shopify, or custom integrations?
-- Do they need a web app or native app?
-- Are there reference sites or brands they admire?
-- How big is their team? Are they a solo founder or do they have internal people?
+**Option A — send the quiz link** (preferred if client hasn't filled it out):
+> "Before we finalize the quote, it helps to have your answers to our 5-minute blueprint: [quiz link]. Once you fill it out we'll have everything we need."
+
+The quiz is live at the Soda site-quiz (check DEPLOY.md for the current URL). It covers all the questions below in a structured flow.
+
+**Option B — ask directly** (use when you already have partial info from a transcript):
+
+Full question bank drawn from the site quiz:
+
+1. **Project type** — Website, Branding, Presentations & Sales Materials, App, or a mix?
+2. **Website type** (if website) — Business/Services, Creative Portfolio, E-commerce, Landing Page, Event/RSVP, Other?
+3. **Main goal** — Generate leads, sell products, show portfolio, inform/educate, build credibility?
+4. **Ideal user / audience** — B2C, B2B, Startups, Creative Community, Event guests? Any audience details?
+5. **Primary CTA** — What action should visitors take? (Book a call, buy, register, contact, download?)
+6. **Site size** — Essential (3–4 sections), Complete (5–8), Large (9–12), or not sure?
+7. **Visual style** — Minimalist, Modern, Colorful, Corporate, Artistic/Experimental, Elegant/Premium? (up to 3)
+8. **Additional services needed** — Copywriting, SEO, Branding/Logo, Photo session, Booking, Chat, Automations, Pitch deck?
+9. **Content readiness** — What do they already have? Texts, branding/logo, photos, videos, or nothing yet?
+10. **Timeline** — 7–14 days, 1 month, 2–3 months, or no rush?
+11. **Decision maker?** — Is this person the one who signs off, or is someone else involved?
+12. **Budget signal** — Have they mentioned a number or range?
 
 ### Step 4 — Suggest a plan
 
@@ -214,6 +223,8 @@ or:
 
 ---
 
-## Still missing
+## Site quiz
 
-- **Figma quiz questions** — paste them and they'll be added to the question bank in Step 3
+There's a live site-quiz at `/Users/casasoda/projects/soda/site-quiz` connected to Netlify. It collects: project type, website type, main goal, ideal user, primary CTA, site size, visual style, additional services, content readiness, and timeline — then sends everything to Google Sheets and routes to Calendly.
+
+Check `site-quiz/DEPLOY.md` for the live URL. That link can be sent to any client as a pre-discovery intake before quoting.
