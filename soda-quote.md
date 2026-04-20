@@ -233,6 +233,78 @@ or:
 
 ---
 
+## Addon pricing (proposed)
+
+These are line items that stack on top of any plan or project quote. Confirm prices with Dan before sending.
+
+| Addon | Price |
+|-------|-------|
+| Copywriting — full site | $500–800 |
+| SEO setup (technical + on-page) | $300–500 |
+| Photo session coordination | $300–500 (+ photographer cost) |
+| Booking integration — simple (Cal.com / Calendly embed) | $200–400 |
+| Booking integration — complex (Acuity / custom flow) | $500–1,200 |
+| Pitch deck design | $800–1,500 |
+| Custom animations | $500–1,000 |
+| Extra page beyond plan scope | $200–400/page |
+| Rush fee (delivery < 2 weeks) | +30% of total |
+| WordPress → custom migration | $800–2,000 depending on complexity |
+
+---
+
+## Project-based pricing formula (proposed)
+
+When a client wants a fixed-price one-time project (not a retainer), use this formula:
+
+1. **Pick the plan tier** that matches the scope (EARLY / MID / SENIOR)
+2. **Estimate duration** in weeks → convert to months
+3. **Multiply** avg monthly rate × months × 1.3 (fixed-scope risk buffer)
+4. **Add addons** on top
+
+**Examples:**
+
+| Project | Tier | Duration | Calc | Estimate |
+|---------|------|----------|------|----------|
+| Simple landing page | EARLY | 2 weeks | $775 × 0.5 × 1.3 | ~$500 |
+| 5-page marketing site | MID | 6 weeks | $1,750 × 1.5 × 1.3 | ~$3,400 |
+| Complex site + brand | SENIOR | 10 weeks | $3,500 × 2.5 × 1.3 | ~$11,375 |
+| Brand identity only | — | 3 weeks | see branding pricing | — |
+
+Rule of thumb: **MID project ≈ $3,000–5,000 fixed. SENIOR project ≈ $8,000–15,000 fixed.**
+
+---
+
+## Branding-only pricing (proposed)
+
+The Excel plans don't cover standalone branding. Use these as anchors:
+
+| Deliverable | Price |
+|-------------|-------|
+| Logo only (3 concepts, 1 chosen, 2 revisions) | $800–1,200 |
+| Brand identity (logo + colors + typography + usage guidelines) | $2,000–3,000 |
+| Full brand system (identity + Figma file + tokens + brand guide PDF) | $3,500–5,500 |
+| Brand refresh (existing brand, evolution not redesign) | $1,500–2,500 |
+| Brand + website package | brand price + site price × 0.85 (15% bundle discount) |
+
+---
+
+## Proposal deck structure (proposed)
+
+When a quote is confirmed, the Figma deck should follow this structure:
+
+1. **Cover** — client name, "Propuesta de proyecto", date, Soda logo
+2. **What we heard** — 3–5 bullet summary of their brief (shows we listened)
+3. **Our approach** — how Soda works: discovery → design → build → launch
+4. **Scope & deliverables** — exactly what's included, what's not
+5. **Timeline** — phases with week numbers, key milestones
+6. **Investment** — plan name + price, addons itemized, total
+7. **What happens next** — sign → kickoff call → deposit
+8. **About Soda** — 1 slide, 3–4 past projects, logos
+
+Keep it under 10 slides. No fluff. The brief summary on slide 2 is the most important — it tells the client you already get it.
+
+---
+
 ## Site quiz
 
 There's a live site-quiz at `/Users/casasoda/projects/soda/site-quiz` connected to Netlify. It collects: project type, website type, main goal, ideal user, primary CTA, site size, visual style, additional services, content readiness, and timeline — then sends everything to Google Sheets and routes to Calendly.
