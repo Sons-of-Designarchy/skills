@@ -227,6 +227,9 @@ These mistakes were made on actual projects. Don't repeat them.
 - **Always use the `fr-*` class system.** Fawnroad has global CSS classes in `styles.css` prefixed `fr-`. Use them instead of repeating Tailwind chains. Key classes: `fr-label` (bold uppercase mono black), `fr-input` (clean border + focus), `fr-input-error`, `fr-body`, `fr-body-muted`, `fr-headline`, `fr-error`, `fr-info`, `fr-step-counter`, `fr-review-label`, `fr-review-value`, `fr-btn`, `fr-btn-primary`, `fr-btn-secondary`. This is mandatory — never write a raw Tailwind chain when an `fr-*` class exists for it.
 - **Never use gray/muted labels.** Labels, field names, and table headers must be bold uppercase mono black (`font-semibold uppercase font-mono text-black`). No gray-ish faded labels — ever.
 - **Never hardcode color hex values.** Always use the Fawnroad brand palette from CSS vars (`--fawnroad-yellow`, `--fawnroad-blue`, `--fawnroad-lime`, `--fawnroad-purple`, `--fawnroad-orange`, `--fawnroad-green`, `--fawnroad-red`, `--fawnroad-brown`). When you need a tint/pastel version, derive it from the brand color. In JS/TSX components, reference the constants — never invent new colors.
+- **Never use custom hex colors or rgba values in MUI sx props.** Always use theme colors (`color="warning"`, `bgcolor: 'primary.main'`, etc.). Only use custom values when Dan explicitly asks for them.
+- **Don't use `pt` on `mui.core.DialogContent`.** MUI's internal styles override it silently. Use `mt` on the first child inside DialogContent instead (e.g. wrap first element in `<Box mt={3}>`).
+- **Don't use ButtonBase for custom-shaped clickable cards.** ButtonBase inherits theme `borderRadius` and overrides any explicit value, causing pills/ovals. Use a plain `Box` with `onClick`, `role="button"`, and `tabIndex={0}` instead.
 
 ---
 
@@ -266,9 +269,11 @@ EOF
 
 ### Commit message format
 ```
-type: short description of what changed
+sc-XXXXX short description of what changed
 ```
-Types: `feat`, `fix`, `chore`, `docs`, `style`, `refactor`
+Use the Shortcut ticket number as the prefix. No `feat:` / `fix:` type prefixes — just the ticket ID and a plain description. Example: `sc-82951 improve register flow and pricing UI`
+
+**Never include Claude Code branding in commits.** No `Co-Authored-By: Claude` trailers, no `🤖 Generated with Claude Code` footers, nothing. Commits are Dan's work — keep them clean.
 
 ---
 
@@ -865,6 +870,13 @@ const data = await adminApi(request.headers).baskets.search({ query: [...] });
 - `finsera` app: cookie `fauth`, session fetched on mount via `api.auth.getSession()`
 - `thematic-baskets`: cookie `fauth` read in root middleware, role-based access via `checkAccessByRole()`
 - Role hierarchy: `ANONYMOUS → FREE → PREMIUM → ADMIN`
+- **thematic-baskets role hierarchy:** `ANONYMOUS → FREE → TIER1 (Pro) → TIER2 (Max) → ADMIN`
+  - **FREE** — limited access, 10 baskets, basic overview. No login required to browse.
+  - **TIER1 / Pro** — full basket library, compare baskets & ETFs, holdings/performance views, watchlists. Currently free for a limited time.
+  - **TIER2 / Max** — custom baskets, guided support, advanced workflows. Coming soon.
+  - **ADMIN** — full access.
+  - Welcome modal variant (`free` vs `tier1`) driven by `user.thematic_baskets_metadata`.
+  - "Public Beta" was the old name for TIER1/Pro — it is now called **Pro** everywhere.
 
 **Routing:**
 - `finsera`: React Router v7 as library in Vite SPA — `logged-in-router.tsx` + `logged-out-router.tsx`, all lazy-loaded
