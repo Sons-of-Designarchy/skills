@@ -233,6 +233,31 @@ or:
 
 ---
 
+## Project model (non-retainer clients)
+
+For clients who need a site built but don't need ongoing strategy or a team — just occasional updates and a live site. Common for portfolios, personal brands, small businesses.
+
+**Structure:**
+
+| Line item | Price |
+|-----------|-------|
+| Build (fixed) | depends on scope — see project formula below |
+| Add new content / page | $150–250 per upload |
+| Changes / edits | $80–120/hr or $200 flat per round |
+| Monthly infrastructure | $50–80/mo (hosting, domain — no deliverables) |
+| Content package (photos + video) | quoted separately |
+
+**When to use this instead of a retainer:**
+- Client has a clear one-time scope
+- Updates will be occasional (not weekly)
+- They don't need strategy, planning calls, or a dedicated team
+- Portfolios, developer CVs, small business sites, event sites
+
+**How to present it:**
+> "We build it for X, then you pay Y each time you want to add a project or make changes, plus a small monthly fee to keep everything running. No surprises."
+
+---
+
 ## Addon pricing (proposed)
 
 These are line items that stack on top of any plan or project quote. Confirm prices with Dan before sending.
