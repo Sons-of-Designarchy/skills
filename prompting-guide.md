@@ -431,6 +431,9 @@ Dan doesn't use design software. He sees the layout in his head and describes it
 
 ## When Using AI Agents (Claude, Copilot, etc.)
 
+### Model preference
+Always use **Sonnet** (`model: "sonnet"`) when spawning sub-agents via the Agent tool. This applies to all projects unless explicitly overridden per-task.
+
 ### Good prompts
 ```
 [WHAT] + [WHERE] + [HOW] + [CONSTRAINTS]
@@ -919,6 +922,60 @@ END CONTAINER
 - MUI breakpoint hooks — never calculate window size manually
 - Null guard in map: `if (!item) return null`
 
+#### Thematic Baskets — App Architecture (apps/thematic-baskets)
+
+**Routes & views:**
+- `/dashboard` → `views/dashboard/index.tsx` → `ChartsSection` → `EmergingBaskets`
+- `/basket/:id/:slug` → `views/basket/index.tsx` → `BasketDetail`
+- `/watchlist/:id` → watchlist view with sidebar
+- `/custom-themes` — TIER1+ only
+
+**Key contexts:**
+- `BasketsContext` (`_contexts/baskets-context.tsx`) — all basket data, polling, CRUD callbacks
+  - `allBaskets`, `baskets` (non-ETF), `userBaskets`, `labels`, `isLoading`
+  - `startPolling()` / `stopPolling()` — called in dashboard/basket route effects
+- `UserContext` — current user, `thematic_baskets_role`, `thematic_baskets_metadata`
+
+**ExtendedBasket type** (`_core/typescript-definitions/app.ts`):
+```ts
+type ExtendedBasket = ReducedBasket
+  & { jobStatus: JobStatus }
+  & { returns: { [key in PORTFOLIOS_HISTORY_ENUM]: number } }
+  & { exposures: { theme_momentum, theme_volume, theme_sentiment, theme_hedge_fund, theme_overall } }
+  & { is_etf?, is_user_basket? }
+```
+
+**Returns keys** — always use `ts.enums.PORTFOLIOS_HISTORY_ENUM.*`:
+- `ONE_DAY` (LD), `ONE_MONTH` (LM), `YTD`, `THREE` (L3Y), `FULL`
+
+**Exposure keys** (from `EXPOSURE_RANK_METRICS` in `_core/shared-variables.ts`):
+- `theme_momentum`, `theme_volume`, `theme_sentiment`, `theme_hedge_fund`, `theme_overall`
+
+**Enums access pattern** — `ts.enums` is exported from the `_core` barrel:
+```ts
+import { ts } from '_core';
+basket.returns[ts.enums.PORTFOLIOS_HISTORY_ENUM.YTD]
+```
+
+**Component locations:**
+- `_components/basket/basket-detail.tsx` — full basket detail (tabs: overview, compare, related_etfs)
+- `_components/basket/basket-nav-footer.tsx` — guided next/back footer (new, April 2026)
+- `_components/chart-sections/emerging-baskets/index.tsx` — dashboard table + filters
+- `_components/insight-banner/index.tsx` — "what's happening now" banner (new, April 2026)
+- `_components/welcome/index.tsx` — onboarding modal (3-step guided flow, new April 2026)
+- `_components/basket-image.tsx` — basket icon/image renderer
+- `_helpers/basket.ts` — `generateBasketUrl`, `generateBasketSlug`, `getBasketSegments`, `extendBasketMetadata`
+
+**ClickUp EPICS:** `Clientes CS 2026 → Finsera / Fawnroad / Novena → EPICS` (list id: `901326864344`)
+
+**GitLab MR workflow** — no `glab` CLI installed. Push branch, use the MR URL printed in push output:
+```
+remote: To create a merge request for feat/xxx, visit:
+remote:   https://gitlab.com/finsera/web-ui/-/merge_requests/new?...
+```
+
+**Finsera product context (April 2026):** Active initiative is "Guided Discovery & Insight Activation" — turning the app from a data tool into a guided experience for decision-makers. All work is frontend-first from BasketsContext data (no new API calls without approval).
+
 ---
 
 ### Yardzen
@@ -937,8 +994,11 @@ git checkout dev && git pull    # base branch is dev (not main/master)
 # Run only build-marketplace (most common)
 npx nx run-many --target=serve --projects=build-marketplace
 
-# Run with API backend too
+# Run with API backend too (required for: design profile quiz, any Prisma DB features)
 npx nx run-many --target=serve --projects=api,build-marketplace
+
+# Run API alone (only when you need backend data — not the default)
+nx serve dev
 
 # Run single app directly
 nx serve build-marketplace                    # port 4200
@@ -953,16 +1013,23 @@ pnpm run lint
 ```
 
 **Git & PR workflow:**
-- Base branch: **`dev`** (not `main` — that's a different branch)
+- Base branch: **`dev`** (not `main` — that's a different branch, exists but is not ours)
 - Always pull from `dev` before starting
-- Open Jira ticket first, create branch from the ticket
+- Open Jira ticket first, create branch from the ticket (use Jira's "create branch" option)
+- Commit format: `git ci -m "message-branch"`
 - Run `pnpm run lint` before every push
 - PR must include: title matching ticket name, bullet-point description of changes, before/after screenshots, local URL + which component to test
-- Use the Yardzen Chrome browser profile for Claude and GitLab access
+- Add Natalie and the other dev as reviewers on every PR
+- Add screenshot with link to Dan's playground in the GitHub PR conversation
+- Use the Yardzen Chrome browser profile for Claude and GitLab access — always run Claude from the batman account via this profile
+
+**Contentful access:**
+- Email: `daniel.pliego@yardzen.com`
+- Password: (see 1Password)
 
 **Yard Capture (mobile app) setup:**
 ```bash
-cd yardzen/mobile-apps/yardzen-capture
+cd yardzen-app/mobile-apps/yardzen-capture
 ./start.sh            # loads QR code for the mobile app
 ```
 
