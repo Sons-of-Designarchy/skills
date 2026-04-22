@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jetstime × Casa Soda — Propuesta de Proyecto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #E6E3D8;
+    --black: #080808;
+    --white: #F0EDE4;
+    --lime: #AADC6A;
+    --purple: #C8B8F8;
+    --coral: #FF6B56;
+    --muted: rgba(240,237,228,0.45);
+  }
+
+  html, body { width:100%; height:100%; background:#111; font-family:'DM Sans',system-ui,sans-serif; overflow:hidden; }
+
+  .deck { position:relative; width:100vw; height:100vh; }
+
+  .slide {
+    position:absolute; inset:0; width:100%; height:100%;
+    display:flex; flex-direction:column;
+    opacity:0; pointer-events:none;
+    transition:opacity 0.4s ease;
+  }
+  .slide.active { opacity:1; pointer-events:all; }
+  .slide-light { background:var(--cream); color:var(--black); }
+  .slide-dark  { background:var(--black); color:var(--white); }
+
+  .slide-body { flex:1; padding:6vh 7vw 0; display:flex; flex-direction:column; overflow:hidden; }
+
+  /* FOOTER */
+  .slide-footer { padding:1.2vh 7vw 2.2vh; }
+  .slide-footer hr { border:none; border-top:1px solid rgba(240,237,228,0.1); margin-bottom:0.9vh; }
+  .slide-light .slide-footer hr { border-top-color:rgba(8,8,8,0.1); }
+  .slide-footer span { display:block; text-align:right; font-size:0.78rem; color:rgba(240,237,228,0.28); font-weight:300; }
+  .slide-light .slide-footer span { color:rgba(8,8,8,0.28); }
+
+  /* LABEL */
+  .label { font-size:0.8rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:0.8vh; }
+
+  /* ── 1. COVER ── */
+  #s1 .slide-body { justify-content:space-between; }
+  .cover-wordmark { font-size:clamp(5rem,16vw,18rem); font-weight:600; letter-spacing:-0.03em; line-height:0.88; margin-top:1.5vh; }
+  .cover-meta { font-size:clamp(1rem,1.2vw,1.4rem); font-weight:400; line-height:1.7; color:rgba(8,8,8,0.6); }
+  .cover-footer-row { display:flex; justify-content:space-between; font-size:clamp(0.9rem,1vw,1.1rem); color:rgba(8,8,8,0.4); padding-bottom:1.5vh; }
+
+  /* ── 2. OBJETIVO ── */
+  #s2 .slide-body { justify-content:center; align-items:center; gap:4vh; }
+  .big-statement {
+    max-width:900px; text-align:center;
+    font-size:clamp(1.8rem,3.2vw,4rem); font-weight:400;
+    letter-spacing:-0.02em; line-height:1.2; color:var(--white);
+  }
+  .big-statement em {
+    font-style:normal;
+    background:linear-gradient(90deg,var(--lime),var(--purple));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .sub-statement {
+    max-width:700px; text-align:center;
+    font-size:clamp(1.1rem,1.3vw,1.5rem); font-weight:300;
+    line-height:1.7; color:var(--muted);
+  }
+
+  /* ── 3. DIAGNÓSTICO ── */
+  #s3 .slide-body { gap:3vh; }
+  .diag-grid { display:grid; grid-template-columns:1fr 1fr; gap:3vw; flex:1; }
+  .diag-col { display:flex; flex-direction:column; gap:0; }
+  .diag-col-head {
+    font-size:0.8rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+    padding-bottom:1.5vh; border-bottom:1px solid rgba(240,237,228,0.1);
+    margin-bottom:0;
+  }
+  .diag-col-head.hoy { color:rgba(240,237,228,0.3); }
+  .diag-col-head.despues { color:var(--lime); }
+  .diag-item {
+    padding:1.8vh 0;
+    border-bottom:1px solid rgba(240,237,228,0.07);
+    font-size:clamp(1.1rem,1.3vw,1.5rem); font-weight:400; line-height:1.5;
+  }
+  .diag-item.hoy { color:rgba(240,237,228,0.35); }
+  .diag-item.despues { color:var(--white); }
+  .diag-item.despues strong { color:var(--lime); font-weight:500; }
+
+  /* ── 4. ALCANCE ── */
+  #s4 .slide-body { gap:2vh; }
+  .scope-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.8vw; flex:1; }
+  .scope-col { display:flex; flex-direction:column; }
+  .scope-label { font-size:clamp(1.5rem,2.2vw,2.8rem); font-weight:500; letter-spacing:-0.02em; color:var(--white); line-height:1.1; margin-bottom:1.2vh; }
+  .scope-box {
+    border:1.5px solid var(--lime); border-radius:14px;
+    padding:2.5vh 2vw; display:flex; flex-direction:column; gap:0.8em;
+    position:relative; overflow:hidden; flex:1;
+  }
+  .scope-box::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:4px;
+    background:linear-gradient(90deg, var(--lime), var(--purple), var(--coral), var(--lime));
+    opacity:0.75; pointer-events:none;
+  }
+  .scope-item {
+    font-size:clamp(1.05rem,1.1vw,1.25rem); font-weight:400;
+    color:var(--white); line-height:1.5; padding-left:1.3em; position:relative;
+  }
+  .scope-item::before { content:"·"; position:absolute; left:0; color:var(--lime); }
+  .scope-item.outcome {
+    font-weight:500; color:var(--lime);
+    border-top:1px solid rgba(240,237,228,0.08); padding-top:0.7em; margin-top:0.1em;
+  }
+  .scope-item.outcome::before { color:var(--lime); }
+
+  /* ── 5. ESTRATEGIA ── */
+  #s5 .slide-body { justify-content:center; align-items:center; }
+  .flow-wrap { display:flex; flex-direction:column; align-items:center; gap:2.2vh; width:100%; max-width:860px; }
+  .flow-sources { display:flex; gap:1.2vw; justify-content:center; flex-wrap:wrap; }
+  .flow-chip { padding:0.8vh 2vw; border-radius:100px; font-size:clamp(1rem,1.1vw,1.3rem); font-weight:400; }
+  .fc-lime  { background:rgba(170,220,106,0.12); color:var(--lime);   border:1px solid rgba(170,220,106,0.25); }
+  .fc-purp  { background:rgba(200,184,248,0.12); color:var(--purple); border:1px solid rgba(200,184,248,0.25); }
+  .fc-coral { background:rgba(255,107,86,0.12);  color:var(--coral);  border:1px solid rgba(255,107,86,0.25);  }
+  .flow-arrow { font-size:1.4rem; color:rgba(240,237,228,0.15); line-height:1; }
+  .flow-hub {
+    text-align:center; width:100%; padding:2.5vh 0;
+    border-top:1px solid rgba(240,237,228,0.1); border-bottom:1px solid rgba(240,237,228,0.1);
+    font-size:clamp(3rem,7.5vw,9.5rem); font-weight:400; letter-spacing:-0.04em; color:var(--white);
+  }
+  .flow-hub span { color:var(--muted); font-weight:300; }
+  .flow-outputs { display:flex; gap:1.5vw; justify-content:center; flex-wrap:wrap; }
+  .flow-pill { padding:1vh 2.2vw; border-radius:100px; font-size:clamp(1rem,1.1vw,1.3rem); font-weight:400; }
+  .fp-lime  { background:var(--lime); color:var(--black); }
+  .fp-ghost { background:rgba(240,237,228,0.06); color:var(--white); border:1px solid rgba(240,237,228,0.14); }
+  .flow-result { font-size:clamp(2.2rem,4.5vw,5.5rem); font-weight:400; letter-spacing:-0.03em; color:var(--lime); }
+  .flow-result-sub { font-size:clamp(1rem,1.1vw,1.3rem); font-weight:300; color:var(--muted); text-align:center; line-height:1.7; }
+
+  /* ── 6. INVERSIÓN ── */
+  #s6 .slide-body { gap:3.5vh; }
+  .inv-grid { display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:2vw; flex:1; align-items:start; }
+  .inv-col-title { font-size:clamp(1.6rem,2.4vw,3rem); font-weight:400; letter-spacing:-0.02em; color:var(--white); margin-bottom:1.5vh; }
+  .inv-box {
+    border:1px solid rgba(240,237,228,0.14); border-radius:14px; padding:3vh 2vw;
+    position:relative; overflow:hidden;
+  }
+  .inv-box::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,transparent,rgba(170,220,106,0.5),rgba(200,184,248,0.5),rgba(255,107,86,0.5),transparent);
+    pointer-events:none;
+  }
+  .price-divider { border:none; border-top:1px solid rgba(240,237,228,0.09); margin:1.2vh 0; }
+  .pkg-name { font-size:clamp(1rem,1.1vw,1.25rem); color:var(--muted); font-weight:300; }
+  .pkg-price { font-size:clamp(1rem,1.1vw,1.25rem); color:var(--white); font-weight:500; white-space:nowrap; }
+  .price-note { font-size:clamp(0.85rem,0.95vw,1.05rem); color:var(--muted); font-weight:300; line-height:1.6; }
+  .entregable { font-size:clamp(1rem,1.1vw,1.2rem); color:var(--white); font-weight:300; line-height:1.6; padding-left:1.2em; position:relative; margin-bottom:0.6vh; }
+  .entregable::before { content:"·"; position:absolute; left:0; opacity:0.4; }
+
+  /* ── 7. CLIENTES ── */
+  #s7 .slide-body { justify-content:center; align-items:center; gap:5vh; }
+  .wall-tagline {
+    max-width:780px; text-align:center;
+    font-size:clamp(1.1rem,1.5vw,1.8rem); font-weight:300; line-height:1.65; color:var(--muted); font-style:italic;
+  }
+  .wall-tagline strong { font-weight:400; color:var(--white); font-style:normal; }
+  .logo-grid { display:flex; flex-wrap:wrap; gap:1.2vh 1.5vw; justify-content:center; max-width:900px; }
+  .logo-pill {
+    padding:0.9vh 2vw; border-radius:100px; border:1px solid rgba(240,237,228,0.14);
+    font-size:clamp(0.9rem,1vw,1.15rem); font-weight:400; letter-spacing:0.02em; color:rgba(240,237,228,0.5);
+    transition:border-color 0.2s, color 0.2s;
+  }
+  .logo-pill:hover { border-color:rgba(240,237,228,0.3); color:var(--white); }
+
+  /* ── 8. GRACIAS ── */
+  #s8 .slide-body { justify-content:center; align-items:center; gap:4vh; text-align:center; }
+  .thanks-word { font-size:clamp(4rem,12vw,14rem); font-weight:600; letter-spacing:-0.03em; line-height:0.9; color:var(--white); }
+  .thanks-contact { font-size:clamp(1.1rem,1.3vw,1.5rem); color:var(--muted); font-weight:300; line-height:1.8; }
+
+  /* ── NAV ── */
+  .nav {
+    position:fixed; bottom:3vh; left:50%; transform:translateX(-50%);
+    display:flex; align-items:center; gap:1rem; z-index:100; color:var(--black);
+  }
+  .nav.on-dark { color:var(--white); }
+  .nav-btn {
+    width:44px; height:44px; border-radius:50%; border:1px solid currentColor; opacity:0.55;
+    background:transparent; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem; transition:opacity 0.2s; color:inherit;
+  }
+  .nav-btn:hover { opacity:1; }
+  .nav-counter { font-size:0.85rem; min-width:44px; text-align:center; opacity:0.4; }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1. COVER -->
+  <div class="slide slide-light active" id="s1">
+    <div class="slide-body" style="justify-content:space-between;">
+      <div>
+        <img src="icon-black.png" alt="Casa Soda" style="width:3.2vw;min-width:36px;">
+        <div class="cover-wordmark">CASA<br>SODA</div>
+      </div>
+      <div>
+        <div class="cover-meta">
+          Jetstime · Propuesta de Proyecto<br>
+          Abril 2026 · Mattrs × Casa Soda
+        </div>
+      </div>
+      <div class="cover-footer-row">
+        <span>hola@casasoda.com</span>
+        <span>Mitla 145, Narvarte</span>
+      </div>
+    </div>
+    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
+  </div>
+
+  <!-- 2. OBJETIVO -->
+  <div class="slide slide-dark" id="s2">
+    <div class="slide-body" style="justify-content:center;align-items:center;gap:4vh;">
+      <div class="label" style="text-align:center;">Objetivo</div>
+      <div class="big-statement">
+        Jetstime está construyendo<br>su máquina de crecimiento.<br>
+        <em>El sitio es el centro de esa máquina.</em>
+      </div>
+      <div class="sub-statement">
+        Redes sociales, espectaculares, alianzas — todo ese tráfico tiene que llegar a algún lugar y convertir en reservas. Hoy ese lugar no existe.<br>Lo vamos a construir.
+      </div>
+    </div>
+    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
+  </div>
+
+  <!-- 3. DIAGNÓSTICO -->
+  <div class="slide slide-dark" id="s3">
+    <div class="slide-body" style="gap:3vh;">
+      <div class="label">Diagnóstico</div>
+      <div class="diag-grid">
+        <div class="diag-col">
+          <div class="diag-col-head hoy">Hoy</div>
+          <div class="diag-item hoy">Operación premium sin imagen que la respalde</div>
+          <div class="diag-item hoy">Tráfico potencial sin un destino que convierta</div>
+          <div class="diag-item hoy">Booking manual por WhatsApp — leads que se pierden</div>
+          <div class="diag-item hoy">Sin posicionamiento formal en el mercado americano</div>
+        </div>
+        <div class="diag-col">
+          <div class="diag-col-head despues">Al lanzar</div>
+          <div class="diag-item despues"><strong>Marca premium</strong> que refleja el nivel del servicio</div>
+          <div class="diag-item despues"><strong>Sitio que captura</strong> ese tráfico y lo convierte</div>
+          <div class="diag-item despues"><strong>Flujo integrado:</strong> llega → ve → reserva — sin fricción</div>
+          <div class="diag-item despues"><strong>Bilingüe desde el inicio</strong> — preparado para California</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
+  </div>
+
+  <!-- 4. ALCANCE -->
+  <div class="slide slide-dark" id="s4">
+    <div class="slide-body" style="gap:2vh;">
+      <div class="label">Alcance del proyecto</div>
+      <div class="scope-grid">
+        <div class="scope-col">
+          <div class="scope-label">Rediseño<br>de marca</div>
+          <div class="scope-box">
+            <div class="scope-item">Estrategia, posicionamiento y narrativa de marca</div>
+            <div class="scope-item">Sistema visual — logo, color, tipografía</div>
+            <div class="scope-item">Archivo Figma con tokens de diseño</div>
+            <div class="scope-item">Brand guide PDF — guía de uso y aplicaciones</div>
+            <div class="scope-item outcome">Una identidad que cierra tratos antes de abrir la boca</div>
+          </div>
+        </div>
+        <div class="scope-col">
+          <div class="scope-label">Sitio<br>Web</div>
+          <div class="scope-box">
+            <div class="scope-item">Diseño UX/UI alineado a la nueva identidad</div>
+            <div class="scope-item">Home, Fleet, About, Contacto — sitio completo</div>
+            <div class="scope-item">Flota editable sin depender de un desarrollador</div>
+            <div class="scope-item">WhatsApp + booking — el lead entra, no se pierde</div>
+            <div class="scope-item outcome">Propiedad total del cliente — sin vendor lock-in</div>
+          </div>
+        </div>
+        <div class="scope-col">
+          <div class="scope-label">Blog<br>CMS</div>
+          <div class="scope-box">
+            <div class="scope-item">CMS bilingüe ES/EN — artículos sin código</div>
+            <div class="scope-item">9 entradas iniciales redactadas por Casa Soda</div>
+            <div class="scope-item">SEO técnico — estructura, metas, slugs</div>
+            <div class="scope-item">Conectado a la identidad visual del sitio</div>
+            <div class="scope-item outcome">Genera tráfico orgánico antes de gastar en ads</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
+  </div>
+
+  <!-- 5. ESTRATEGIA -->
+  <div class="slide slide-dark" id="s5">
+    <div class="slide-body" style="justify-content:center;align-items:center;">
+      <div class="label" style="text-align:center;margin-bottom:3vh;">La estrategia</div>
+      <div class="flow-wrap">
+        <div class="flow-sources">
+          <div class="flow-chip fc-lime">Redes Sociales</div>
+          <div class="flow-chip fc-purp">Espectaculares & OOH</div>
+          <div class="flow-chip fc-coral">Referidos & USA</div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-hub">jetstime<span>.com</span></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-outputs">
+          <div class="flow-pill fp-lime">WhatsApp → cotización inmediata</div>
+          <div class="flow-pill fp-ghost">Booking form → reserva directa</div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-result">Reserva cerrada.</div>
+        <div class="flow-result-sub">Sin fricción. Sin perder leads. Sin depender de una llamada fría.</div>
+      </div>
+    </div>
+    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
+  </div>
+
+  <!-- 6. INVERSIÓN -->
+  <div class="slide slide-dark" id="s6">
+    <div class="slide-body" style="gap:3.5vh;">
+      <div class="label">Pricing</div>
+      <div class="inv-grid">
+        <div>
+          <div class="inv-col-title">Inversión</div>
+          <div class="inv-box">
+            <div style="display:grid;grid-template-columns:1fr auto auto;gap:0.5vh 1.5vw;align-items:baseline;margin-bottom:1.2vh;">
+              <div style="font-size:0.78rem;color:var(--muted);font-weight:500;letter-spacing:0.07em;text-transform:uppercase;"></div>
+              <div style="font-size:0.78rem;color:var(--muted);font-weight:500;letter-spacing:0.07em;text-transform:uppercase;text-align:right;">Estándar</div>
+              <div style="font-size:0.78rem;color:var(--lime);font-weight:600;letter-spacing:0.07em;text-transform:uppercase;text-align:right;">Partner −15%</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:0.6vh;margin-bottom:1.2vh;">
+              <div style="display:grid;grid-template-columns:1fr auto auto;gap:0.8vh 1.5vw;align-items:baseline;padding:1vh 0.8vw;background:rgba(240,237,228,0.06);border-radius:8px;margin:0 -0.8vw 0.3vh;">
+                <span style="font-size:clamp(1rem,1.1vw,1.25rem);color:var(--white);font-weight:500;">Página + Branding + Blog ✦</span>
+                <span style="font-size:clamp(0.9rem,1vw,1.1rem);color:var(--muted);font-weight:300;text-decoration:line-through;text-align:right;">$150,000</span>
+                <span style="font-size:clamp(1rem,1.1vw,1.25rem);color:var(--lime);font-weight:500;text-align:right;">$127,500</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr auto auto;gap:0.8vh 1.5vw;align-items:baseline;padding:0.7vh 0;border-bottom:1px solid rgba(240,237,228,0.06);">
+                <span class="pkg-name">Página + Branding</span>
+                <span style="font-size:clamp(0.9rem,1vw,1.1rem);color:var(--muted);font-weight:300;text-decoration:line-through;text-align:right;">$125,000</span>
+                <span class="pkg-price" style="text-align:right;">$106,000</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr auto auto;gap:0.8vh 1.5vw;align-items:baseline;padding:0.7vh 0;border-bottom:1px solid rgba(240,237,228,0.06);">
+                <span class="pkg-name">Página + Blog</span>
+                <span style="font-size:clamp(0.9rem,1vw,1.1rem);color:var(--muted);font-weight:300;text-decoration:line-through;text-align:right;">$112,500</span>
+                <span class="pkg-price" style="text-align:right;">$96,000</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr auto auto;gap:0.8vh 1.5vw;align-items:baseline;padding:0.7vh 0;">
+                <span class="pkg-name">Página</span>
+                <span style="font-size:clamp(0.9rem,1vw,1.1rem);color:var(--muted);font-weight:300;text-decoration:line-through;text-align:right;">$100,000</span>
+                <span class="pkg-price" style="text-align:right;">$85,000</span>
+              </div>
+            </div>
+            <hr class="price-divider">
+            <div class="price-note">MXN + IVA · tarifa partner Mattrs<br>50% anticipo al inicio · 50% al lanzamiento</div>
+          </div>
+        </div>
+        <div>
+          <div class="inv-col-title">Infraestructura</div>
+          <div class="inv-box">
+            <div class="price-note" style="line-height:1.9;">
+              Sitio en <strong style="color:var(--white);font-weight:400;">Vercel</strong> — nosotros manejamos la migración completa.<br><br>
+              Admin tools construidas a medida conforme se necesiten.<br><br>
+              <strong style="color:var(--white);font-weight:500;">$2,000 MXN/mes</strong> — dominio + hosting<br>
+              <strong style="color:var(--lime);font-weight:500;">$4,000 MXN/mes</strong> — incluye soporte y cambios chicos
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="inv-col-title">Entregables</div>
+          <div class="inv-box">
+            <div class="entregable">Sistema de marca completo</div>
+            <div class="entregable">Archivos editables — branding + web</div>
+            <div class="entregable">Sitio web funcional, bilingüe ES/EN</div>
+            <div class="entregable">WhatsApp + booking integrados</div>
+            <div class="entregable">Blog CMS + 9 entradas iniciales</div>
+            <div class="entregable">Admin tools según necesidad</div>
+            <div class="entregable">Accesos y handoff completo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
+  </div>
+
+  <!-- 7. CLIENTES -->
+  <div class="slide slide-dark" id="s7">
+    <div class="slide-body" style="justify-content:center;align-items:center;gap:4vh;">
+      <div class="label" style="text-align:center;">Trabajo relevante</div>
+      <a href="https://casasoda.com" target="_blank" style="font-size:clamp(2rem,4.5vw,5.5rem);font-weight:400;letter-spacing:-0.03em;color:rgba(240,237,228,0.35);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='rgba(240,237,228,0.35)'">casasoda.com ↗</a>
+      <img src="logo-clientes-transparente.png" alt="Clientes" style="width:82%;max-width:920px;">
+    </div>
+    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
+  </div>
+
+  <!-- 8. GRACIAS -->
+  <div class="slide slide-dark" id="s8">
+    <div class="slide-body" style="justify-content:center;align-items:center;gap:4vh;text-align:center;">
+      <svg width="5vw" viewBox="0 0 48 48" fill="none">
+        <path d="M24 4L25.8 18.2L36 8L27.2 19.6L42 17.2L28.6 22.6L40 30L26 25.4L28 40L22 27.2L14 40L18 25.4L4 30L15.4 22.6L2 17.2L16.8 19.6L8 8L18.2 18.2L24 4Z" fill="rgba(240,237,228,0.8)"/>
+        <circle cx="24" cy="24" r="3.5" fill="#080808"/>
+      </svg>
+      <div class="thanks-word">Gracias</div>
+      <div class="thanks-contact">hola@casasoda.com<br>Mitla 145, CDMX</div>
+    </div>
+    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
+  </div>
+
+</div>
+
+<nav class="nav">
+  <button class="nav-btn" onclick="go(-1)">←</button>
+  <span class="nav-counter" id="counter">1 / 8</span>
+  <button class="nav-btn" onclick="go(1)">→</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const nav = document.querySelector('.nav');
+  let cur = 0;
+
+  function updateNav() {
+    const isDark = slides[cur].classList.contains('slide-dark');
+    nav.classList.toggle('on-dark', isDark);
+  }
+
+  function go(dir) {
+    slides[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(slides.length - 1, cur + dir));
+    slides[cur].classList.add('active');
+    document.getElementById('counter').textContent = (cur+1) + ' / ' + slides.length;
+    updateNav();
+  }
+
+  updateNav();
+  document.addEventListener('keydown', e => {
+    if (e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
+    if (e.key==='ArrowLeft' ||e.key==='ArrowUp')   go(-1);
+  });
+</script>
+</body>
+</html>
