@@ -179,9 +179,20 @@ Full question bank drawn from the site quiz:
 11. **Decision maker?** — Is this person the one who signs off, or is someone else involved?
 12. **Budget signal** — Have they mentioned a number or range?
 
-### Step 4 — Suggest a plan
+### Step 4 — Suggest a plan and build the proposal
 
 Based on what you know, pick the best plan and explain in one sentence. If custom, list the line items.
+
+Once the plan and pricing are confirmed (or even just clear enough), offer to build the proposal landing page immediately. Don't wait for a "perfect brief" — you can build from a ClickUp task, a transcript, or a rough scope. The deck itself forces the right questions to surface.
+
+**When to build the deck:**
+- You have a client name, a rough scope, and a price range
+- Enough to write a 1-sentence conversion outcome for slide 2
+- Dan or Karla says "let's send it" — that's the signal
+
+**When not to build it yet:**
+- You don't know what the client actually wants to achieve (not deliverables — outcome)
+- Pricing is completely undefined
 
 Match logic:
 - Maintenance-only existing client → **WEBSITE SUPPORT** ($250–350/mo)
@@ -313,9 +324,122 @@ The Excel plans don't cover standalone branding. Use these as anchors:
 
 ---
 
-## Proposal deck structure (proposed)
+## Proposal landing pages
 
-When a quote is confirmed, the Figma deck should follow this structure:
+This is how Soda sends proposals. Not Figma, not PDFs, not Google Slides. A live URL the client opens on any device.
+
+The full flow — from raw inputs to a URL in the client's hands:
+
+1. Get anything: a ClickUp task, a voice note, a WhatsApp transcript, meeting notes, even a partial brief
+2. Extract the brief → understand the real problem (not just the deliverables)
+3. Build the HTML deck locally (single file, no build step)
+4. Deploy to Netlify in one command
+5. Send the URL
+
+That's it. The Jetstime proposal was built this way: started with a ClickUp task, a voice message about wanting a conversion system, and a list of scope items. Ended with a live deck that frames the engagement as a revenue machine, not a website project.
+
+**Reference deck:** https://soda-quiz.netlify.app/quotes/jetstime/
+**Source file:** `/Users/casasoda/projects/soda/skills/quotes/jetstime/index.html`
+
+---
+
+### The strategic framing rule
+
+The objective slide (slide 2) must name the outcome the client actually wants — not the deliverables. For Jetstime: "Una máquina de conversión para aviación privada" — not "un sitio web y branding". The rest of the deck explains how the deliverables produce that outcome.
+
+If you can't write a one-sentence conversion outcome for the client, go back and re-read the brief.
+
+---
+
+### How to build one
+
+1. Create folder: `quotes/{client-slug}/`
+2. Drop `index.html` (single file — no build step, no dependencies)
+3. Copy images into the same folder (icon-black.png, icon-white.png, logo-clientes-transparente.png for the client logos slide)
+4. Deploy: `netlify deploy --prod` from the skills repo root
+5. URL becomes: `https://soda-quiz.netlify.app/quotes/{client-slug}/`
+
+Pull all content from the ClickUp task description — the brief, the scope, the pricing, the open questions. Build the deck from that.
+
+---
+
+### Slide structure (8 slides)
+
+| # | Name | Background | Content |
+|---|------|-----------|---------|
+| 1 | Cover | cream | Soda icon-black, client name large, tagline, `hola@casasoda.com / casasoda.com` footer row |
+| 2 | Objetivo | dark (--black) | One big gradient statement about the conversion outcome, not the deliverables |
+| 3 | Diagnóstico | dark | 2-col "Hoy vs Al lanzar" grid — what's broken now vs what changes |
+| 4 | Alcance | dark | 3 boxes with iridescent bottom border: Branding / Web / Blog (or whatever modules apply) |
+| 5 | Estrategia | dark | Conversion flow diagram: traffic source → site → CTA → conversion |
+| 6 | Inversión | dark | Pricing table: packages × standard/partner columns. Hide standard col on mobile. |
+| 7 | Clientes | cream | casasoda.com link + logo-clientes-transparente.png |
+| 8 | Gracias | dark (--black) | Soda icon-white, hola@casasoda.com, wa.me link |
+
+---
+
+### Design system
+
+```css
+:root {
+  --cream: #F0EDE4;
+  --black: #0A0A0A;
+  --lime: #C8FF00;
+  --purple: #8B5CF6;
+  --coral: #FF6B6B;
+}
+/* Font: DM Sans via Google Fonts */
+/* Typography: clamp() for all sizes */
+/* Slides stack via position:absolute; inset:0 */
+/* Nav color toggles via .nav.on-dark when active slide has .slide-dark class */
+/* Mobile: padding-bottom:88px on .slide-body, touch swipe with 50px threshold */
+```
+
+Scope boxes use `border: 1.5px solid var(--lime)` + `::after` pseudo-element with iridescent gradient `linear-gradient(90deg, --lime, --purple, --coral, --lime)` at 4px height on the bottom.
+
+---
+
+### Navigation JS skeleton
+
+```js
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+function go(dir) {
+  slides[cur].classList.remove('active');
+  cur = Math.max(0, Math.min(slides.length - 1, cur + dir));
+  slides[cur].classList.add('active');
+  updateNav();
+}
+// Keyboard: ArrowRight/ArrowLeft/Space
+// Touch: touchstart/touchend, dx > 50px threshold
+// updateNav() toggles .nav.on-dark based on slides[cur].classList.contains('slide-dark')
+```
+
+---
+
+### Pricing slide conventions
+
+- 3-column grid: package name | standard price | partner price (with "−15% Partner" header)
+- On mobile: hide standard column, show only partner price
+- Partner price = standard × 0.85
+- Add hosting row at the bottom: $2,000/mes (hosting) or $4,000/mes (hosting + soporte)
+
+---
+
+### Deploy command
+
+```bash
+cd /Users/casasoda/projects/soda/skills
+netlify deploy --prod
+```
+
+netlify.toml publishes `.` so the whole repo is served. Quotes live at `/quotes/{client-slug}/`.
+
+---
+
+### Proposal deck structure (legacy — Figma)
+
+If a Figma deck is needed instead, follow this structure:
 
 1. **Cover** — client name, "Propuesta de proyecto", date, Soda logo
 2. **What we heard** — 3–5 bullet summary of their brief (shows we listened)
@@ -326,7 +450,7 @@ When a quote is confirmed, the Figma deck should follow this structure:
 7. **What happens next** — sign → kickoff call → deposit
 8. **About Soda** — 1 slide, 3–4 past projects, logos
 
-Keep it under 10 slides. No fluff. The brief summary on slide 2 is the most important — it tells the client you already get it.
+Keep it under 10 slides. No fluff.
 
 ---
 
