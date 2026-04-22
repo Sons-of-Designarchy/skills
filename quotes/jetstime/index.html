@@ -38,10 +38,9 @@
 
   /* FOOTER */
   .slide-footer { padding:1.2vh 7vw 2.2vh; }
-  .slide-footer hr { border:none; border-top:1px solid rgba(240,237,228,0.1); margin-bottom:0.9vh; }
-  .slide-light .slide-footer hr { border-top-color:rgba(8,8,8,0.1); }
   .slide-footer span { display:block; text-align:right; font-size:0.78rem; color:rgba(240,237,228,0.28); font-weight:300; }
   .slide-light .slide-footer span { color:rgba(8,8,8,0.28); }
+  #s1 .slide-footer { display:none; }
 
   /* LABEL */
   .label { font-size:0.8rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:0.8vh; }
@@ -191,6 +190,58 @@
   }
   .nav-btn:hover { opacity:1; }
   .nav-counter { font-size:0.85rem; min-width:44px; text-align:center; opacity:0.4; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    .slide-body { padding:5vw 6vw 0; overflow-y:auto; }
+    .slide-footer { padding:2vw 6vw 10vw; }
+
+    /* Cover */
+    .cover-wordmark { font-size:clamp(4rem,18vw,7rem); margin-top:2vh; }
+    .cover-meta { font-size:1rem; }
+    .cover-footer-row { font-size:0.85rem; }
+
+    /* Objetivo */
+    #s2 .slide-body { gap:5vw; justify-content:center; }
+    .big-statement { font-size:clamp(1.5rem,6vw,2.2rem); }
+    .sub-statement { font-size:1rem; }
+
+    /* Diagnóstico */
+    #s3 .slide-body { gap:4vw; overflow-y:auto; }
+    .diag-grid { grid-template-columns:1fr; gap:6vw; }
+    .diag-item { font-size:1rem; padding:1.4vh 0; }
+
+    /* Alcance */
+    #s4 .slide-body { overflow-y:auto; }
+    .scope-grid { grid-template-columns:1fr; gap:4vw; }
+    .scope-label { font-size:1.4rem; }
+    .scope-item { font-size:0.95rem; }
+
+    /* Estrategia */
+    .flow-chip { font-size:0.85rem; padding:1.2vw 3vw; }
+    .flow-hub { font-size:clamp(2rem,10vw,4rem); padding:3vw 0; }
+    .flow-pill { font-size:0.85rem; padding:1.5vw 4vw; }
+    .flow-result { font-size:clamp(1.6rem,7vw,2.5rem); }
+    .flow-result-sub { font-size:0.88rem; }
+
+    /* Inversión */
+    #s6 .slide-body { overflow-y:auto; }
+    .inv-grid { grid-template-columns:1fr; gap:4vw; }
+    .inv-col-title { font-size:1.3rem; margin-top:2vw; }
+    .pkg-name, .pkg-price, .entregable, .price-note { font-size:0.9rem; }
+
+    /* Clientes */
+    #s7 .slide-body { gap:5vw; }
+    #s7 img { width:100% !important; }
+
+    /* Gracias */
+    .thanks-word { font-size:clamp(3rem,15vw,5rem); }
+    .thanks-contact { font-size:1rem; }
+
+    /* Nav */
+    .nav { bottom:2.5vh; gap:0.8rem; }
+    .nav-btn { width:40px; height:40px; font-size:1rem; }
+  }
 </style>
 </head>
 <body>
@@ -214,7 +265,6 @@
         <span>Mitla 145, Narvarte</span>
       </div>
     </div>
-    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
   </div>
 
   <!-- 2. OBJETIVO -->
@@ -229,7 +279,7 @@
         Redes sociales, espectaculares, alianzas — todo ese tráfico tiene que llegar a algún lugar y convertir en reservas. Hoy ese lugar no existe.<br>Lo vamos a construir.
       </div>
     </div>
-    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
+    <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
   </div>
 
   <!-- 3. DIAGNÓSTICO -->
@@ -253,7 +303,7 @@
         </div>
       </div>
     </div>
-    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
+    <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
   </div>
 
   <!-- 4. ALCANCE -->
@@ -293,7 +343,7 @@
         </div>
       </div>
     </div>
-    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
+    <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
   </div>
 
   <!-- 5. ESTRATEGIA -->
@@ -318,7 +368,7 @@
         <div class="flow-result-sub">Sin fricción. Sin perder leads. Sin depender de una llamada fría.</div>
       </div>
     </div>
-    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
+    <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
   </div>
 
   <!-- 6. INVERSIÓN -->
@@ -385,7 +435,7 @@
         </div>
       </div>
     </div>
-    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
+    <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
   </div>
 
   <!-- 7. CLIENTES -->
@@ -395,20 +445,17 @@
       <a href="https://casasoda.com" target="_blank" style="font-size:clamp(2rem,4.5vw,5.5rem);font-weight:400;letter-spacing:-0.03em;color:rgba(240,237,228,0.35);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='rgba(240,237,228,0.35)'">casasoda.com ↗</a>
       <img src="logo-clientes-transparente.png" alt="Clientes" style="width:82%;max-width:920px;">
     </div>
-    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
+    <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
   </div>
 
   <!-- 8. GRACIAS -->
   <div class="slide slide-dark" id="s8">
     <div class="slide-body" style="justify-content:center;align-items:center;gap:4vh;text-align:center;">
-      <svg width="5vw" viewBox="0 0 48 48" fill="none">
-        <path d="M24 4L25.8 18.2L36 8L27.2 19.6L42 17.2L28.6 22.6L40 30L26 25.4L28 40L22 27.2L14 40L18 25.4L4 30L15.4 22.6L2 17.2L16.8 19.6L8 8L18.2 18.2L24 4Z" fill="rgba(240,237,228,0.8)"/>
-        <circle cx="24" cy="24" r="3.5" fill="#080808"/>
-      </svg>
+      <img src="icon-white.png" alt="Casa Soda" style="width:5vw;min-width:48px;opacity:0.85;">
       <div class="thanks-word">Gracias</div>
       <div class="thanks-contact">hola@casasoda.com<br>Mitla 145, CDMX</div>
     </div>
-    <div class="slide-footer"><hr><span>✦ hola@casasoda.com</span></div>
+    <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
   </div>
 
 </div>
@@ -442,6 +489,13 @@
     if (e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
     if (e.key==='ArrowLeft' ||e.key==='ArrowUp')   go(-1);
   });
+
+  let touchX = 0;
+  document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive:true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+  }, { passive:true });
 </script>
 </body>
 </html>
