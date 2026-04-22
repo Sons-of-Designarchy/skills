@@ -213,11 +213,19 @@
     .diag-col + .diag-col { margin-top:5vw; }
     .diag-item { font-size:0.95rem; padding:1.2vh 0; }
 
-    /* Alcance */
-    .scope-grid { grid-template-columns:1fr; gap:4vw; }
-    .scope-label { font-size:1.3rem; margin-bottom:0.8vh; }
-    .scope-box { padding:4vw; }
-    .scope-item { font-size:0.9rem; }
+    /* Alcance — label moves inside box on mobile */
+    #s4 .slide-body { gap:1.5vh; }
+    .scope-grid { grid-template-columns:1fr; gap:3vw; }
+    .scope-col { flex-direction:row; align-items:stretch; gap:3vw; }
+    .scope-label {
+      font-size:1rem; writing-mode:vertical-rl; text-orientation:mixed;
+      transform:rotate(180deg); margin-bottom:0; margin-right:0;
+      color:var(--lime); opacity:0.7; flex-shrink:0;
+      display:flex; align-items:center; letter-spacing:0.05em;
+    }
+    .scope-box { padding:3.5vw; flex:1; }
+    .scope-item { font-size:0.88rem; line-height:1.45; }
+    .scope-item.outcome { font-size:0.85rem; }
 
     /* Estrategia */
     .flow-wrap { gap:1.8vh; }
