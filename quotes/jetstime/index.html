@@ -193,54 +193,68 @@
 
   /* ── MOBILE ── */
   @media (max-width: 768px) {
-    .slide-body { padding:5vw 6vw 0; overflow-y:auto; }
-    .slide-footer { padding:2vw 6vw 10vw; }
+    /* All slides: scrollable body, bottom padding clears the nav */
+    .slide-body { padding:6vw 6vw 88px; overflow-y:auto; }
+    .slide-footer { padding:0 6vw 20px; }
 
     /* Cover */
-    .cover-wordmark { font-size:clamp(4rem,18vw,7rem); margin-top:2vh; }
-    .cover-meta { font-size:1rem; }
-    .cover-footer-row { font-size:0.85rem; }
+    #s1 .slide-body { padding-bottom:6vw; }
+    .cover-wordmark { font-size:clamp(3.8rem,17vw,6rem); margin-top:1vh; }
+    .cover-meta { font-size:0.95rem; }
+    .cover-footer-row { font-size:0.8rem; }
 
     /* Objetivo */
-    #s2 .slide-body { gap:5vw; justify-content:center; }
-    .big-statement { font-size:clamp(1.5rem,6vw,2.2rem); }
-    .sub-statement { font-size:1rem; }
+    #s2 .slide-body { justify-content:flex-start; gap:5vw; padding-top:8vw; }
+    .big-statement { font-size:clamp(1.5rem,6.5vw,2rem); text-align:left; }
+    .sub-statement { font-size:0.95rem; text-align:left; }
 
     /* Diagnóstico */
-    #s3 .slide-body { gap:4vw; overflow-y:auto; }
-    .diag-grid { grid-template-columns:1fr; gap:6vw; }
-    .diag-item { font-size:1rem; padding:1.4vh 0; }
+    .diag-grid { grid-template-columns:1fr; gap:0; }
+    .diag-col + .diag-col { margin-top:5vw; }
+    .diag-item { font-size:0.95rem; padding:1.2vh 0; }
 
     /* Alcance */
-    #s4 .slide-body { overflow-y:auto; }
     .scope-grid { grid-template-columns:1fr; gap:4vw; }
-    .scope-label { font-size:1.4rem; }
-    .scope-item { font-size:0.95rem; }
+    .scope-label { font-size:1.3rem; margin-bottom:0.8vh; }
+    .scope-box { padding:4vw; }
+    .scope-item { font-size:0.9rem; }
 
     /* Estrategia */
-    .flow-chip { font-size:0.85rem; padding:1.2vw 3vw; }
-    .flow-hub { font-size:clamp(2rem,10vw,4rem); padding:3vw 0; }
-    .flow-pill { font-size:0.85rem; padding:1.5vw 4vw; }
-    .flow-result { font-size:clamp(1.6rem,7vw,2.5rem); }
-    .flow-result-sub { font-size:0.88rem; }
+    .flow-wrap { gap:1.8vh; }
+    .flow-sources { gap:2vw; }
+    .flow-chip { font-size:0.82rem; padding:1.5vw 3.5vw; }
+    .flow-hub { font-size:clamp(2rem,11vw,3.2rem); padding:3vw 0; }
+    .flow-pill { font-size:0.82rem; padding:2vw 4vw; }
+    .flow-outputs { gap:2vw; }
+    .flow-result { font-size:clamp(1.6rem,8vw,2.5rem); }
+    .flow-result-sub { font-size:0.82rem; }
 
-    /* Inversión */
-    #s6 .slide-body { overflow-y:auto; }
+    /* Inversión — hide strikethrough col, stack boxes */
     .inv-grid { grid-template-columns:1fr; gap:4vw; }
-    .inv-col-title { font-size:1.3rem; margin-top:2vw; }
-    .pkg-name, .pkg-price, .entregable, .price-note { font-size:0.9rem; }
+    .inv-col-title { font-size:1.2rem; margin-bottom:0.8vh; margin-top:1vw; }
+    .inv-box { padding:4vw; }
+    .price-col-std { display:none !important; }
+    .price-row { grid-template-columns:1fr auto !important; }
+    .price-header { grid-template-columns:1fr auto !important; }
+    .pkg-name { font-size:0.9rem; }
+    .pkg-price { font-size:0.9rem; }
+    .entregable { font-size:0.88rem; }
+    .price-note { font-size:0.85rem; }
 
     /* Clientes */
-    #s7 .slide-body { gap:5vw; }
-    #s7 img { width:100% !important; }
+    #s7 .slide-body { gap:4vw; justify-content:flex-start; padding-top:8vw; }
+    #s7 a { font-size:clamp(1.4rem,7vw,2rem) !important; }
+    #s7 img { width:100% !important; max-width:100% !important; }
 
     /* Gracias */
-    .thanks-word { font-size:clamp(3rem,15vw,5rem); }
-    .thanks-contact { font-size:1rem; }
+    .thanks-word { font-size:clamp(3.5rem,16vw,5rem); }
+    .thanks-contact { font-size:0.95rem; }
+    #s8 img { width:10vw !important; min-width:40px !important; }
 
     /* Nav */
-    .nav { bottom:2.5vh; gap:0.8rem; }
-    .nav-btn { width:40px; height:40px; font-size:1rem; }
+    .nav { bottom:16px; gap:0.6rem; }
+    .nav-btn { width:40px; height:40px; font-size:0.9rem; }
+    .nav-counter { font-size:0.78rem; }
   }
 </style>
 </head>
@@ -379,30 +393,30 @@
         <div>
           <div class="inv-col-title">Inversión</div>
           <div class="inv-box">
-            <div style="display:grid;grid-template-columns:1fr auto auto;gap:0.5vh 1.5vw;align-items:baseline;margin-bottom:1.2vh;">
+            <div class="price-header" style="display:grid;grid-template-columns:1fr auto auto;gap:0.5vh 1.5vw;align-items:baseline;margin-bottom:1.2vh;">
               <div style="font-size:0.78rem;color:var(--muted);font-weight:500;letter-spacing:0.07em;text-transform:uppercase;"></div>
-              <div style="font-size:0.78rem;color:var(--muted);font-weight:500;letter-spacing:0.07em;text-transform:uppercase;text-align:right;">Estándar</div>
+              <div class="price-col-std" style="font-size:0.78rem;color:var(--muted);font-weight:500;letter-spacing:0.07em;text-transform:uppercase;text-align:right;">Estándar</div>
               <div style="font-size:0.78rem;color:var(--lime);font-weight:600;letter-spacing:0.07em;text-transform:uppercase;text-align:right;">Partner −15%</div>
             </div>
             <div style="display:flex;flex-direction:column;gap:0.6vh;margin-bottom:1.2vh;">
-              <div style="display:grid;grid-template-columns:1fr auto auto;gap:0.8vh 1.5vw;align-items:baseline;padding:1vh 0.8vw;background:rgba(240,237,228,0.06);border-radius:8px;margin:0 -0.8vw 0.3vh;">
+              <div class="price-row" style="display:grid;grid-template-columns:1fr auto auto;gap:0.8vh 1.5vw;align-items:baseline;padding:1vh 0.8vw;background:rgba(240,237,228,0.06);border-radius:8px;margin:0 -0.8vw 0.3vh;">
                 <span style="font-size:clamp(1rem,1.1vw,1.25rem);color:var(--white);font-weight:500;">Página + Branding + Blog ✦</span>
-                <span style="font-size:clamp(0.9rem,1vw,1.1rem);color:var(--muted);font-weight:300;text-decoration:line-through;text-align:right;">$150,000</span>
+                <span class="price-col-std" style="font-size:clamp(0.9rem,1vw,1.1rem);color:var(--muted);font-weight:300;text-decoration:line-through;text-align:right;">$150,000</span>
                 <span style="font-size:clamp(1rem,1.1vw,1.25rem);color:var(--lime);font-weight:500;text-align:right;">$127,500</span>
               </div>
-              <div style="display:grid;grid-template-columns:1fr auto auto;gap:0.8vh 1.5vw;align-items:baseline;padding:0.7vh 0;border-bottom:1px solid rgba(240,237,228,0.06);">
+              <div class="price-row" style="display:grid;grid-template-columns:1fr auto auto;gap:0.8vh 1.5vw;align-items:baseline;padding:0.7vh 0;border-bottom:1px solid rgba(240,237,228,0.06);">
                 <span class="pkg-name">Página + Branding</span>
-                <span style="font-size:clamp(0.9rem,1vw,1.1rem);color:var(--muted);font-weight:300;text-decoration:line-through;text-align:right;">$125,000</span>
+                <span class="price-col-std" style="font-size:clamp(0.9rem,1vw,1.1rem);color:var(--muted);font-weight:300;text-decoration:line-through;text-align:right;">$125,000</span>
                 <span class="pkg-price" style="text-align:right;">$106,000</span>
               </div>
-              <div style="display:grid;grid-template-columns:1fr auto auto;gap:0.8vh 1.5vw;align-items:baseline;padding:0.7vh 0;border-bottom:1px solid rgba(240,237,228,0.06);">
+              <div class="price-row" style="display:grid;grid-template-columns:1fr auto auto;gap:0.8vh 1.5vw;align-items:baseline;padding:0.7vh 0;border-bottom:1px solid rgba(240,237,228,0.06);">
                 <span class="pkg-name">Página + Blog</span>
-                <span style="font-size:clamp(0.9rem,1vw,1.1rem);color:var(--muted);font-weight:300;text-decoration:line-through;text-align:right;">$112,500</span>
+                <span class="price-col-std" style="font-size:clamp(0.9rem,1vw,1.1rem);color:var(--muted);font-weight:300;text-decoration:line-through;text-align:right;">$112,500</span>
                 <span class="pkg-price" style="text-align:right;">$96,000</span>
               </div>
-              <div style="display:grid;grid-template-columns:1fr auto auto;gap:0.8vh 1.5vw;align-items:baseline;padding:0.7vh 0;">
+              <div class="price-row" style="display:grid;grid-template-columns:1fr auto auto;gap:0.8vh 1.5vw;align-items:baseline;padding:0.7vh 0;">
                 <span class="pkg-name">Página</span>
-                <span style="font-size:clamp(0.9rem,1vw,1.1rem);color:var(--muted);font-weight:300;text-decoration:line-through;text-align:right;">$100,000</span>
+                <span class="price-col-std" style="font-size:clamp(0.9rem,1vw,1.1rem);color:var(--muted);font-weight:300;text-decoration:line-through;text-align:right;">$100,000</span>
                 <span class="pkg-price" style="text-align:right;">$85,000</span>
               </div>
             </div>
