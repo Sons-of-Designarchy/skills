@@ -27,51 +27,40 @@ Steps:
 
 ---
 
-## Length & Tone Reference — April 21 Format
+## Format & Length
 
-This is the target length and tone. Concise, scannable, no fluff:
+**Target: fits on one printed page. No headers with `---` dividers. No sub-sections. Short bullets only.**
 
 ```
 Yardzen design sync — meeting notes [Month DD, YYYY]
 Attendees: [list]
 
 [Topic]
-Reviewed: [one line]
-
-Feedback:
 - [bullet]
 - [bullet]
-
-Next steps:
-- [bullet]
-
----
 
 [Topic 2]
-[brief bullets]
-
----
+- [bullet]
 
 Status:
 [Project] — [status]
 [Project] — [status]
 
----
+Waiting on:
+- @[Person] — [what we need from them]
+- @[Person] — [blocker or dependency]
 
-Next up:
-- [bullet]
-
----
-
-Overview —
-[2–3 sentences max]
-
-Key decisions:
-- [bullet] ([owner])
-
-Action items:
-- [task] — [owner]
+Action items ([main owner]):
+- [task]
+- [task]
 ```
+
+Rules:
+- Max ~40 lines total
+- No deep nesting, no tables, no headers with dividers
+- "Waiting on" section is mandatory — call out every blocker by person
+- Action items: only list what isn't already covered in "Waiting on"
+- Cut anything that can be inferred or isn't actionable
 
 ---
 
