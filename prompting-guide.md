@@ -1107,6 +1107,61 @@ cd yardzen-app/mobile-apps/yardzen-capture
 - Formatting errors are the most common real cause of CI failures — run Prettier first
 - Re-run failed jobs via GitHub Actions UI before diagnosing code issues
 
+**Local dev with DB (design profile quiz requires this):**
+- Docker must be running before starting the API
+- TablePlus is used to inspect the local DB
+- Run API in a **separate terminal tab** from build-marketplace:
+  - Tab 1: `npx nx serve api` (port 3000)
+  - Tab 2: `npx nx serve build-marketplace` (port 4200)
+- DB connection: `postgresql://yardzen:yardzen@localhost:5432/yardzen`
+- If Postgres container not running: `docker-compose -f apps/api/docker-compose.test.yml up -d`
+
+**NX project graph errors — common fix:**
+- `Failed to process project graph` → run `nx reset` first
+- If it persists with `--verbose`, look for: duplicate project names, missing packages, or ESM/CJS conflicts in `next.config.js` files
+- Known issue: `apps/design-sandbox/trellis-v2` must have a unique `name` in `package.json` — not `"trellis"` (conflicts with `apps/trellis`)
+
+**Node version:**
+- Next.js requires Node `^18.18.0` or `>=20` — `nvm use 20` or `nvm use 24` before running dev servers
+
+**PR hygiene — clean branches:**
+- Each PR should contain **only the commits for that ticket** — no inherited commits from previous branches
+- If a branch has extra commits (from branching off a non-dev branch), create a clean branch:
+  ```bash
+  git checkout dev
+  git checkout -b my-clean-branch
+  git cherry-pick <commit-sha>
+  git push origin my-clean-branch
+  ```
+- Then close the dirty PR and open a new one from the clean branch
+- Dan reviews PRs visually on GitHub — dirty commit history is always flagged
+
+**Git merge conflicts:**
+- When merging and you want to keep the incoming branch version: `git checkout --theirs <file>`
+- When you want your version: `git checkout --ours <file>`
+- When in doubt about which side is "theirs" vs "ours", ask Dan
+
+**Contentful components — key files:**
+| Component | Path | Notes |
+|---|---|---|
+| `Heading` | `libs/next-components/src/contentful/Heading.tsx` | Used for consult call module, section headings. Has `full-width` and `medium-width` variants via CVA. |
+| `HeadingBanner` | `libs/next-components/src/contentful/HeadingBanner.tsx` | Like Heading but with rich text + background color |
+| `BeforeAndAfterSection` | `libs/next-components/src/contentful/BeforeAndAfterSection.tsx` | Renders tabbed before/after gallery |
+| `GridItemCollection` | `libs/next-components/src/contentful/GridItemCollection.tsx` | Grid of cards — many variants: `large-top-image`, `small-top-image`, `medium-top-image`, `headshot`, `small/medium-left-side-image` |
+| `MultiModuleContainer` | `libs/next-components/src/contentful/MultiModuleContainer.tsx` | Side-by-side module layout. Uses `Heading` via `headingClassName` prop overrides — watch for hardcoded `pt-*` classes here |
+| `CalendlyEmbed` | `libs/next-components/src/contentful/CalendlyEmbed.tsx` | Calendly iframe embed — this IS the "consult call" Contentful module |
+
+**GridItemCollection — important behavior:**
+- `numberOfMobileColumns` and `numberOfDesktopColumns` come from Contentful CMS fields
+- Grid uses `grid-cols-${mobileColumnsResolved} sm:grid-cols-2 md:grid-cols-${desktopColumnsResolved}` — `sm:grid-cols-2` only applies to `large-top-image`, `small-top-image`, `medium-top-image` variants
+- Logo cards (cards with `backgroundColor !== "none"`) get fixed `h-[108px]` image container + `object-contain` — full-width image cards don't
+- `headshot`, `small-left-side-image`, `medium-left-side-image` variants are unaffected by the tablet grid fix
+
+**Icons:**
+- Custom SVG icons live in `libs/ui/src/icons/src/`
+- To update an icon: replace the SVG file with the same filename — no code changes needed
+- Quiz start icon: `libs/ui/src/icons/src/quiz-start.svg`
+
 ---
 
 ### Fawnroad
