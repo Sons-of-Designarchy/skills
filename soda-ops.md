@@ -29,38 +29,37 @@ Steps:
 
 ## Format & Length
 
-**Target: fits on one printed page. No headers with `---` dividers. No sub-sections. Short bullets only.**
+**One section per epic. 3–5 bullets max per epic. Action items directly below each epic. That's it.**
 
 ```
 Yardzen design sync — meeting notes [Month DD, YYYY]
 Attendees: [list]
 
-[Topic]
+---
+
+[Epic Name]
 - [bullet]
 - [bullet]
-
-[Topic 2]
 - [bullet]
 
-Status:
-[Project] — [status]
-[Project] — [status]
+Action items:
+- [task] — [owner]
 
-Waiting on:
-- @[Person] — [what we need from them]
-- @[Person] — [blocker or dependency]
+---
 
-Action items ([main owner]):
-- [task]
-- [task]
+[Epic Name]
+- [bullet]
+
+Action items:
+- [task] — [owner]
 ```
 
 Rules:
-- Max ~40 lines total
-- No deep nesting, no tables, no headers with dividers
-- "Waiting on" section is mandatory — call out every blocker by person
-- Action items: only list what isn't already covered in "Waiting on"
-- Cut anything that can be inferred or isn't actionable
+- One section per epic discussed — no freeform topics
+- Max 3–5 bullets per epic, no sub-sections
+- Action items live under the epic they belong to, not at the end
+- If an epic had no decisions or next steps, omit it
+- No status board, no overview paragraph, no tables
 
 ---
 
