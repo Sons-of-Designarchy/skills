@@ -137,40 +137,47 @@
   .flow-result { font-size:clamp(2.2rem,4.5vw,5.5rem); font-weight:400; letter-spacing:-0.03em; color:var(--lime); }
   .flow-result-sub { font-size:clamp(1rem,1.1vw,1.3rem); font-weight:300; color:var(--muted); text-align:center; line-height:1.7; }
 
-  /* ── 6. INVERSIÓN ── */
-  #s6 .slide-body { gap:3.5vh; }
-  .inv-grid { display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:2vw; flex:1; align-items:start; }
-  .inv-col-title { font-size:clamp(1.6rem,2.4vw,3rem); font-weight:400; letter-spacing:-0.02em; color:var(--white); margin-bottom:1.5vh; }
-  .inv-box {
-    border:1px solid rgba(240,237,228,0.14); border-radius:14px; padding:3vh 2vw;
-    position:relative; overflow:hidden;
-  }
-  .inv-box::after {
-    content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
-    background:linear-gradient(90deg,transparent,rgba(170,220,106,0.5),rgba(200,184,248,0.5),rgba(255,107,86,0.5),transparent);
-    pointer-events:none;
-  }
-  .price-divider { border:none; border-top:1px solid rgba(240,237,228,0.09); margin:1.2vh 0; }
-  .price-row { display:grid; grid-template-columns:1fr auto; gap:0.8vh 1.5vw; align-items:baseline; padding:0.7vh 0; border-bottom:1px solid rgba(240,237,228,0.06); }
+  /* ── 6. TIMELINE ── (reuses scope-grid + scope-box from slide 4) */
+  #s6 .slide-body { gap:2vh; }
+  .timeline-note { text-align:center; font-size:clamp(0.9rem,1vw,1.1rem); color:var(--muted); font-style:italic; margin-top:1vh; }
+
+  /* ── 7. INVERSIÓN (2 planes) ── */
+  #s7 .slide-body { gap:2vh; }
+  .plans-grid { display:grid; grid-template-columns:1fr 1fr; gap:2vw; flex:1; align-items:stretch; }
+  .plan-col { display:flex; flex-direction:column; gap:1.2vh; }
+  .plan-tag { font-size:0.72rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:var(--lime); }
+  .plan-name { font-size:clamp(1.6rem,2.3vw,2.8rem); font-weight:500; letter-spacing:-0.02em; color:var(--white); line-height:1; }
+  .plan-cadence { font-size:clamp(0.95rem,1.05vw,1.2rem); color:var(--muted); font-weight:300; margin-top:0.3vh; }
+  .plan-box { border:1px solid rgba(240,237,228,0.14); border-radius:14px; padding:2.5vh 2vw; position:relative; overflow:hidden; flex:1; display:flex; flex-direction:column; }
+  .plan-box::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(170,220,106,0.5),rgba(200,184,248,0.5),rgba(255,107,86,0.5),transparent); pointer-events:none; }
+  .plan-box-primary { border-color:rgba(170,220,106,0.35); }
+  .plan-box-primary::after { background:linear-gradient(90deg,rgba(170,220,106,0.7),rgba(200,184,248,0.7),rgba(255,107,86,0.7),rgba(170,220,106,0.7)); height:3px; }
+  .price-divider { border:none; border-top:1px solid rgba(240,237,228,0.09); margin:1vh 0; }
+  .price-row { display:grid; grid-template-columns:1fr auto; gap:0.6vh 1vw; align-items:baseline; padding:0.5vh 0; border-bottom:1px solid rgba(240,237,228,0.06); }
   .price-row:last-child { border-bottom:none; }
   .price-row-highlight { background:rgba(170,220,106,0.07); border-radius:8px; padding:1vh 0.8vw; margin:0 -0.8vw 0.3vh; border-bottom:none !important; }
-  .pkg-name { font-size:clamp(1rem,1.1vw,1.25rem); color:var(--muted); font-weight:300; }
-  .pkg-price { font-size:clamp(1rem,1.1vw,1.25rem); color:var(--white); font-weight:500; white-space:nowrap; text-align:right; }
+  .pkg-name { font-size:clamp(0.95rem,1.05vw,1.2rem); color:var(--muted); font-weight:300; }
+  .pkg-name-strong { font-size:clamp(0.95rem,1.05vw,1.2rem); color:var(--white); font-weight:500; }
+  .pkg-price { font-size:clamp(0.95rem,1.05vw,1.2rem); color:var(--white); font-weight:500; white-space:nowrap; text-align:right; }
   .pkg-price.highlight { color:var(--lime); }
-  .price-note { font-size:clamp(0.85rem,0.95vw,1.05rem); color:var(--muted); font-weight:300; line-height:1.6; }
-  .entregable { font-size:clamp(1rem,1.1vw,1.2rem); color:var(--white); font-weight:300; line-height:1.6; padding-left:1.2em; position:relative; margin-bottom:0.6vh; }
-  .entregable::before { content:"·"; position:absolute; left:0; opacity:0.4; }
+  .plan-total { font-size:clamp(0.9rem,1vw,1.1rem); color:var(--muted); font-weight:300; padding:0.3vh 0; }
+  .plan-total strong { color:var(--lime); font-weight:500; }
+  .plan-includes-title { font-size:0.72rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:rgba(240,237,228,0.4); margin:0.6vh 0; }
+  .plan-includes { font-size:clamp(0.92rem,1vw,1.15rem); color:var(--white); font-weight:300; line-height:1.7; }
+  .plan-includes .item { padding-left:1.1em; position:relative; margin-bottom:0.3em; }
+  .plan-includes .item::before { content:"✓"; position:absolute; left:0; color:var(--lime); }
+  .plan-footnote { text-align:center; font-size:clamp(0.82rem,0.92vw,1rem); color:var(--muted); font-weight:300; margin-top:0.5vh; }
 
-  /* ── 7. CLIENTES ── */
-  #s7 .slide-body { justify-content:center; align-items:center; gap:5vh; }
+  /* ── 8. CLIENTES ── */
+  #s8 .slide-body { justify-content:center; align-items:center; gap:5vh; }
   .wall-tagline {
     max-width:780px; text-align:center;
     font-size:clamp(1.1rem,1.5vw,1.8rem); font-weight:300; line-height:1.65; color:var(--muted); font-style:italic;
   }
   .wall-tagline strong { font-weight:400; color:var(--white); font-style:normal; }
 
-  /* ── 8. GRACIAS ── */
-  #s8 .slide-body { justify-content:center; align-items:center; gap:4vh; text-align:center; }
+  /* ── 9. GRACIAS ── */
+  #s9 .slide-body { justify-content:center; align-items:center; gap:4vh; text-align:center; }
   .thanks-word { font-size:clamp(4rem,12vw,14rem); font-weight:600; letter-spacing:-0.03em; line-height:0.9; color:var(--white); }
   .thanks-contact { font-size:clamp(1.1rem,1.3vw,1.5rem); color:var(--muted); font-weight:300; line-height:1.8; }
 
@@ -228,21 +235,25 @@
     .flow-result { font-size:clamp(1.6rem,8vw,2.5rem); }
     .flow-result-sub { font-size:0.82rem; }
 
-    .inv-grid { grid-template-columns:1fr; gap:4vw; }
-    .inv-col-title { font-size:1.2rem; margin-bottom:0.8vh; margin-top:1vw; }
-    .inv-box { padding:4vw; }
+    .plans-grid { grid-template-columns:1fr; gap:4vw; }
+    .plan-name { font-size:1.4rem; }
+    .plan-cadence { font-size:0.88rem; }
+    .plan-box { padding:4vw; }
     .pkg-name { font-size:0.9rem; }
+    .pkg-name-strong { font-size:0.9rem; }
     .pkg-price { font-size:0.9rem; }
-    .entregable { font-size:0.88rem; }
-    .price-note { font-size:0.85rem; }
+    .plan-total { font-size:0.85rem; }
+    .plan-includes { font-size:0.88rem; }
+    .plan-footnote { font-size:0.78rem; }
+    .timeline-note { font-size:0.85rem; }
 
-    #s7 .slide-body { gap:4vw; justify-content:flex-start; padding-top:8vw; }
-    #s7 a { font-size:clamp(1.4rem,7vw,2rem) !important; }
-    #s7 img { width:100% !important; max-width:100% !important; }
+    #s8 .slide-body { gap:4vw; justify-content:flex-start; padding-top:8vw; }
+    #s8 a { font-size:clamp(1.4rem,7vw,2rem) !important; }
+    #s8 img { width:100% !important; max-width:100% !important; }
 
     .thanks-word { font-size:clamp(3.5rem,16vw,5rem); }
     .thanks-contact { font-size:0.95rem; }
-    #s8 img { width:10vw !important; min-width:40px !important; }
+    #s9 img { width:10vw !important; min-width:40px !important; }
 
     .nav { bottom:16px; gap:0.6rem; }
     .nav-btn { width:40px; height:40px; font-size:0.9rem; }
@@ -322,9 +333,9 @@
         <div class="scope-col">
           <div class="scope-label">Estrategia<br>&amp; Ecosistema</div>
           <div class="scope-box">
-            <div class="scope-item">Estrategia global que conecta agencia de producción, asesora de impacto y equipo interno</div>
+            <div class="scope-item">Estrategia global que conecta agencia, asesora y equipo interno</div>
+            <div class="scope-item">KPIs definidos + capacitación a Adriana y equipo en plataformas (GA4, Shopify, Metricool, Ads)</div>
             <div class="scope-item">Tono y voz validados por segmento: distribuidores, científico, agro-político</div>
-            <div class="scope-item">Estructura de métricas — Metricool y Ads traducidos en decisiones</div>
             <div class="scope-item">Calendario editorial con lógica de funnel (awareness → captación → conversión)</div>
             <div class="scope-item outcome">Un equipo de supercuadros que habla el mismo idioma</div>
           </div>
@@ -333,9 +344,10 @@
           <div class="scope-label">Programa<br>Distribuidores</div>
           <div class="scope-box">
             <div class="scope-item">Lanzamiento público del programa rebrandeado (Bronce → Diamante)</div>
-            <div class="scope-item">Fichas operativas por nivel + Media Kit para ferias y congresos</div>
-            <div class="scope-item">Templates de ventas para el equipo comercial de mayo</div>
-            <div class="scope-item">Funnel web: sección de distribuidores + formulario de calificación</div>
+            <div class="scope-item">Diseño de Fase 2 (Platino+ → Diamante) — pendiente del cliente</div>
+            <div class="scope-item">Sistema de landings templatizadas — escala el programa a nivel nacional</div>
+            <div class="scope-item">Ficha digital del distribuidor + fichas operativas con nuevo branding</div>
+            <div class="scope-item">Media Kit + templates de ventas para el equipo comercial</div>
             <div class="scope-item outcome">Red que crece con sistema — no solo con recomendaciones</div>
           </div>
         </div>
@@ -379,56 +391,126 @@
     <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
   </div>
 
-  <!-- 6. INVERSIÓN -->
+  <!-- 6. TIMELINE -->
   <div class="slide slide-dark" id="s6">
-    <div class="slide-body" style="gap:3.5vh;">
-      <div class="label">Inversión</div>
-      <div class="inv-grid">
-        <div>
-          <div class="inv-col-title">Plan SENIOR</div>
-          <div class="inv-box">
+    <div class="slide-body" style="gap:2vh;">
+      <div class="label">Timeline · Primeros 3 meses</div>
+      <div class="scope-grid">
+        <div class="scope-col">
+          <div class="scope-label">Mes 1<br>Diagnóstico</div>
+          <div class="scope-box">
+            <div class="scope-item">Kickoff + auditoría completa (sitio, materiales, métricas, distribuidores)</div>
+            <div class="scope-item">Entrevistas con agencia de producción y asesora de impacto</div>
+            <div class="scope-item">KPIs definidos + dashboard inicial</div>
+            <div class="scope-item">Diseño del sistema de landings templatizadas</div>
+            <div class="scope-item">Capacitación 1: GA4 + Shopify Analytics con Adriana</div>
+            <div class="scope-item outcome">Estrategia clara y Adriana operando métricas base</div>
+          </div>
+        </div>
+        <div class="scope-col">
+          <div class="scope-label">Mes 2<br>Construcción</div>
+          <div class="scope-box">
+            <div class="scope-item">Sistema de landings construido + primeras 3 (Bronce, Plata, Platino)</div>
+            <div class="scope-item">Iteración del Shopify para captación</div>
+            <div class="scope-item">Media Kit aplicado al nuevo branding + primer batch de fichas</div>
+            <div class="scope-item">Ficha digital del distribuidor — MVP</div>
+            <div class="scope-item">Capacitación 2: Metricool + Google Ads con equipo</div>
+            <div class="scope-item outcome">Activos listos para que el equipo de mayo los use</div>
+          </div>
+        </div>
+        <div class="scope-col">
+          <div class="scope-label">Mes 3<br>Lanzamiento</div>
+          <div class="scope-box">
+            <div class="scope-item">Landings 4–5 (Platino+, Diamante) + landing de feria</div>
+            <div class="scope-item">Lanzamiento público del programa rebrandeado</div>
+            <div class="scope-item">Calendario editorial corriendo en RRSS y canales</div>
+            <div class="scope-item">Dashboard de KPIs activo + handoff completo</div>
+            <div class="scope-item">Capacitación 3: lectura de KPIs y toma de decisiones</div>
+            <div class="scope-item outcome">Equipo de mayo arrancando con todo listo</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-note">
+        En la opción MID este timeline se estira a 6 meses con un sprint quincenal — mismo alcance, ritmo más sostenido.
+      </div>
+    </div>
+    <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
+  </div>
+
+  <!-- 7. INVERSIÓN -->
+  <div class="slide slide-dark" id="s7">
+    <div class="slide-body" style="gap:2vh;">
+      <div class="label">Inversión · Dos opciones, mismo destino</div>
+      <div class="plans-grid">
+
+        <!-- SENIOR -->
+        <div class="plan-col">
+          <div>
+            <div class="plan-tag">Acelerado</div>
+            <div class="plan-name">Plan SENIOR</div>
+            <div class="plan-cadence">3 meses · entrega continua</div>
+          </div>
+          <div class="plan-box plan-box-primary">
             <div class="price-row price-row-highlight">
-              <span style="font-size:clamp(1rem,1.1vw,1.25rem);color:var(--white);font-weight:500;">Partner — 15% descuento ✦</span>
-              <span style="font-size:clamp(1rem,1.1vw,1.25rem);color:var(--lime);font-weight:500);text-align:right;">$2,975 / mes</span>
+              <span class="pkg-name-strong">Partner — 15% ✦</span>
+              <span class="pkg-price highlight">$2,975 / mes</span>
             </div>
             <div class="price-row">
               <span class="pkg-name">Estándar</span>
               <span class="pkg-price">$3,500 / mes</span>
             </div>
             <hr class="price-divider">
-            <div class="price-note">USD · Pago mensual<br>Contrato mínimo 3 meses<br>Incluye kickoff + onboarding sin costo adicional</div>
-          </div>
-        </div>
-        <div>
-          <div class="inv-col-title">Infraestructura</div>
-          <div class="inv-box">
-            <div class="price-note" style="line-height:1.9;">
-              Sitio en <strong style="color:var(--white);font-weight:400;">Vercel</strong> — migración incluida en el plan.<br><br>
-              Código propiedad del cliente — sin vendor lock-in.<br><br>
-              <strong style="color:var(--white);font-weight:500;">$80 USD/mes</strong> — hosting + dominio<br>
-              <strong style="color:var(--lime);font-weight:500;">Incluido</strong> en los primeros 3 meses
+            <div class="plan-total">Total partner: <strong>$8,925</strong> &nbsp;·&nbsp; estándar: $10,500</div>
+            <div class="plan-includes-title">Incluye</div>
+            <div class="plan-includes">
+              <div class="item">Capacitaciones a Adriana + equipo — hasta 6 sesiones / mes</div>
+              <div class="item">Sistema de landings + 5 niveles + 1 de feria</div>
+              <div class="item">Iteración Shopify + ficha digital del distribuidor</div>
+              <div class="item">Coordinación con agencia y asesora</div>
+              <div class="item">Lanzamiento + handoff antes de que entre el equipo de mayo</div>
             </div>
           </div>
         </div>
-        <div>
-          <div class="inv-col-title">Entregables</div>
-          <div class="inv-box">
-            <div class="entregable">Brand system completo en Figma</div>
-            <div class="entregable">Fichas del programa Bronce → Diamante</div>
-            <div class="entregable">Media Kit + templates de ventas</div>
-            <div class="entregable">Sitio web nuevo con CMS</div>
-            <div class="entregable">Pipeline de captación activo</div>
-            <div class="entregable">Estrategia de contenido + medición</div>
-            <div class="entregable">Accesos y handoff completo</div>
+
+        <!-- MID -->
+        <div class="plan-col">
+          <div>
+            <div class="plan-tag">Sostenido</div>
+            <div class="plan-name">Plan MID</div>
+            <div class="plan-cadence">6 meses · sprint quincenal</div>
+          </div>
+          <div class="plan-box">
+            <div class="price-row price-row-highlight">
+              <span class="pkg-name-strong">Partner — 15% ✦</span>
+              <span class="pkg-price highlight">$1,700 / mes</span>
+            </div>
+            <div class="price-row">
+              <span class="pkg-name">Estándar</span>
+              <span class="pkg-price">$2,000 / mes</span>
+            </div>
+            <hr class="price-divider">
+            <div class="plan-total">Total partner: <strong>$10,200</strong> &nbsp;·&nbsp; estándar: $12,000</div>
+            <div class="plan-includes-title">Incluye</div>
+            <div class="plan-includes">
+              <div class="item">2 capacitaciones al arranque (adicionales: $120 c/u)</div>
+              <div class="item">Sistema de landings + 3 niveles principales (extras: $400 c/u)</div>
+              <div class="item">Iteración Shopify + ficha digital del distribuidor</div>
+              <div class="item">Coordinación con agencia y asesora</div>
+              <div class="item">Lanzamiento + handoff al cierre del mes 6</div>
+            </div>
           </div>
         </div>
+
+      </div>
+      <div class="plan-footnote">
+        USD · pago mensual · contrato mínimo 3 meses · plan Shopify pagado por Tierra de Monte · landings con hosting standalone incluido
       </div>
     </div>
     <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
   </div>
 
-  <!-- 7. CLIENTES -->
-  <div class="slide slide-dark" id="s7">
+  <!-- 8. CLIENTES -->
+  <div class="slide slide-dark" id="s8">
     <div class="slide-body" style="justify-content:center;align-items:center;gap:4vh;">
       <div class="label" style="text-align:center;">Trabajo relevante</div>
       <a href="https://casasoda.com" target="_blank" style="font-size:clamp(2rem,4.5vw,5.5rem);font-weight:400;letter-spacing:-0.03em;color:rgba(240,237,228,0.35);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='rgba(240,237,228,0.35)'">casasoda.com ↗</a>
@@ -437,8 +519,8 @@
     <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
   </div>
 
-  <!-- 8. GRACIAS -->
-  <div class="slide slide-dark" id="s8">
+  <!-- 9. GRACIAS -->
+  <div class="slide slide-dark" id="s9">
     <div class="slide-body" style="justify-content:center;align-items:center;gap:4vh;text-align:center;">
       <img src="icon-white.png" alt="Casa Soda" style="width:5vw;min-width:48px;opacity:0.85;">
       <div class="thanks-word">Gracias</div>
@@ -451,7 +533,7 @@
 
 <nav class="nav">
   <button class="nav-btn" onclick="go(-1)">←</button>
-  <span class="nav-counter" id="counter">1 / 8</span>
+  <span class="nav-counter" id="counter">1 / 9</span>
   <button class="nav-btn" onclick="go(1)">→</button>
 </nav>
 
