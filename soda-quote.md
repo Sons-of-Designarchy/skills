@@ -24,6 +24,15 @@ We sell ongoing partnerships, not one-off projects. Every quote maps to a monthl
 | **Project** | Scoped one-time engagement (still maps to a plan tier for sizing) |
 | **Package** | Branding + Website bundled — better for client, better project for us |
 
+**Soda plays up to 4 roles in any engagement** — surface whichever ones apply when framing the proposal:
+
+1. **Executor** — designs, builds, ships (the obvious one)
+2. **Brand custodian / guardian** — applies a brand consistently across surfaces. Use this when *another team* (the client's internal marketing or an external agency) is doing the rebrand. Soda doesn't create marca, Soda *enforces* it.
+3. **Director of marketing fraccional** — defines KPIs, dashboards, area structure. Use this when the client doesn't have a marketing lead and needs the area built before they hire one.
+4. **Orchestrator / puente** — connects the client's other actors (agencies, advisors, internal sales, distributors/aliados) so the system actually works. Billable when there are 3+ external parties to coordinate.
+
+When pitching, name the roles explicitly. "We're not just executing — we're directing the area, custodiating the brand, and orchestrating between your agency, your asesora, and your internal team." That's a SENIOR-tier conversation.
+
 ---
 
 ### 2. The plans
@@ -285,6 +294,9 @@ These are line items that stack on top of any plan or project quote. Confirm pri
 | Extra page beyond plan scope | $200–400/page |
 | Rush fee (delivery < 2 weeks) | +30% of total |
 | WordPress → custom migration | $800–2,000 depending on complexity |
+| Capacitación a cliente (sesión adicional, 1.5–2h) | $120/sesión |
+| Sistema de landings templatizado (build inicial) | $1,500–2,500 |
+| Landing adicional sobre sistema templatizado | $400/pieza |
 
 ---
 
@@ -307,6 +319,25 @@ When a client wants a fixed-price one-time project (not a retainer), use this fo
 | Brand identity only | — | 3 weeks | see branding pricing | — |
 
 Rule of thumb: **MID project ≈ $3,000–5,000 fixed. SENIOR project ≈ $8,000–15,000 fixed.**
+
+---
+
+## Dual-tier pricing pattern (Acelerado / Sostenido)
+
+When a client could plausibly afford SENIOR but is anxious about monthly cash flow, offer **two tiers with the same scope but different cadence**. Tested with Tierra de Monte v2 — well received because it lets the client choose pace, not value.
+
+| Variable | Acelerado (SENIOR) | Sostenido (MID) |
+|---|---|---|
+| Cadence | Continuous delivery | Sprint quincenal |
+| Duration | 3 months | 6 months |
+| Monthly rate | Top of SENIOR ($3,500) | Top of MID ($1,800–2,000) |
+| Total over engagement | $10,500 | $10,800–12,000 |
+| Capacitaciones | Hasta 6/mes incluidas | 2 al arranque + $120/sesión adicional |
+| Landings | Sistema + N populadas incluidas | Sistema + reduced populated, $400 c/u extra |
+
+**Framing rule:** "Same destination, two routes." The client is not choosing less value — they're choosing slower pace and lower monthly bite. Rentabilidad mejora ligeramente en el MID prolongado, lo cual subsidia el riesgo de timeline más largo.
+
+**When NOT to use this pattern:** If the client has a hard external deadline (launch, fair, season), MID's 6 months won't fit. Then sell only SENIOR.
 
 ---
 
@@ -429,11 +460,19 @@ function go(dir) {
 ### Deploy command
 
 ```bash
-cd /Users/casasoda/projects/soda/skills
-netlify deploy --prod
+cd <your-skills-repo-root>
+npx netlify-cli deploy --prod --dir=.
 ```
 
 netlify.toml publishes `.` so the whole repo is served. Quotes live at `/quotes/{client-slug}/`.
+
+**Source of truth:** the live site at soda-quiz.netlify.app is served from manual `netlify deploy --prod` runs against the **`Sons-of-Designarchy/skills`** repo. Always `git commit + push` after deploying — otherwise the next person to run `netlify deploy --prod` from their own clone will revert the live deck to whatever they have locally.
+
+**⚠ Fragility warning:** Netlify also has the soda-quiz site linked to `Sons-of-Designarchy/website-quiz` (a Vite project). If Netlify ever auto-deploys from that repo, all quotes vanish because website-quiz publishes `build/`, not `.`. To investigate / lock down: check Netlify dashboard → soda-quiz → Build & deploy settings → confirm CD from website-quiz is disabled or that the production deploy stays pinned to manual CLI.
+
+**Auth:** `npx netlify-cli login` opens browser OAuth — must be run from the user's own terminal (Claude can't drive a browser). Alternative: generate a Personal Access Token at netlify.com/user/applications#personal-access-tokens and `export NETLIFY_AUTH_TOKEN=<token>`.
+
+**Cache:** after a fresh deploy, the production URL may serve stale content for ~30s while Netlify Edge revalidates. Force-refresh with `?v=$(date +%s)` to verify, or check the unique deploy URL printed by the CLI.
 
 ---
 
