@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programa de Partners — Casa Soda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #E6E3D8;
+    --black: #080808;
+    --white: #F0EDE4;
+    --lime: #AADC6A;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    width: 100%; background: var(--cream); color: var(--black);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 400; -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 7vw; }
+
+  /* LANG TOGGLE */
+  [data-lang] { display: none; }
+  body.lang-es [data-lang="es"] { display: block; }
+  body.lang-en [data-lang="en"] { display: block; }
+  /* inline spans */
+  span[data-lang] { display: none; }
+  body.lang-es span[data-lang="es"] { display: inline; }
+  body.lang-en span[data-lang="en"] { display: inline; }
+
+  .lang-toggle {
+    display: flex; align-items: center; border: 1px solid var(--black); border-radius: 0;
+    overflow: hidden; flex-shrink: 0;
+  }
+  .lang-btn {
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+    padding: 0.6vh 0.9vw; background: transparent; border: none;
+    cursor: pointer; color: var(--black); transition: background 0.15s, color 0.15s;
+  }
+  .lang-btn + .lang-btn { border-left: 1px solid var(--black); }
+  .lang-btn.active { background: var(--black); color: var(--cream); }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--cream); border-bottom: 1px solid var(--black);
+    padding: 1.4vh 7vw;
+    display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; color: var(--black); }
+  .nav-logo img { width: 26px; }
+  .nav-logo span { font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em; }
+  .nav-right { display: flex; align-items: center; gap: 1rem; }
+  .nav-cta {
+    font-size: 0.82rem; font-weight: 600; padding: 0.65vh 1.4vw;
+    border: 1px solid var(--black); border-radius: 0;
+    text-decoration: none; color: var(--black);
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-cta:hover { background: var(--black); color: var(--cream); }
+
+  /* HERO */
+  .hero {
+    padding: 9vh 0 8vh; border-bottom: 1px solid var(--black);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4vw; align-items: end;
+  }
+  .eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 2.5vh; }
+  .hero-headline {
+    font-size: clamp(2.8rem, 5.5vw, 7rem);
+    font-weight: 600; letter-spacing: -0.03em; line-height: 0.9;
+  }
+  .hero-right { display: flex; flex-direction: column; gap: 2.5vh; }
+  .hero-sub { font-size: clamp(1rem, 1.15vw, 1.2rem); font-weight: 400; line-height: 1.65; }
+  .hero-actions { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+  .btn-primary {
+    font-size: 0.92rem; font-weight: 600;
+    padding: 1vh 2vw; background: var(--black); color: var(--white);
+    border: 1px solid var(--black); border-radius: 0; text-decoration: none;
+    transition: opacity 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.78; }
+  .btn-ghost {
+    font-size: 0.92rem; font-weight: 400; color: var(--black);
+    text-decoration: none; border-bottom: 1px solid var(--black); padding-bottom: 1px;
+  }
+  .btn-ghost:hover { opacity: 0.55; }
+
+  /* TIERS */
+  .tiers { border-bottom: 1px solid var(--black); }
+  .tiers-header {
+    padding: 6vh 0 4vh;
+    display: flex; align-items: baseline; justify-content: space-between; gap: 2vw;
+  }
+  .section-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+  .tiers-intro { font-size: clamp(1.3rem, 2vw, 2.4rem); font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; max-width: 560px; }
+
+  .tiers-grid { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--black); border-bottom: 1px solid var(--black); }
+  .tier-card { padding: 4vh 2.8vw; display: flex; flex-direction: column; gap: 2vh; }
+  .tier-card + .tier-card { border-left: 1px solid var(--black); }
+  .tier-card.featured { background: var(--black); color: var(--white); }
+
+  .tier-badge {
+    display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; padding: 0.35vh 0.8vw;
+    border: 1px solid var(--black); align-self: flex-start;
+  }
+  .tier-card.featured .tier-badge { border-color: var(--white); }
+
+  .tier-commission {
+    font-size: clamp(4rem, 8vw, 9.5rem); font-weight: 600; letter-spacing: -0.04em; line-height: 0.85;
+  }
+  .tier-commission sup { font-size: 0.3em; font-weight: 400; vertical-align: super; }
+  .commission-label { font-size: clamp(0.8rem, 0.88vw, 0.92rem); font-weight: 300; margin-top: 0.4vh; }
+  .tier-card.featured .commission-label { color: var(--white); }
+
+  .tier-name { font-size: clamp(1.1rem, 1.4vw, 1.6rem); font-weight: 600; line-height: 1.2; }
+  .tier-desc { font-size: clamp(0.82rem, 0.9vw, 0.96rem); font-weight: 300; line-height: 1.6; margin-top: 0.6vh; }
+  .tier-card.featured .tier-desc { color: var(--white); }
+
+  .tier-list { display: flex; flex-direction: column; gap: 0.6vh; border-top: 1px solid var(--black); padding-top: 1.5vh; }
+  .tier-card.featured .tier-list { border-color: var(--white); }
+  .tier-list-item {
+    font-size: clamp(0.82rem, 0.88vw, 0.94rem); font-weight: 300; line-height: 1.45;
+    display: flex; gap: 0.6em;
+  }
+  .tier-list-item::before { content: "—"; flex-shrink: 0; }
+  .tier-card.featured .tier-list-item { color: var(--white); }
+
+  .tier-tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tier-tag {
+    font-size: 0.72rem; font-weight: 500; padding: 0.3vh 0.7vw;
+    border: 1px solid var(--black);
+  }
+  .tier-card.featured .tier-tag { border-color: var(--white); }
+
+  /* RULES */
+  .rules-row { display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid var(--black); }
+  .rule-cell { padding: 2.5vh 2.8vw; }
+  .rule-cell + .rule-cell { border-left: 1px solid var(--black); }
+  .rule-key { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.8vh; }
+  .rule-val { font-size: clamp(0.82rem,0.88vw,0.94rem); font-weight: 300; line-height: 1.55; }
+
+  /* CTA */
+  .cta-section {
+    background: var(--black); color: var(--white);
+    padding: 9vh 7vw;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4vw; align-items: center;
+  }
+  .cta-headline { font-size: clamp(2rem, 3.5vw, 5rem); font-weight: 600; letter-spacing: -0.03em; line-height: 0.92; }
+  .cta-right { display: flex; flex-direction: column; gap: 2vh; }
+  .cta-sub { font-size: clamp(0.95rem, 1vw, 1.1rem); font-weight: 300; line-height: 1.65; }
+  .cta-btn {
+    display: inline-block; font-size: 0.95rem; font-weight: 700;
+    padding: 1.2vh 2.4vw; background: var(--lime); color: var(--black);
+    border: 1px solid var(--lime); text-decoration: none;
+    transition: opacity 0.15s; align-self: flex-start;
+  }
+  .cta-btn:hover { opacity: 0.82; }
+  .cta-meta { font-size: 0.82rem; font-weight: 300; line-height: 1.9; }
+  .cta-meta a { color: var(--white); text-decoration: none; border-bottom: 1px solid var(--white); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black); padding: 2vh 7vw;
+    border-top: 1px solid var(--white);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  footer span { font-size: 0.72rem; color: var(--white); font-weight: 300; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .container { padding: 0 6vw; }
+    nav { padding: 1.2vh 6vw; }
+    .lang-btn { padding: 0.6vh 2.5vw; }
+    .hero { grid-template-columns: 1fr; padding: 7vh 0 6vh; gap: 4vh; }
+    .tiers-header { flex-direction: column; gap: 1.5vh; }
+    .tiers-grid { grid-template-columns: 1fr; }
+    .tier-card + .tier-card { border-left: none; border-top: 1px solid var(--black); }
+    .tier-card { padding: 5vw; }
+    .tier-commission { font-size: clamp(4rem, 18vw, 6rem); }
+    .rules-row { grid-template-columns: 1fr; }
+    .rule-cell + .rule-cell { border-left: none; border-top: 1px solid var(--black); }
+    .rule-cell { padding: 4vw 5vw; }
+    .cta-section { grid-template-columns: 1fr; padding: 8vh 6vw; gap: 3.5vh; }
+    .cta-btn { align-self: stretch; text-align: center; }
+    footer { padding: 2.2vh 6vw; flex-direction: column; gap: 0.3vh; }
+  }
+</style>
+</head>
+<body class="lang-es">
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="icon-black.png" alt="Casa Soda">
+    <span>CASA SODA</span>
+  </a>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="#contact" class="nav-cta">
+      <span data-lang="es">Escríbenos</span>
+      <span data-lang="en">Get in touch</span>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="container">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="eyebrow">
+        <span data-lang="es">Programa de Partners</span>
+        <span data-lang="en">Partner Program</span>
+      </div>
+      <h1 class="hero-headline">
+        <span data-lang="es">Crece con<br>Casa Soda.</span>
+        <span data-lang="en">Grow with<br>Casa Soda.</span>
+      </h1>
+    </div>
+    <div class="hero-right">
+      <p class="hero-sub">
+        <span data-lang="es">Red pequeña, incentivos alineados. Traes un cliente, ganas mientras dure.</span>
+        <span data-lang="en">Small network, aligned incentives. Bring a client, earn for as long as they stay.</span>
+      </p>
+      <div class="hero-actions">
+        <a href="#tiers" class="btn-primary">
+          <span data-lang="es">Ver los niveles</span>
+          <span data-lang="en">See the tiers</span>
+        </a>
+        <a href="#contact" class="btn-ghost">
+          <span data-lang="es">Escríbenos ↓</span>
+          <span data-lang="en">Get in touch ↓</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TIERS -->
+<div class="container tiers" id="tiers">
+  <div class="tiers-header">
+    <div class="section-label">
+      <span data-lang="es">Niveles de partnership</span>
+      <span data-lang="en">Partnership tiers</span>
+    </div>
+    <div class="tiers-intro">
+      <span data-lang="es">Elige el modelo que encaja con cómo operas.</span>
+      <span data-lang="en">Pick the model that matches how you work.</span>
+    </div>
+  </div>
+  <div class="tiers-grid">
+
+    <!-- Referral -->
+    <div class="tier-card">
+      <div class="tier-badge">Referral Partner</div>
+      <div>
+        <div class="tier-commission"><sup>%</sup>10</div>
+        <div class="commission-label">
+          <span data-lang="es">primeros 6 meses · después 5%</span>
+          <span data-lang="en">first 6 months · then 5%</span>
+        </div>
+      </div>
+      <div>
+        <div class="tier-name">
+          <span data-lang="es">Un intro. Eso es todo.</span>
+          <span data-lang="en">A warm intro. That's it.</span>
+        </div>
+        <div class="tier-desc">
+          <span data-lang="es">Conectas y te haces a un lado.</span>
+          <span data-lang="en">Make the connection and step back.</span>
+        </div>
+      </div>
+      <div class="tier-list">
+        <div class="tier-list-item">
+          <span data-lang="es">Intro por email, WhatsApp o LinkedIn</span>
+          <span data-lang="en">Intro via email, WhatsApp, or LinkedIn</span>
+        </div>
+        <div class="tier-list-item">
+          <span data-lang="es">10% los primeros 6 meses, 5% después</span>
+          <span data-lang="en">10% for the first 6 months, 5% after</span>
+        </div>
+        <div class="tier-list-item">
+          <span data-lang="es">Sin involucramiento continuo requerido</span>
+          <span data-lang="en">No ongoing involvement required</span>
+        </div>
+      </div>
+      <div class="tier-tag-row">
+        <span class="tier-tag"><span data-lang="es">Amigos</span><span data-lang="en">Friends</span></span>
+        <span class="tier-tag"><span data-lang="es">Creativos</span><span data-lang="en">Creatives</span></span>
+        <span class="tier-tag"><span data-lang="es">Dueños de agencia</span><span data-lang="en">Agency owners</span></span>
+        <span class="tier-tag"><span data-lang="es">Clientes actuales</span><span data-lang="en">Existing clients</span></span>
+      </div>
+    </div>
+
+    <!-- Strategic -->
+    <div class="tier-card featured">
+      <div class="tier-badge">Strategic Partner</div>
+      <div>
+        <div class="tier-commission"><sup>%</sup>15</div>
+        <div class="commission-label">
+          <span data-lang="es">primeros 6 meses · después 8%</span>
+          <span data-lang="en">first 6 months · then 8%</span>
+        </div>
+      </div>
+      <div>
+        <div class="tier-name">
+          <span data-lang="es">Pipeline activo. Alianza real.</span>
+          <span data-lang="en">Active pipeline. Real partnership.</span>
+        </div>
+        <div class="tier-desc">
+          <span data-lang="es">Prospectas, calificas y ayudas a cerrar.</span>
+          <span data-lang="en">You prospect, qualify, and help close.</span>
+        </div>
+      </div>
+      <div class="tier-list">
+        <div class="tier-list-item">
+          <span data-lang="es">Prospección, calificación y seguimiento</span>
+          <span data-lang="en">Prospecting, qualifying, and follow-ups</span>
+        </div>
+        <div class="tier-list-item">
+          <span data-lang="es">15% los primeros 6 meses, 8% después</span>
+          <span data-lang="en">15% for the first 6 months, 8% after</span>
+        </div>
+        <div class="tier-list-item">
+          <span data-lang="es">Llamadas de venta y soporte en cierre</span>
+          <span data-lang="en">Sales calls and deal support</span>
+        </div>
+      </div>
+      <div class="tier-tag-row">
+        <span class="tier-tag">BD partners</span>
+        <span class="tier-tag"><span data-lang="es">Operadores</span><span data-lang="en">Operators</span></span>
+        <span class="tier-tag"><span data-lang="es">Colaboradores estratégicos</span><span data-lang="en">Strategic collaborators</span></span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Rules -->
+  <div class="rules-row">
+    <div class="rule-cell">
+      <div class="rule-key"><span data-lang="es">Solo sobre cobrado</span><span data-lang="en">Collected only</span></div>
+      <div class="rule-val">
+        <span data-lang="es">Solo sobre ingresos cobrados. Sin facturas pendientes.</span>
+        <span data-lang="en">Collected revenue only. Unpaid invoices don't count.</span>
+      </div>
+    </div>
+    <div class="rule-cell">
+      <div class="rule-key"><span data-lang="es">Sin retroactivos</span><span data-lang="en">No retroactive claims</span></div>
+      <div class="rule-val">
+        <span data-lang="es">El referido debe quedar claro antes de arrancar.</span>
+        <span data-lang="en">Ownership must be clear before the project starts.</span>
+      </div>
+    </div>
+    <div class="rule-cell">
+      <div class="rule-key"><span data-lang="es">Mientras dure el cliente</span><span data-lang="en">For as long as they stay</span></div>
+      <div class="rule-val">
+        <span data-lang="es">Ganas mientras el cliente siga activo con Soda.</span>
+        <span data-lang="en">You earn as long as the client stays active.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section" id="contact">
+  <h2 class="cta-headline">
+    <span data-lang="es">Construyamos algo juntos.</span>
+    <span data-lang="en">Let's build something together.</span>
+  </h2>
+  <div class="cta-right">
+    <p class="cta-sub">
+      <span data-lang="es">¿Tienes un cliente en mente? Escríbenos.</span>
+      <span data-lang="en">Have a client in mind? Get in touch.</span>
+    </p>
+    <a href="mailto:hola@casasoda.com" class="cta-btn">hola@casasoda.com</a>
+    <div class="cta-meta">
+      <a href="https://casasoda.com" target="_blank">casasoda.com ↗</a><br>
+      Mitla 145, Narvarte · CDMX
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>✦ Casa Soda · <span data-lang="es">Programa de Partners</span><span data-lang="en">Partner Program</span></span>
+  <span>hola@casasoda.com</span>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+    });
+  }
+</script>
+</body>
+</html>
