@@ -102,6 +102,36 @@ When there are multiple similar components, merge them into one. No parallel com
 ### 4. Design system components everywhere
 No inventing new button styles, card layouts, or input components. Use what's in the design system. Every button is `<Button>`, every card is `<Card>`. If something doesn't exist in the design system, **add it there first**, then use it. New code using a custom button gets immediately rejected.
 
+### 4a. Typography for ALL text — no exceptions (yardzen-shop)
+Every visible text node in `apps/design-sandbox/yardzen-shop` must use `<Typography>` from `@yz-ds`. No raw `<h1>`–`<h6>`, `<p>`, or `<span>` with inline font styles.
+
+**Rules:**
+- Font → `font="display"` (Arsenal) or `font="body"` (Geist). Never `fontFamily` in a `style` prop on Typography.
+- Size → `variant` preset or `size` prop. Only use `fontSize` in `style` for clamp/fluid values with no preset equivalent.
+- Color → `color` prop only (`"primary"`, `"secondary"`, `"muted"`, `"inherit"`, etc.). **Never a hardcoded hex, rgba, or CSS var on a Typography element.** No `const C = "..."` color constants — ever.
+- For links with hover color changes: set `color` on the `<Link>` element, use `color="inherit"` on the `<Typography>` inside.
+- Weight → `weight` prop. Never `fontWeight` in a `style` prop on Typography.
+
+**Violations that get immediately rejected:**
+```tsx
+// ❌ raw element with inline styles
+<h2 style={{ fontFamily: "var(--yz-font-display)", fontSize: 40, color: "#212121" }}>
+
+// ❌ color constant anywhere in the file
+const C = "#212121";
+
+// ❌ fontFamily or color on a Typography style prop
+<Typography style={{ fontFamily: "var(--yz-font-display)", color: "#212121" }}>
+
+// ✅ correct
+<Typography font="display" weight="normal" as="h2" style={{ fontSize: "clamp(40px, 5vw, 64px)", lineHeight: 1.08 }}>
+<Typography color="secondary" variant="body-sm">
+// ✅ correct hover pattern
+<Link style={{ color: "var(--yz-color-text-secondary)" }} onMouseEnter={...}>
+  <Typography color="inherit" variant="body-sm">link text</Typography>
+</Link>
+```
+
 ### 5. No 2px borders
 All borders are 1px. Always. Every project. Global rule.
 
@@ -1441,3 +1471,60 @@ aws rds-data execute-statement --resource-arn "$RESOURCE_ARN" --secret-arn "$SEC
 # 2. Insert role
 aws rds-data execute-statement --resource-arn "$RESOURCE_ARN" --secret-arn "$SECRET_ARN" --database "$DB_NAME" --region us-east-1 --sql "INSERT INTO user_roles (id, \"userId\", role, \"createdAt\", \"updatedAt\") VALUES ('$(openssl rand -hex 11)', '<USER_ID>', 'SUPER_ADMIN', NOW(), NOW()) ON CONFLICT DO NOTHING"
 ```
+
+---
+
+### Yardzen — Design Sandbox Deployments
+
+Design sandbox apps live in `apps/design-sandbox/` inside the NX monorepo. They are standalone Vite SPAs — each has its own `package.json`, `vite.config.ts`, and `vercel.json`.
+
+**Why they must build locally:** every app imports from `libs/ui-v2/` via the `@yz-ds` alias in `vite.config.ts`. That path resolves to `../../../libs/ui-v2/src` — outside the app subdirectory — so Vercel's remote build fails with "Can't resolve libs/ui-v2/...". The fix: always build locally first, then push the `build/` output to Vercel.
+
+#### Deploy workflow — same for every app
+
+```bash
+cd apps/design-sandbox/<app-name>
+npm run build           # resolves libs/ui-v2 correctly from the monorepo
+vercel --yes --prod     # uploads build/ and serves it — done in ~15 seconds
+```
+
+That's it. No environment variables, no secrets, no special flags.
+
+#### All deployed apps
+
+| App | Vercel project name | Primary URL | Local path |
+|-----|---------------------|-------------|------------|
+| lean-onboarding-v2 | `lean-onboarding-v2` | https://lean-onboarding-v2.vercel.app | `apps/design-sandbox/lean-onboarding-v2/` |
+| yardzen-shop | `yardzen-shop` | https://yardzen-shop.vercel.app | `apps/design-sandbox/yardzen-shop/` |
+| pros-landing | `yz-for-pros-landing` | https://yz-for-pros-landing.vercel.app | `apps/design-sandbox/pros-landing/` |
+| toll-brothers-onboarding | `yz-toll-brothers` | https://yz-toll-brothers.vercel.app | `apps/design-sandbox/toll-brothers-onboarding/` |
+| trend-report | `yz-trend-report-26` | https://yz-trend-report-26.vercel.app | `apps/design-sandbox/trend-report/` |
+| trellis-v2 | (not yet linked) | — | `apps/design-sandbox/trellis-v2/` |
+
+All projects are under the `danielpliego-4456s-projects` Vercel scope.
+
+#### First-time setup on a new machine
+
+```bash
+npm install -g vercel
+vercel login            # authenticate — use your Yardzen or personal account
+                        # Dan will add you to the danielpliego-4456s-projects scope
+```
+
+Then deploy any app:
+```bash
+cd apps/design-sandbox/<app-name>
+npm run build
+vercel --yes --prod     # first run: Vercel prompts to link to the existing project
+                        # pick "link to existing project" and enter the project name from the table above
+```
+
+After the first link, subsequent deploys just need `npm run build && vercel --yes --prod`.
+
+#### Adding a new design sandbox app to Vercel
+
+1. Copy `vercel.json` from `lean-onboarding-v2` — use `buildCommand: ""`, `installCommand: ""`, `outputDirectory: "build"` to prevent remote builds
+2. Build locally: `npm run build`
+3. Deploy: `vercel --yes --prod` (Vercel auto-detects Vite, creates a new project)
+4. Optionally set a vanity alias: `vercel alias set <generated>.vercel.app <alias>.vercel.app`
+5. Add the project to the table above
