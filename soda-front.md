@@ -1490,16 +1490,22 @@ vercel --yes --prod     # uploads build/ and serves it — done in ~15 seconds
 
 That's it. No environment variables, no secrets, no special flags.
 
+#### ⛔ STOP — `lean-onboarding-v2` is ARCHIVED
+
+**`lean-onboarding-v2` has been moved to `apps/design-sandbox/archive/lean-onboarding-v2/`.** It is dead. Do NOT work in it, do NOT deploy from it, do NOT import from it, do NOT reference it as a working app. If you find yourself touching any file inside `archive/lean-onboarding-v2/`, you are in the wrong place. The replacement is **`new-yardzen`**. Stop immediately and switch to `apps/design-sandbox/new-yardzen/`.
+
 #### All deployed apps
 
 | App | Vercel project name | Primary URL | Local path |
 |-----|---------------------|-------------|------------|
-| lean-onboarding-v2 | `lean-onboarding-v2` | https://lean-onboarding-v2.vercel.app | `apps/design-sandbox/lean-onboarding-v2/` |
+| **new-yardzen** | `lean-onboarding-v2` | https://lean-onboarding-v2.vercel.app | `apps/design-sandbox/new-yardzen/` |
 | yardzen-shop | `yardzen-shop` | https://yardzen-shop.vercel.app | `apps/design-sandbox/yardzen-shop/` |
 | pros-landing | `yz-for-pros-landing` | https://yz-for-pros-landing.vercel.app | `apps/design-sandbox/pros-landing/` |
 | toll-brothers-onboarding | `yz-toll-brothers` | https://yz-toll-brothers.vercel.app | `apps/design-sandbox/toll-brothers-onboarding/` |
 | trend-report | `yz-trend-report-26` | https://yz-trend-report-26.vercel.app | `apps/design-sandbox/trend-report/` |
 | trellis-v2 | (not yet linked) | — | `apps/design-sandbox/trellis-v2/` |
+
+> **Deploy command for new-yardzen:** `cd apps/design-sandbox/new-yardzen && npm run build && vercel --yes --prod`
 
 All projects are under the `danielpliego-4456s-projects` Vercel scope.
 
@@ -1523,7 +1529,7 @@ After the first link, subsequent deploys just need `npm run build && vercel --ye
 
 #### Adding a new design sandbox app to Vercel
 
-1. Copy `vercel.json` from `lean-onboarding-v2` — use `buildCommand: ""`, `installCommand: ""`, `outputDirectory: "build"` to prevent remote builds
+1. Copy `vercel.json` from `new-yardzen` — use `buildCommand: ""`, `installCommand: ""`, `outputDirectory: "build"` to prevent remote builds
 2. Build locally: `npm run build`
 3. Deploy: `vercel --yes --prod` (Vercel auto-detects Vite, creates a new project)
 4. Optionally set a vanity alias: `vercel alias set <generated>.vercel.app <alias>.vercel.app`
