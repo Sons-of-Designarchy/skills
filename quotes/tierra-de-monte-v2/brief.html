@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tierra de Monte × Casa Soda — Project Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+
+  :root {
+    --cream: #E6E3D8;
+    --black: #080808;
+    --white: #F0EDE4;
+    --lime: #AADC6A;
+    --purple: #C8B8F8;
+    --coral: #FF6B56;
+    --muted: rgba(240,237,228,0.45);
+    --line: rgba(240,237,228,0.1);
+  }
+
+  html { scroll-behavior:smooth; }
+  body {
+    background:var(--black); color:var(--white);
+    font-family:'DM Sans',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page { max-width:1080px; margin:0 auto; padding:8vh 6vw 12vh; }
+
+  /* HEADER */
+  .brief-head { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:7vh; }
+  .wordmark { font-size:clamp(2.4rem,5vw,4.5rem); font-weight:600; letter-spacing:-0.03em; line-height:0.92; }
+  .head-meta { text-align:right; font-size:clamp(0.85rem,1vw,1rem); font-weight:300; color:var(--muted); line-height:1.7; }
+  .head-meta strong { color:var(--white); font-weight:500; }
+
+  .label {
+    font-size:0.78rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--lime); margin-bottom:2vh;
+  }
+
+  section { margin-bottom:8vh; }
+
+  .statement {
+    font-size:clamp(1.4rem,2.4vw,2.4rem); font-weight:400; letter-spacing:-0.02em; line-height:1.3;
+    max-width:820px;
+  }
+  .statement em {
+    font-style:normal;
+    background:linear-gradient(90deg,var(--lime),var(--purple));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .statement-sub { margin-top:2vh; max-width:680px; font-size:clamp(1rem,1.15vw,1.2rem); font-weight:300; line-height:1.7; color:var(--muted); }
+
+  /* TABLES */
+  table { width:100%; border-collapse:collapse; }
+  th {
+    text-align:left; font-size:0.72rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--muted); padding:1.2vh 1vw; border-bottom:1px solid var(--line);
+  }
+  td {
+    padding:2vh 1vw; border-bottom:1px solid rgba(240,237,228,0.06);
+    font-size:clamp(0.92rem,1.05vw,1.1rem); font-weight:300; line-height:1.6; vertical-align:top;
+  }
+  td.fase { font-weight:500; color:var(--white); white-space:nowrap; }
+  td.fase .num { color:var(--lime); margin-right:0.5em; }
+  td ul { list-style:none; }
+  td li { padding-left:1.1em; position:relative; margin-bottom:0.35em; }
+  td li::before { content:"·"; position:absolute; left:0; color:var(--lime); }
+  td .nota { color:var(--muted); font-size:0.92em; }
+
+  .tag { display:inline-block; font-size:0.7rem; font-weight:500; letter-spacing:0.08em; text-transform:uppercase;
+    padding:0.25em 0.7em; border-radius:99px; white-space:nowrap; }
+  .tag.in { background:rgba(170,220,106,0.12); color:var(--lime); }
+  .tag.def { background:rgba(200,184,248,0.12); color:var(--purple); }
+  .tag.add { background:rgba(255,107,86,0.12); color:var(--coral); }
+
+  /* QUESTIONS */
+  .q-item {
+    display:grid; grid-template-columns:auto 1fr; gap:1.2vw;
+    padding:2.2vh 0; border-bottom:1px solid rgba(240,237,228,0.06);
+  }
+  .q-num { color:var(--purple); font-weight:500; font-size:clamp(0.95rem,1.1vw,1.15rem); }
+  .q-text { font-size:clamp(0.95rem,1.1vw,1.15rem); font-weight:400; line-height:1.6; }
+  .q-text .ctx { display:block; margin-top:0.4em; font-weight:300; color:var(--muted); font-size:0.92em; }
+
+  /* NOTES */
+  .note-block {
+    border:1px solid var(--line); border-radius:14px; padding:3vh 2.5vw; position:relative; overflow:hidden;
+  }
+  .note-block::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,transparent,rgba(170,220,106,0.5),rgba(200,184,248,0.5),rgba(255,107,86,0.5),transparent);
+  }
+  .note-block .item { padding-left:1.2em; position:relative; margin-bottom:0.8em; font-weight:300; line-height:1.65;
+    font-size:clamp(0.95rem,1.05vw,1.1rem); }
+  .note-block .item::before { content:"✦"; position:absolute; left:0; color:var(--lime); font-size:0.8em; top:0.25em; }
+  .note-block .item:last-child { margin-bottom:0; }
+  .note-block .item strong { color:var(--lime); font-weight:500; }
+
+  /* SCRATCH SPACE */
+  .scratch { border:1px dashed rgba(240,237,228,0.18); border-radius:14px; min-height:18vh; padding:2.5vh 2vw;
+    color:rgba(240,237,228,0.25); font-weight:300; font-style:italic; }
+
+  footer { display:flex; justify-content:space-between; font-size:0.8rem; color:rgba(240,237,228,0.28); font-weight:300;
+    border-top:1px solid var(--line); padding-top:3vh; }
+
+  @media (max-width:700px) {
+    .page { padding:6vh 6vw 10vh; }
+    .brief-head { flex-direction:column; gap:2vh; }
+    .head-meta { text-align:left; }
+    th:nth-child(4), td:nth-child(4) { display:none; }
+    td.fase { white-space:normal; }
+  }
+  @media print {
+    body { background:#fff; color:#111; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="brief-head">
+    <div>
+      <div class="wordmark">TIERRA<br>DE MONTE</div>
+    </div>
+    <div class="head-meta">
+      <strong>Project Brief</strong><br>
+      Junio 2026 · Casa Soda<br>
+      hola@casasoda.com
+    </div>
+  </div>
+
+  <!-- OBJETIVO -->
+  <section>
+    <div class="label">Objetivo</div>
+    <div class="statement">Ya armaron el Programa de Aliados.<br><em>Nosotros lo hacemos salir.</em></div>
+    <div class="statement-sub">
+      Diseñar y construir el ecosistema digital-operativo de Tierra de Monte: estrategia, sistema de diseño,
+      web por niveles, templates operativos y un equipo capacitado para correrlo solo.
+    </div>
+  </section>
+
+  <!-- FASES -->
+  <section>
+    <div class="label">Fases del proyecto</div>
+    <table>
+      <thead>
+        <tr><th style="width:18%">Fase</th><th style="width:38%">Qué incluye</th><th style="width:26%">Entregable clave</th><th>Notas</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fase"><span class="num">00</span>Data primero</td>
+          <td><ul>
+            <li>Auditoría de dónde viven hoy los leads y clientes (plataforma actual, exports, hojas sueltas)</li>
+            <li>Migración a una fuente única y limpia desde la semana 1</li>
+            <li>Proceso de captura y seguimiento definido con Hina (CS) como dueña operativa</li>
+            <li>Segmentación base — nivel, región, tipo de aliado</li>
+          </ul></td>
+          <td>Base de leads y clientes única, limpia y operada por el equipo</td>
+          <td class="nota">Semana 1 — con la data ordenada, campañas, targeting y todo lo demás tiene dónde apuntar</td>
+        </tr>
+        <tr>
+          <td class="fase"><span class="num">01</span>Estrategia</td>
+          <td><ul>
+            <li>Tono, voz y KPIs por segmento — aliados, científicos, agro-políticos</li>
+            <li>Arquitectura y UX del ecosistema digital (web, RRSS, ads)</li>
+            <li>Calendario editorial con lógica de funnel</li>
+          </ul></td>
+          <td>Playbook de marca + arquitectura del ecosistema</td>
+          <td class="nota">Coordinación con agencia de producción y asesora de impacto desde el día 1</td>
+        </tr>
+        <tr>
+          <td class="fase"><span class="num">02</span>Sistema de diseño</td>
+          <td><ul>
+            <li>Branding aplicado al programa — tipografía, color, iconografía por nivel</li>
+            <li>Fichas operativas del aliado por nivel</li>
+            <li>Media Kit para equipo comercial</li>
+          </ul></td>
+          <td>Sistema en Figma</td>
+          <td class="nota">Base que alimenta web y templates — todo se ve igual de bien</td>
+        </tr>
+        <tr>
+          <td class="fase"><span class="num">03</span>Web</td>
+          <td><ul>
+            <li>Landing por nivel — Bronce, Plata, Oro, Platino (templatizado)</li>
+            <li>Landing de feria</li>
+            <li>Iteración Shopify para captación de aliados</li>
+            <li>CMS para recursos, noticias y biblioteca técnica</li>
+          </ul></td>
+          <td>tierrademonte.com vendiendo y explicando el programa solo</td>
+          <td class="nota">Optimización y métricas del sitio incluidas (GA4)</td>
+        </tr>
+        <tr>
+          <td class="fase"><span class="num">04</span>Templates operativos</td>
+          <td><ul>
+            <li>Kit de bienvenida por nivel (Bronce → Platino)</li>
+            <li>Templates de posts y stories por segmento</li>
+            <li>Cápsulas de contenido educativo</li>
+            <li>Materiales de presencia — ferias, activaciones, merch</li>
+          </ul></td>
+          <td>Kit en Canva que el equipo opera</td>
+          <td class="nota">Producción nueva en minutos, sin depender de agencia</td>
+        </tr>
+        <tr>
+          <td class="fase"><span class="num">05</span>Lanzamiento + handoff</td>
+          <td><ul>
+            <li>Capacitación en GA4, Shopify, Metricool y Ads</li>
+            <li>Lanzamiento público del Programa de Aliados</li>
+            <li>Handoff operativo completo</li>
+          </ul></td>
+          <td>Equipo interno corriendo el sistema solo</td>
+          <td class="nota">Cierre del contrato con todo documentado</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ALCANCE VS EMAIL -->
+  <section>
+    <div class="label">Alcance — lectura del email de Adriana</div>
+    <table>
+      <thead>
+        <tr><th style="width:55%">Punto mencionado</th><th>Estado</th><th>Comentario</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Arquitectura y UX del ecosistema digital</td><td><span class="tag in">Incluido</span></td><td class="nota">Fase 01</td></tr>
+        <tr><td>Optimización y métricas del sitio + Programa de Aliados</td><td><span class="tag in">Incluido</span></td><td class="nota">Fases 03 y 05</td></tr>
+        <tr><td>Landings por segmento y nivel</td><td><span class="tag in">Incluido</span></td><td class="nota">Fase 03</td></tr>
+        <tr><td>Integración Shopify</td><td><span class="tag in">Incluido</span></td><td class="nota">Iteración para captación de aliados</td></tr>
+        <tr><td>CRM / automatizaciones</td><td><span class="tag def">Por definir</span></td><td class="nota">Lo atacamos con la Fase 00 — primero data limpia, luego las herramientas encima</td></tr>
+        <tr><td>CMS editable — recursos, noticias, biblioteca técnica</td><td><span class="tag in">Incluido</span></td><td class="nota">Fase 03</td></tr>
+        <tr><td>Academia Tierra de Monte (hub de capacitación)</td><td><span class="tag add">Adicional</span></td><td class="nota">Fase 2 del ecosistema — se cotiza aparte al lanzar lo core</td></tr>
+        <tr><td>Sistema reusable de templates y componentes</td><td><span class="tag in">Incluido</span></td><td class="nota">Fases 02 y 04</td></tr>
+        <tr><td>Capacitación y handoff operativo</td><td><span class="tag in">Incluido</span></td><td class="nota">Fase 05</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- PREGUNTAS -->
+  <section>
+    <div class="label">Preguntas para la reunión</div>
+    <div class="q-item">
+      <div class="q-num">Q1</div>
+      <div class="q-text">¿Qué ritmo les funciona — MID ($34,000/mes · 5–7 meses) o SENIOR ($60,000/mes · 3–4 meses)?
+        <span class="ctx">Si hay feria o fecha de lanzamiento dura, SENIOR es el camino.</span></div>
+    </div>
+    <div class="q-item">
+      <div class="q-num">Q2</div>
+      <div class="q-text">¿Dónde viven hoy los leads y clientes, y quién los toca día a día?
+        <span class="ctx">Propuesta: semana 1 migramos todo a una fuente única con Hina como dueña — y sobre eso montamos CRM y automatizaciones.</span></div>
+    </div>
+    <div class="q-item">
+      <div class="q-num">Q3</div>
+      <div class="q-text">Academia Tierra de Monte — ¿la tratamos como fase 2 con cotización aparte?
+        <span class="ctx">Adriana ya lo sugirió como adicional en su email. Referencia: agriculturaregenerativa.com.mx</span></div>
+    </div>
+    <div class="q-item">
+      <div class="q-num">Q4</div>
+      <div class="q-text">¿Qué tan grande es la biblioteca técnica — documentos existentes, formatos, volumen?
+        <span class="ctx">Para confirmar que cabe dentro del CMS de la Fase 03.</span></div>
+    </div>
+    <div class="q-item">
+      <div class="q-num">Q5</div>
+      <div class="q-text">¿Fecha de arranque y quién es el punto de contacto operativo de su lado?
+        <span class="ctx">También: accesos a Shopify, GA4, Metricool, Ads y materiales del rebrand.</span></div>
+    </div>
+    <div class="q-item">
+      <div class="q-num">Q6</div>
+      <div class="q-text">¿Próximas ferias o activaciones con fecha confirmada?
+        <span class="ctx">La landing de feria y los materiales de presencia se priorizan según esto.</span></div>
+    </div>
+  </section>
+
+  <!-- NOTAS -->
+  <section>
+    <div class="label">Notas y condiciones</div>
+    <div class="note-block">
+      <div class="item">El programa ahora se llama <strong>Programa de Aliados</strong> (antes "distribuidores") — usar ese nombre en todo.</div>
+      <div class="item">MXN · pago mensual · <strong>contrato mínimo 3 meses</strong>.</div>
+      <div class="item">Plan de Shopify pagado por Tierra de Monte · landings con hosting standalone incluido.</div>
+      <div class="item">Mismo alcance en ambos planes — lo que cambia es el ritmo: junta quincenal (MID) vs. semanal + soporte prioritario (SENIOR).</div>
+      <div class="item">Las prioridades se ordenan dentro del retainer — la junta de "alcances y prioridades" que pide Adriana es el kickoff de la Fase 01.</div>
+      <div class="item"><strong>Data primero:</strong> con leads y clientes ordenados desde la semana 1, todo lo demás — campañas, targeting, landings, automatizaciones — tiene base sólida.</div>
+    </div>
+  </section>
+
+  <!-- SCRATCH -->
+  <section>
+    <div class="label">Notas de la reunión</div>
+    <div class="scratch">— espacio para apuntes en vivo —</div>
+  </section>
+
+  <footer>
+    <span>Tierra de Monte × Casa Soda</span>
+    <span>hola@casasoda.com · casasoda.com</span>
+  </footer>
+
+</div>
+</body>
+</html>
