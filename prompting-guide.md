@@ -803,6 +803,89 @@ When in doubt: if something *feels* off, it probably is. Flag it.
 
 ---
 
+## Screenshot QA — The One Pattern
+
+The canonical way to screenshot any app at desktop + mobile and hand the folders to Dan. Everyone — devs, QA, AI agents — uses this exact pattern. No custom drivers, no browser extensions, no manual resizing.
+
+**Output convention:** `~/Desktop/screens/<app>/desktop/` and `~/Desktop/screens/<app>/mobile/` — one folder per viewport, one PNG per route, then `open` both folders.
+
+### Step 1 — Start the dev server, poll the port
+
+```bash
+# from the app's directory — use the project's dev command
+npm run dev &          # or: nx serve build-marketplace, yarn start, etc.
+echo $! > /tmp/dev.pid
+timeout 60 bash -c 'until curl -sf http://localhost:PORT >/dev/null; do sleep 1; done'
+```
+
+Never `sleep 5` — poll the port. Stop later with `kill $(cat /tmp/dev.pid)`.
+
+| Project / app | Port | Dev command |
+|---|---|---|
+| Yardzen `build-marketplace` | 4200 | `npx nx serve build-marketplace` (monorepo root) |
+| Yardzen design-sandbox apps | 5173 | `npm run dev` (from the app folder) |
+| Finsera dashboard | 3000 | `yarn start` |
+| Finsera thematic-baskets | 3002 | `yarn start` |
+| Fawnroad | 8888 | `npm run dev:start` (from `apps/web`) |
+
+### Step 2 — Run the screenshot script
+
+Run from a directory whose `node_modules` has `playwright` (Yardzen: `apps/design-sandbox/new-yardzen` has it; Fawnroad: `apps/web`). If `require("playwright")` fails, run `npm i -D playwright` once in that app — Chromium is already cached globally at `~/Library/Caches/ms-playwright` (first time ever: `npx playwright install chromium`).
+
+```bash
+APP=build-marketplace BASE=http://localhost:4200 ROUTES="/ /packages" node - <<'EOF'
+const { chromium } = require("playwright");
+const { mkdirSync } = require("fs");
+const { homedir } = require("os");
+
+const app = process.env.APP, base = process.env.BASE;
+const routes = (process.env.ROUTES || "/").trim().split(/\s+/);
+const VIEWPORTS = {
+  desktop: { width: 1280, height: 800 },
+  mobile:  { width: 390,  height: 844 },
+};
+
+(async () => {
+  const browser = await chromium.launch();
+  for (const [name, viewport] of Object.entries(VIEWPORTS)) {
+    const dir = `${homedir()}/Desktop/screens/${app}/${name}`;
+    mkdirSync(dir, { recursive: true });
+    const page = await browser.newPage({ viewport });
+    for (const route of routes) {
+      await page.goto(base + route, { waitUntil: "load" });
+      await page.waitForTimeout(1500); // let fonts/data settle
+      const slug = route === "/" ? "home" : route.replace(/^\//, "").replace(/\//g, "-");
+      await page.screenshot({ path: `${dir}/${slug}.png`, fullPage: true });
+      console.log(`${name}/${slug}.png`);
+    }
+    await page.close();
+  }
+  await browser.close();
+})();
+EOF
+```
+
+- `APP` — folder name under `~/Desktop/screens/`
+- `BASE` — dev server URL
+- `ROUTES` — space-separated routes; defaults to `/`
+- Need tablet too? Add `tablet: { width: 768, height: 1024 }` to `VIEWPORTS` — nothing else changes.
+- Page needs auth or a click first? Add the `fill`/`click` lines before the screenshot — don't switch tools.
+- If a route renders blank, bump the `waitForTimeout` or use `page.waitForSelector()` on a real element — Vite/Next compile routes on demand, first paint can take 10s+.
+
+### Step 3 — Open the folders (macOS)
+
+```bash
+open ~/Desktop/screens/$APP/desktop ~/Desktop/screens/$APP/mobile
+```
+
+### Rules
+
+- Viewports are fixed: desktop **1280×800**, mobile **390×844**, tablet **768×1024** — same numbers as the Visual QA Checklist. Don't improvise sizes.
+- **Look at every screenshot before sharing.** A blank frame means the page didn't load — that's a failure, not a deliverable.
+- Multiple apps in one request → run the script once per app with its own `APP`/`BASE`. Separate folders per app, always.
+
+---
+
 ## Project-Specific Guides
 
 ---
