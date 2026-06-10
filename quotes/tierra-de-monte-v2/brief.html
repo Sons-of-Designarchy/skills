@@ -17,7 +17,7 @@
     --lime: #AADC6A;
     --purple: #C8B8F8;
     --coral: #FF6B56;
-    --muted: rgba(240,237,228,0.45);
+    --muted: #F0EDE4;
     --line: rgba(240,237,228,0.1);
   }
 
@@ -56,19 +56,22 @@
 
   /* TABLES */
   table { width:100%; border-collapse:collapse; }
+  table { border:1px solid rgba(240,237,228,0.16); table-layout:fixed; width:100%; }
   th {
     text-align:left; font-size:0.72rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase;
-    color:var(--muted); padding:12px; border-bottom:1px solid var(--line);
+    color:var(--muted); padding:12px; border:1px solid rgba(240,237,228,0.16);
   }
   td {
-    padding:16px 12px; border-bottom:1px solid rgba(240,237,228,0.06);
+    padding:16px 12px; border:1px solid rgba(240,237,228,0.16);
     font-size:clamp(0.92rem,1.05vw,1.1rem); font-weight:300; line-height:1.6; vertical-align:top;
   }
-  td.fase { font-weight:500; color:var(--white); white-space:nowrap; }
+  td.fase { font-weight:500; color:var(--white); }
   td.fase .num { color:var(--lime); margin-right:0.5em; }
   td ul { list-style:none; }
-  td li { padding-left:1.1em; position:relative; margin-bottom:0.35em; }
-  td li::before { content:"·"; position:absolute; left:0; color:var(--lime); }
+  td li { margin-bottom:0.5em; }
+  td li label { display:flex; gap:0.7em; align-items:flex-start; cursor:pointer; }
+  td li input[type="checkbox"] { accent-color:var(--lime); width:15px; height:15px; margin-top:0.3em; flex-shrink:0; cursor:pointer; }
+  td li:has(input:checked) { opacity:0.55; text-decoration:line-through; }
   td .nota { color:var(--muted); font-size:0.92em; }
 
   .tag { display:inline-block; font-size:0.7rem; font-weight:500; letter-spacing:0.08em; text-transform:uppercase;
@@ -102,9 +105,9 @@
 
   /* SCRATCH SPACE */
   .scratch { border:1px dashed rgba(240,237,228,0.18); border-radius:14px; min-height:160px; padding:24px;
-    color:rgba(240,237,228,0.25); font-weight:300; font-style:italic; }
+    color:var(--white); font-weight:300; font-style:italic; }
 
-  footer { display:flex; justify-content:space-between; font-size:0.8rem; color:rgba(240,237,228,0.28); font-weight:300;
+  footer { display:flex; justify-content:space-between; font-size:0.8rem; color:var(--white); font-weight:300;
     border-top:1px solid var(--line); padding-top:24px; }
 
   @media (min-width:701px) {
@@ -116,8 +119,9 @@
     .head-meta { text-align:left; }
     thead { display:none; }
     table, tbody, tr, td { display:block; width:100%; }
-    tr { border-bottom:1px solid var(--line); padding:16px 0; }
-    td { border-bottom:none; padding:4px 0; }
+    table { border:none; }
+    tr { display:block; border:1px solid rgba(240,237,228,0.16); border-radius:10px; padding:12px; margin-bottom:12px; }
+    td { border:none; padding:4px 0; }
     td.fase { white-space:normal; font-size:1.05rem; margin-bottom:4px; }
   }
   @media print {
@@ -136,6 +140,8 @@
     <div class="head-meta">
       <strong>Project Brief</strong><br>
       Junio 2026 · Casa Soda<br>
+      Daniel — Líder de proyecto<br>
+      Karla — Líder de cuenta<br>
       hola@casasoda.com
     </div>
   </div>
@@ -145,8 +151,9 @@
     <div class="label">Objetivo</div>
     <div class="statement">Ya armaron el Programa de Aliados.<br><em>Nosotros lo hacemos salir.</em></div>
     <div class="statement-sub">
-      Diseñar y construir el ecosistema digital-operativo de Tierra de Monte: estrategia, sistema de diseño,
-      web por niveles, templates operativos y un equipo capacitado para correrlo solo.
+      <strong style="color:var(--lime);font-weight:500;">Llenar la cantera de aliados y subirlos de nivel</strong> — de Bronce a Platino, hasta distribuidores en forma.<br>
+      <strong style="color:var(--white);font-weight:500;">En corto:</strong> primero la base de clientes, luego la landing MVP — y todo lo de su email, lanzado conforme está listo.<br>
+      <strong style="color:var(--lime);font-weight:500;">El marcador:</strong> aliados nuevos por mes y % que sube de nivel.
     </div>
   </section>
 
@@ -155,161 +162,120 @@
     <div class="label">Fases del proyecto</div>
     <table>
       <thead>
-        <tr><th style="width:18%">Fase</th><th style="width:38%">Qué incluye</th><th style="width:26%">Entregable clave</th><th>Notas</th></tr>
+        <tr><th style="width:26%">Fase</th><th style="width:46%">Qué incluye</th><th>Entregable</th></tr>
       </thead>
       <tbody>
         <tr>
           <td class="fase"><span class="num">00</span>Data primero</td>
-          <td><ul>
-            <li>Auditoría de dónde viven hoy los leads y clientes (plataforma actual, exports, hojas sueltas)</li>
-            <li>Migración a una fuente única y limpia desde la semana 1</li>
-            <li>Proceso de captura y seguimiento definido con Georgina (CS) como dueña operativa</li>
-            <li>Segmentación base — nivel, región, tipo de aliado</li>
-          </ul></td>
-          <td>Base de leads y clientes única, limpia y operada por el equipo</td>
-          <td class="nota">Semana 1 — con la data ordenada, campañas, targeting y todo lo demás tiene dónde apuntar</td>
+          <td><ul><li><label><input type="checkbox"><span>Una sola base — aliados y clientes juntos, con tags</span></label></li><li><label><input type="checkbox"><span>su Ficha de Registro como modelo</span></label></li></ul></td>
+          <td>Base única de todos los clientes, desde el arranque</td>
         </tr>
         <tr>
-          <td class="fase"><span class="num">01</span>Landing primero</td>
-          <td><ul>
-            <li>Estrategia mínima viable — mensaje, CTA y segmento prioritario del Programa de Aliados</li>
-            <li>Landing del programa conectada al funnel y a la base de la Fase 00</li>
-            <li>Medición desde el día 1 — GA4 + eventos del funnel</li>
-          </ul></td>
-          <td>Landing live capturando aliados</td>
-          <td class="nota">Launch en semana 2–3 máximo — la estrategia completa sigue en paralelo sin bloquear el lanzamiento</td>
+          <td class="fase"><span class="num">01</span>Landing MVP</td>
+          <td><ul><li><label><input type="checkbox"><span>Mensaje, CTA y segmento prioritario</span></label></li><li><label><input type="checkbox"><span>conectada al funnel, medición día 1</span></label></li></ul></td>
+          <td>Landing live captando aliados — lo primero que sale</td>
         </tr>
         <tr>
-          <td class="fase"><span class="num">02</span>Estrategia</td>
-          <td><ul>
-            <li>Tono, voz y KPIs por segmento — aliados, científicos, agro-políticos</li>
-            <li>Arquitectura y UX del ecosistema digital (web, RRSS, ads)</li>
-            <li>Calendario editorial con lógica de funnel</li>
-          </ul></td>
-          <td>Playbook de marca + arquitectura del ecosistema</td>
-          <td class="nota">Coordinación con agencia de producción y asesora de impacto desde el día 1</td>
+          <td class="fase"><span class="num">02</span>Arquitectura y UX del ecosistema</td>
+          <td><ul><li><label><input type="checkbox"><span>Web, RRSS y ads con lógica de funnel</span></label></li><li><label><input type="checkbox"><span>coordinación con agencia y asesora</span></label></li></ul></td>
+          <td>Cada canal empuja al programa</td>
         </tr>
         <tr>
-          <td class="fase"><span class="num">03</span>Sistema de diseño</td>
-          <td><ul>
-            <li>Branding aplicado al programa — tipografía, color, iconografía por nivel</li>
-            <li>Fichas operativas del aliado por nivel</li>
-            <li>Media Kit para equipo comercial</li>
-          </ul></td>
-          <td>Sistema en Figma</td>
-          <td class="nota">Base que alimenta web y templates — todo se ve igual de bien</td>
+          <td class="fase"><span class="num">03</span>Landings por segmento y nivel</td>
+          <td><ul><li><label><input type="checkbox"><span>Bronce → Platino templatizado</span></label></li><li><label><input type="checkbox"><span>T2 al definirse</span></label></li><li><label><input type="checkbox"><span>feria</span></label></li></ul></td>
+          <td>Una landing live por nivel</td>
         </tr>
         <tr>
-          <td class="fase"><span class="num">04</span>Web</td>
-          <td><ul>
-            <li>Landing por nivel — Bronce, Plata, Oro, Platino (templatizado)</li>
-            <li>Landing de feria</li>
-            <li>Iteración Shopify para captación de aliados</li>
-            <li>CMS para recursos, noticias y biblioteca técnica</li>
-          </ul></td>
-          <td>tierrademonte.com vendiendo y explicando el programa solo</td>
-          <td class="nota">Optimización y métricas del sitio incluidas (GA4)</td>
+          <td class="fase"><span class="num">04</span>Shopify / CRM / automatizaciones</td>
+          <td><ul><li><label><input type="checkbox"><span>Shopify para captación</span></label></li><li><label><input type="checkbox"><span>seguimiento sobre la base 00 — herramienta por definir</span></label></li></ul></td>
+          <td>Lead que entra, lead que se trabaja</td>
         </tr>
         <tr>
-          <td class="fase"><span class="num">05</span>Templates operativos</td>
-          <td><ul>
-            <li>Kit de bienvenida por nivel (Bronce → Platino)</li>
-            <li>Templates de posts y stories por segmento</li>
-            <li>Cápsulas de contenido educativo</li>
-            <li>Materiales de presencia — ferias, activaciones, merch</li>
-          </ul></td>
-          <td>Kit en Canva que el equipo opera</td>
-          <td class="nota">Producción nueva en minutos, sin depender de agencia</td>
+          <td class="fase"><span class="num">05</span>CMS editable</td>
+          <td><ul><li><label><input type="checkbox"><span>Recursos, noticias y biblioteca técnica</span></label></li></ul></td>
+          <td>El equipo publica sin depender de nadie</td>
         </tr>
         <tr>
-          <td class="fase"><span class="num">06</span>Capacitación + handoff</td>
-          <td><ul>
-            <li>Capacitación en GA4, Shopify, Metricool y Ads</li>
-            <li>Documentación de todo el sistema</li>
-            <li>Handoff operativo completo</li>
-          </ul></td>
-          <td>Equipo interno corriendo el sistema solo</td>
-          <td class="nota">No hay gran lanzamiento al final — todo ya está live; esto es el cierre</td>
+          <td class="fase"><span class="num">06</span>Templates y componentes</td>
+          <td><ul><li><label><input type="checkbox"><span>Branding aplicado</span></label></li><li><label><input type="checkbox"><span>kits por nivel, fichas, media kit</span></label></li></ul></td>
+          <td>Material de venta en minutos</td>
+        </tr>
+        <tr>
+          <td class="fase"><span class="num">07</span>Optimización y métricas</td>
+          <td><ul><li><label><input type="checkbox"><span>Sitio + programa — métricas traducidas en decisiones</span></label></li></ul></td>
+          <td>Saber qué funciona y duplicarle</td>
+        </tr>
+        <tr>
+          <td class="fase"><span class="num">08</span>Capacitación y handoff</td>
+          <td><ul><li><label><input type="checkbox"><span>Capacitación + documentación completa</span></label></li></ul></td>
+          <td>El equipo corre el sistema solo</td>
         </tr>
       </tbody>
     </table>
   </section>
 
-  <!-- ALCANCE VS EMAIL -->
+  <!-- CONTEXTO: NIVELES DEL PROGRAMA -->
   <section>
-    <div class="label">Alcance — lectura del email de Adriana</div>
+    <div class="label">Contexto — niveles del programa (fase 1: la cantera)</div>
     <table>
-      <thead>
-        <tr><th style="width:55%">Punto mencionado</th><th>Estado</th><th>Comentario</th></tr>
-      </thead>
+      <thead><tr><th style="width:32%">Nivel · compra mínima bimestral</th><th>Qué recibe</th></tr></thead>
       <tbody>
-        <tr><td>Arquitectura y UX del ecosistema digital</td><td><span class="tag in">Incluido</span></td><td class="nota">Fase 02</td></tr>
-        <tr><td>Optimización y métricas del sitio + Programa de Aliados</td><td><span class="tag in">Incluido</span></td><td class="nota">Fases 04 y 06</td></tr>
-        <tr><td>Landings por segmento y nivel</td><td><span class="tag in">Incluido</span></td><td class="nota">Primera en Fase 01 (semana 2–3) · resto en Fase 04</td></tr>
-        <tr><td>Integración Shopify</td><td><span class="tag in">Incluido</span></td><td class="nota">Iteración para captación de aliados</td></tr>
-        <tr><td>CRM / automatizaciones</td><td><span class="tag def">Por definir</span></td><td class="nota">Lo atacamos con la Fase 00 — primero data limpia, luego las herramientas encima</td></tr>
-        <tr><td>CMS editable — recursos, noticias, biblioteca técnica</td><td><span class="tag in">Incluido</span></td><td class="nota">Fase 04</td></tr>
-        <tr><td>Academia Tierra de Monte (hub de capacitación)</td><td><span class="tag add">Adicional</span></td><td class="nota">Siguiente etapa — se cotiza aparte al lanzar lo core</td></tr>
-        <tr><td>Sistema reusable de templates y componentes</td><td><span class="tag in">Incluido</span></td><td class="nota">Fases 03 y 05</td></tr>
-        <tr><td>Capacitación y handoff operativo</td><td><span class="tag in">Incluido</span></td><td class="nota">Fase 06</td></tr>
+        <tr><td class="fase">Bronce · $10,000 — Activación</td><td>Kit de bienvenida + onboarding · alta en RRSS · tarifa usuario · regalo al ingresar</td></tr>
+        <tr><td class="fase">Plata · $30,000 — Permanencia</td><td>2 cápsulas de formación · WA exclusivo · tarifa programa · desayuno familiar · merch de nivel</td></tr>
+        <tr><td class="fase">Oro · $60,000 — Consolidación</td><td>Cápsulas + webinar · grupo exclusivo · crédito $5,000/15d · boleto evento anual · perks de activación</td></tr>
+        <tr><td class="fase">Platino · $100,000 — Subir a T2</td><td>Webinars + sesión externa · visibilidad destacada · crédito $15,000/15d · boleto + viáticos · merch premium</td></tr>
+      </tbody>
+    </table>
+    <div class="statement-sub" style="margin-top:16px;">
+      Precios T1 en los cuatro niveles. T2 (Platino+ → Diamante) sigue en diseño de su lado.
+    </div>
+  </section>
+
+  <!-- COMPETIDORES Y REFERENCIAS -->
+  <section>
+    <div class="label">Competidores</div>
+    <table>
+      <tbody>
+        <tr><td class="fase" style="width:28%"><a href="https://www.bactiva.com/" target="_blank" style="color:var(--lime);text-decoration:none;">Bactiva ↗</a></td><td>Celaya · microorganismos, 20+ años</td></tr>
+        <tr><td class="fase"><a href="https://www.innovakglobal.com/mx" target="_blank" style="color:var(--lime);text-decoration:none;">Innovak Global ↗</a></td><td>Chihuahua · biorracionales, 62 años</td></tr>
+        <tr><td class="fase"><a href="https://biokrone.com/" target="_blank" style="color:var(--lime);text-decoration:none;">BioKrone ↗</a></td><td>Guanajuato · 36+ bioproductos</td></tr>
+        <tr><td class="fase"><a href="https://organicrops.com/" target="_blank" style="color:var(--lime);text-decoration:none;">Nomus Max ↗</a></td><td>Organi Crops, Culiacán · fuertes en social</td></tr>
+        <tr><td class="fase"><a href="https://vidra.bio/" target="_blank" style="color:var(--lime);text-decoration:none;">Vidra ↗</a></td><td>Guadalajara, 2023 · Empresas Dragón</td></tr>
+      </tbody>
+    </table>
+    <div class="label" style="margin-top:32px;">Referencias — comunicación que admiran</div>
+    <table>
+      <tbody>
+        <tr><td class="fase" style="width:28%"><a href="https://www.koppert.mx/" target="_blank" style="color:var(--lime);text-decoration:none;">Koppert ↗</a></td><td><strong style="color:var(--lime);font-weight:500;">La vara — tierrademonte.com tiene que estar al menos a este nivel.</strong></td></tr>
+        <tr><td class="fase"><a href="https://www.intagri.com/" target="_blank" style="color:var(--purple);text-decoration:none;">Intagri ↗</a></td><td>Capacitación agrícola — "lo que hacían hace 3 años"</td></tr>
+        <tr><td class="fase"><a href="https://advancingecoag.com/" target="_blank" style="color:var(--purple);text-decoration:none;">AEA ↗</a></td><td>Advancing Eco Agriculture — contenido regenerativo</td></tr>
       </tbody>
     </table>
   </section>
 
-  <!-- PREGUNTAS -->
+  <!-- ADICIONAL -->
   <section>
-    <div class="label">Preguntas para la reunión</div>
-    <div class="q-item">
-      <div class="q-num">Q1</div>
-      <div class="q-text">¿Qué ritmo les funciona — MID ($34,000/mes · 5–7 meses) o SENIOR ($60,000/mes · 3–4 meses)?
-        <span class="ctx">Si hay feria o fecha de lanzamiento dura, SENIOR es el camino.</span></div>
-    </div>
-    <div class="q-item">
-      <div class="q-num">Q2</div>
-      <div class="q-text">¿Dónde viven hoy los leads y clientes, y quién los toca día a día?
-        <span class="ctx">Propuesta: semana 1 migramos todo a una fuente única con Georgina como dueña — y sobre eso montamos CRM y automatizaciones.</span></div>
-    </div>
-    <div class="q-item">
-      <div class="q-num">Q3</div>
-      <div class="q-text">Academia Tierra de Monte — ¿la tratamos como fase 2 con cotización aparte?
-        <span class="ctx">Adriana ya lo sugirió como adicional en su email. Referencia: agriculturaregenerativa.com.mx</span></div>
-    </div>
-    <div class="q-item">
-      <div class="q-num">Q4</div>
-      <div class="q-text">¿Qué tan grande es la biblioteca técnica — documentos existentes, formatos, volumen?
-        <span class="ctx">Para confirmar que cabe dentro del CMS de la Fase 03.</span></div>
-    </div>
-    <div class="q-item">
-      <div class="q-num">Q5</div>
-      <div class="q-text">¿Fecha de arranque y quién es el punto de contacto operativo de su lado?
-        <span class="ctx">También: accesos a Shopify, GA4, Metricool, Ads y materiales del rebrand.</span></div>
-    </div>
-    <div class="q-item">
-      <div class="q-num">Q6</div>
-      <div class="q-text">¿Próximas ferias o activaciones con fecha confirmada?
-        <span class="ctx">La landing de feria y los materiales de presencia se priorizan según esto.</span></div>
-    </div>
+    <div class="label">Adicional — fuera de este alcance</div>
+    <table>
+      <tbody>
+        <tr><td class="fase" style="width:28%">Academia Tierra de Monte</td><td>Hub de capacitación (ref. agriculturaregenerativa.com.mx) · <span class="tag add">Adicional</span> — se cotiza aparte al lanzar lo core</td></tr>
+      </tbody>
+    </table>
   </section>
 
-  <!-- NOTAS -->
+  <!-- DOCUMENTOS -->
   <section>
-    <div class="label">Notas y condiciones</div>
-    <div class="note-block">
-      <div class="item">El programa ahora se llama <strong>Programa de Aliados</strong> (antes "distribuidores") — usar ese nombre en todo.</div>
-      <div class="item">MXN · pago mensual · <strong>contrato mínimo 3 meses</strong>.</div>
-      <div class="item">Plan de Shopify pagado por Tierra de Monte · landings con hosting standalone incluido.</div>
-      <div class="item">Mismo alcance en ambos planes — lo que cambia es el ritmo: junta quincenal (MID) vs. semanal + soporte prioritario (SENIOR).</div>
-      <div class="item">Las prioridades se ordenan dentro del retainer — la junta de "alcances y prioridades" que pide Adriana es el kickoff — Fase 00 y la landing arrancan desde la semana 1.</div>
-      <div class="item"><strong>Data primero:</strong> con leads y clientes ordenados desde la semana 1, todo lo demás — campañas, targeting, landings, automatizaciones — tiene base sólida.</div>
-      <div class="item"><strong>Landing primero:</strong> live en semana 2–3 máximo, conectada al funnel — la estrategia completa no bloquea el launch.</div>
-      <div class="item"><strong>Lanzamos conforme avanzamos:</strong> cada entregable sale en cuanto está listo — lean, sin big bang al final.</div>
+    <div class="label">Documentos del cliente — qué tienen y qué pedir</div>
+    <table>
+      <tbody>
+        <tr><td style="width:18%"><span class="tag in">Tienen</span></td><td>Brochure · fichas por nivel · Ficha de Registro de Distribuidor · media kit · formatos Canva · fotos de producto · imágenes de campo · videos de aplicación — <strong style="color:var(--lime);font-weight:500;">pedir carpetas</strong></td></tr>
+        <tr><td><span class="tag in">Recibido</span></td><td>Segmentación de niveles · tabla de beneficios fase 1 — ya en este brief</td></tr>
+        <tr><td><span class="tag def">Pendiente</span></td><td>2 videos documentales (por salir) · definición T2 — la mandan esta semana</td></tr>
+      </tbody>
+    </table>
+    <div class="statement-sub" style="margin-top:16px;">
+      Mandarles la estructura de carpetas: producto / campo / aplicación / documentales / brand.
     </div>
-  </section>
-
-  <!-- SCRATCH -->
-  <section>
-    <div class="label">Notas de la reunión</div>
-    <div class="scratch">— espacio para apuntes en vivo —</div>
   </section>
 
   <footer>
