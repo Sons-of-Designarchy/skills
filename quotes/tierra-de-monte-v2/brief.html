@@ -68,10 +68,8 @@
   td.fase { font-weight:500; color:var(--white); }
   td.fase .num { color:var(--lime); margin-right:0.5em; }
   td ul { list-style:none; }
-  td li { margin-bottom:0.5em; }
-  td li label { display:flex; gap:0.7em; align-items:flex-start; cursor:pointer; }
-  td li input[type="checkbox"] { accent-color:var(--lime); width:15px; height:15px; margin-top:0.3em; flex-shrink:0; cursor:pointer; }
-  td li:has(input:checked) { opacity:0.55; text-decoration:line-through; }
+  td li { padding-left:1.5em; position:relative; margin-bottom:0.5em; }
+  td li::before { content:"✓"; position:absolute; left:0; color:var(--lime); font-weight:500; }
   td .nota { color:var(--muted); font-size:0.92em; }
 
   .tag { display:inline-block; font-size:0.7rem; font-weight:500; letter-spacing:0.08em; text-transform:uppercase;
@@ -153,7 +151,7 @@
     <div class="statement-sub">
       <strong style="color:var(--lime);font-weight:500;">Llenar la cantera de aliados y subirlos de nivel</strong> — de Bronce a Platino, hasta distribuidores en forma.<br>
       <strong style="color:var(--white);font-weight:500;">En corto:</strong> primero la base de clientes, luego la landing MVP — y todo lo de su email, lanzado conforme está listo.<br>
-      <strong style="color:var(--lime);font-weight:500;">El marcador:</strong> aliados nuevos por mes y % que sube de nivel.
+      <strong style="color:var(--lime);font-weight:500;">El marcador:</strong> Aliados nuevos por mes y porcentaje que sube de nivel.
     </div>
   </section>
 
@@ -167,48 +165,53 @@
       <tbody>
         <tr>
           <td class="fase"><span class="num">00</span>Data primero</td>
-          <td><ul><li><label><input type="checkbox"><span>Una sola base — aliados y clientes juntos, con tags</span></label></li><li><label><input type="checkbox"><span>su Ficha de Registro como modelo</span></label></li></ul></td>
+          <td><ul><li>Una sola base de datos: aliados y clientes finales juntos, con tags</li><li>Su Ficha de Registro de Distribuidor como modelo</li></ul></td>
           <td>Base única de todos los clientes, desde el arranque</td>
         </tr>
         <tr>
           <td class="fase"><span class="num">01</span>Landing MVP</td>
-          <td><ul><li><label><input type="checkbox"><span>Mensaje, CTA y segmento prioritario</span></label></li><li><label><input type="checkbox"><span>conectada al funnel, medición día 1</span></label></li></ul></td>
+          <td><ul><li>Mensaje, CTA y segmento prioritario</li><li>Conectada al funnel, con medición desde el día uno</li></ul></td>
           <td>Landing live captando aliados — lo primero que sale</td>
         </tr>
         <tr>
           <td class="fase"><span class="num">02</span>Arquitectura y UX del ecosistema</td>
-          <td><ul><li><label><input type="checkbox"><span>Web, RRSS y ads con lógica de funnel</span></label></li><li><label><input type="checkbox"><span>coordinación con agencia y asesora</span></label></li></ul></td>
+          <td><ul><li>Web, redes y ads con lógica de funnel</li><li>Coordinación con agencia y asesora</li></ul></td>
           <td>Cada canal empuja al programa</td>
         </tr>
         <tr>
           <td class="fase"><span class="num">03</span>Landings por segmento y nivel</td>
-          <td><ul><li><label><input type="checkbox"><span>Bronce → Platino templatizado</span></label></li><li><label><input type="checkbox"><span>T2 al definirse</span></label></li><li><label><input type="checkbox"><span>feria</span></label></li></ul></td>
+          <td><ul><li>Landing por nivel — Bronce a Platino, templatizado</li><li>Grupo T2 en cuanto cierren su definición</li><li>Landing de feria</li></ul></td>
           <td>Una landing live por nivel</td>
         </tr>
         <tr>
           <td class="fase"><span class="num">04</span>Shopify / CRM / automatizaciones</td>
-          <td><ul><li><label><input type="checkbox"><span>Shopify para captación</span></label></li><li><label><input type="checkbox"><span>seguimiento sobre la base 00 — herramienta por definir</span></label></li></ul></td>
+          <td><ul><li>Iteración de Shopify para captación</li><li>Seguimiento de leads sobre la base de la Fase 00 — herramienta por definir</li></ul></td>
           <td>Lead que entra, lead que se trabaja</td>
         </tr>
         <tr>
           <td class="fase"><span class="num">05</span>CMS editable</td>
-          <td><ul><li><label><input type="checkbox"><span>Recursos, noticias y biblioteca técnica</span></label></li></ul></td>
+          <td><ul><li>Recursos, noticias y biblioteca técnica</li></ul></td>
           <td>El equipo publica sin depender de nadie</td>
         </tr>
         <tr>
           <td class="fase"><span class="num">06</span>Templates y componentes</td>
-          <td><ul><li><label><input type="checkbox"><span>Branding aplicado</span></label></li><li><label><input type="checkbox"><span>kits por nivel, fichas, media kit</span></label></li></ul></td>
-          <td>Material de venta en minutos</td>
+          <td><ul><li>Branding del programa aplicado</li><li>Kits por nivel, fichas y media kit comercial</li></ul></td>
+          <td>Material de venta nuevo en minutos</td>
         </tr>
         <tr>
           <td class="fase"><span class="num">07</span>Optimización y métricas</td>
-          <td><ul><li><label><input type="checkbox"><span>Sitio + programa — métricas traducidas en decisiones</span></label></li></ul></td>
+          <td><ul><li>Métricas del sitio y del programa, traducidas en decisiones</li></ul></td>
           <td>Saber qué funciona y duplicarle</td>
         </tr>
         <tr>
           <td class="fase"><span class="num">08</span>Capacitación y handoff</td>
-          <td><ul><li><label><input type="checkbox"><span>Capacitación + documentación completa</span></label></li></ul></td>
+          <td><ul><li>Capacitación al equipo y documentación completa</li></ul></td>
           <td>El equipo corre el sistema solo</td>
+        </tr>
+        <tr>
+          <td class="fase"><span class="num">09</span>Academia Tierra de Monte</td>
+          <td><ul><li>Hub de capacitación interna y externa (referencia: agriculturaregenerativa.com.mx)</li></ul></td>
+          <td><span class="tag add">Adicional</span> — se cotiza aparte al lanzar lo principal</td>
         </tr>
       </tbody>
     </table>
@@ -220,10 +223,10 @@
     <table>
       <thead><tr><th style="width:32%">Nivel · compra mínima bimestral</th><th>Qué recibe</th></tr></thead>
       <tbody>
-        <tr><td class="fase">Bronce · $10,000 — Activación</td><td>Kit de bienvenida + onboarding · alta en RRSS · tarifa usuario · regalo al ingresar</td></tr>
-        <tr><td class="fase">Plata · $30,000 — Permanencia</td><td>2 cápsulas de formación · WA exclusivo · tarifa programa · desayuno familiar · merch de nivel</td></tr>
-        <tr><td class="fase">Oro · $60,000 — Consolidación</td><td>Cápsulas + webinar · grupo exclusivo · crédito $5,000/15d · boleto evento anual · perks de activación</td></tr>
-        <tr><td class="fase">Platino · $100,000 — Subir a T2</td><td>Webinars + sesión externa · visibilidad destacada · crédito $15,000/15d · boleto + viáticos · merch premium</td></tr>
+        <tr><td class="fase">Bronce · $10,000 — Activación</td><td>Kit de bienvenida y onboarding · Alta en redes · Tarifa de usuario · Regalo al ingresar</td></tr>
+        <tr><td class="fase">Plata · $30,000 — Permanencia</td><td>Dos cápsulas de formación · WhatsApp exclusivo · Tarifa de programa · Desayuno familiar · Merch de nivel</td></tr>
+        <tr><td class="fase">Oro · $60,000 — Consolidación</td><td>Cápsulas y webinar · Grupo exclusivo · Crédito de $5,000 a 15 días · Boleto al evento anual · Perks de activación</td></tr>
+        <tr><td class="fase">Platino · $100,000 — Subir a T2</td><td>Webinars y sesión externa · Visibilidad destacada · Crédito de $15,000 a 15 días · Boleto con viáticos · Merch premium</td></tr>
       </tbody>
     </table>
     <div class="statement-sub" style="margin-top:16px;">
@@ -236,29 +239,19 @@
     <div class="label">Competidores</div>
     <table>
       <tbody>
-        <tr><td class="fase" style="width:28%"><a href="https://www.bactiva.com/" target="_blank" style="color:var(--lime);text-decoration:none;">Bactiva ↗</a></td><td>Celaya · microorganismos, 20+ años</td></tr>
-        <tr><td class="fase"><a href="https://www.innovakglobal.com/mx" target="_blank" style="color:var(--lime);text-decoration:none;">Innovak Global ↗</a></td><td>Chihuahua · biorracionales, 62 años</td></tr>
-        <tr><td class="fase"><a href="https://biokrone.com/" target="_blank" style="color:var(--lime);text-decoration:none;">BioKrone ↗</a></td><td>Guanajuato · 36+ bioproductos</td></tr>
-        <tr><td class="fase"><a href="https://organicrops.com/" target="_blank" style="color:var(--lime);text-decoration:none;">Nomus Max ↗</a></td><td>Organi Crops, Culiacán · fuertes en social</td></tr>
-        <tr><td class="fase"><a href="https://vidra.bio/" target="_blank" style="color:var(--lime);text-decoration:none;">Vidra ↗</a></td><td>Guadalajara, 2023 · Empresas Dragón</td></tr>
+        <tr><td class="fase" style="width:28%"><a href="https://www.bactiva.com/" target="_blank" style="color:var(--lime);text-decoration:none;">Bactiva ↗</a></td><td>Celaya · Microorganismos, más de 20 años</td></tr>
+        <tr><td class="fase"><a href="https://www.innovakglobal.com/mx" target="_blank" style="color:var(--lime);text-decoration:none;">Innovak Global ↗</a></td><td>Chihuahua · Biorracionales, 62 años</td></tr>
+        <tr><td class="fase"><a href="https://biokrone.com/" target="_blank" style="color:var(--lime);text-decoration:none;">BioKrone ↗</a></td><td>Guanajuato · Más de 36 bioproductos</td></tr>
+        <tr><td class="fase"><a href="https://organicrops.com/" target="_blank" style="color:var(--lime);text-decoration:none;">Nomus Max ↗</a></td><td>Organi Crops, Culiacán · Fuertes en redes sociales</td></tr>
+        <tr><td class="fase"><a href="https://vidra.bio/" target="_blank" style="color:var(--lime);text-decoration:none;">Vidra ↗</a></td><td>Guadalajara, 2023 · Filial de Empresas Dragón</td></tr>
       </tbody>
     </table>
     <div class="label" style="margin-top:32px;">Referencias — comunicación que admiran</div>
     <table>
       <tbody>
         <tr><td class="fase" style="width:28%"><a href="https://www.koppert.mx/" target="_blank" style="color:var(--lime);text-decoration:none;">Koppert ↗</a></td><td><strong style="color:var(--lime);font-weight:500;">La vara — tierrademonte.com tiene que estar al menos a este nivel.</strong></td></tr>
-        <tr><td class="fase"><a href="https://www.intagri.com/" target="_blank" style="color:var(--purple);text-decoration:none;">Intagri ↗</a></td><td>Capacitación agrícola — "lo que hacían hace 3 años"</td></tr>
-        <tr><td class="fase"><a href="https://advancingecoag.com/" target="_blank" style="color:var(--purple);text-decoration:none;">AEA ↗</a></td><td>Advancing Eco Agriculture — contenido regenerativo</td></tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- ADICIONAL -->
-  <section>
-    <div class="label">Adicional — fuera de este alcance</div>
-    <table>
-      <tbody>
-        <tr><td class="fase" style="width:28%">Academia Tierra de Monte</td><td>Hub de capacitación (ref. agriculturaregenerativa.com.mx) · <span class="tag add">Adicional</span> — se cotiza aparte al lanzar lo core</td></tr>
+        <tr><td class="fase"><a href="https://www.intagri.com/" target="_blank" style="color:var(--purple);text-decoration:none;">Intagri ↗</a></td><td>Capacitación agrícola — "especialmente lo que hacían hace unos tres años"</td></tr>
+        <tr><td class="fase"><a href="https://advancingecoag.com/" target="_blank" style="color:var(--purple);text-decoration:none;">AEA ↗</a></td><td>Advancing Eco Agriculture — el referente en contenido de agricultura regenerativa</td></tr>
       </tbody>
     </table>
   </section>
@@ -268,9 +261,9 @@
     <div class="label">Documentos del cliente — qué tienen y qué pedir</div>
     <table>
       <tbody>
-        <tr><td style="width:18%"><span class="tag in">Tienen</span></td><td>Brochure · fichas por nivel · Ficha de Registro de Distribuidor · media kit · formatos Canva · fotos de producto · imágenes de campo · videos de aplicación — <strong style="color:var(--lime);font-weight:500;">pedir carpetas</strong></td></tr>
-        <tr><td><span class="tag in">Recibido</span></td><td>Segmentación de niveles · tabla de beneficios fase 1 — ya en este brief</td></tr>
-        <tr><td><span class="tag def">Pendiente</span></td><td>2 videos documentales (por salir) · definición T2 — la mandan esta semana</td></tr>
+        <tr><td style="width:18%"><span class="tag in">Tienen</span></td><td>Brochure · Fichas por nivel · Ficha de Registro de Distribuidor · Media kit · Formatos de Canva · Fotos de producto · Imágenes de campo · Videos de aplicación — <strong style="color:var(--lime);font-weight:500;">pedir carpetas.</strong></td></tr>
+        <tr><td><span class="tag in">Recibido</span></td><td>Segmentación de niveles · Tabla de beneficios de la fase uno — ya en este brief</td></tr>
+        <tr><td><span class="tag def">Pendiente</span></td><td>Dos videos documentales (por salir) · Definición de T2 — la mandan esta semana</td></tr>
       </tbody>
     </table>
     <div class="statement-sub" style="margin-top:16px;">
