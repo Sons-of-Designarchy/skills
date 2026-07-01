@@ -926,6 +926,8 @@ yarn test:no-watch    # CI single-run
 yarn format           # prettier --write
 ```
 
+> ⛔ **DO NOT run `yarn tsc` / `yarn lint` / `eslint` / `prettier` after every edit or every turn — it is SUPER SLOW and Dan hates it.** Make the edits and keep moving. Dan runs the checks himself at the end, only when the work is ready to be merged. Run a final check only if HE explicitly asks. Same for commits: **never `git commit` / `git merge` / `git push` until Dan explicitly tells you — always.**
+
 **Git workflow:**
 - Base branch: `master`
 - Always `git pull` before starting new work

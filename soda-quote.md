@@ -1,3 +1,8 @@
+---
+name: soda-quote
+description: Soda's quoting playbook — turn any lead input (transcript, WhatsApp, voice note, notes) into a quote. Extracts the brief, creates a ClickUp task in Nuevos Leads, matches the right retainer plan (WEBSITE SUPPORT/EARLY/MID/SENIOR/PRO), applies project/branding/dual-tier pricing formulas, and builds proposal landing pages. Use when quoting a project, sizing a lead, or building a Soda proposal deck.
+---
+
 # Soda Quote
 
 ## On load
