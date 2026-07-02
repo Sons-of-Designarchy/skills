@@ -2,6 +2,50 @@
   publish = "."
   command = ""
 
+# ── Block internal files from the public site ──
+# The whole repo is published, so 404 anything sensitive: pricing sheet + playbooks.
+[[redirects]]
+  from = "/soda-quote-files/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/soda-quote.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/soda-front.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/soda-ops.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/prompting-guide.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/INSTALL.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/README.md"
+  to = "/404"
+  status = 404
+  force = true
+
 [[redirects]]
   from = "/"
   to = "/quotes"

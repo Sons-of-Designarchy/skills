@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prudence × Casa Soda — Propuesta de Proyecto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #E6E3D8;
+    --black: #080808;
+    --white: #F0EDE4;
+    --lime: #AADC6A;
+    --purple: #C8B8F8;
+    --coral: #FF6B56;
+    --muted: rgba(240,237,228,0.45);
+  }
+
+  html, body { width:100%; height:100%; background:#111; font-family:'DM Sans',system-ui,sans-serif; overflow:hidden; }
+
+  .deck { position:relative; width:100vw; height:100vh; }
+
+  .slide {
+    position:absolute; inset:0; width:100%; height:100%;
+    display:flex; flex-direction:column;
+    opacity:0; pointer-events:none;
+    transition:opacity 0.4s ease;
+  }
+  .slide.active { opacity:1; pointer-events:all; }
+  .slide-light { background:var(--cream); color:var(--black); }
+  .slide-dark  { background:var(--black); color:var(--white); }
+
+  .slide-body { flex:1; padding:6vh 7vw 0; display:flex; flex-direction:column; overflow:hidden; }
+
+  /* FOOTER */
+  .slide-footer { padding:1.2vh 7vw 2.2vh; }
+  .slide-footer span { display:block; text-align:right; font-size:0.78rem; color:rgba(240,237,228,0.28); font-weight:300; }
+  .slide-light .slide-footer span { color:rgba(8,8,8,0.28); }
+  #s1 .slide-footer { display:none; }
+
+  /* LABEL */
+  .label { font-size:0.8rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:0.8vh; }
+
+  /* ── 1. COVER ── */
+  #s1 .slide-body { justify-content:space-between; }
+  .cover-wordmark { font-size:clamp(5rem,16vw,18rem); font-weight:600; letter-spacing:-0.03em; line-height:0.88; margin-top:1.5vh; }
+  .cover-meta { font-size:clamp(1rem,1.2vw,1.4rem); font-weight:400; line-height:1.7; color:rgba(8,8,8,0.6); }
+  .cover-lead { display:block; font-size:clamp(1.8rem,3vw,3.4rem); font-weight:500; color:var(--black); letter-spacing:-0.02em; line-height:1.12; }
+  .cover-sub { display:block; font-size:clamp(1rem,1.25vw,1.5rem); color:rgba(8,8,8,0.55); margin-top:1.4vh; }
+  .cover-footer-row { display:flex; justify-content:space-between; font-size:clamp(0.9rem,1vw,1.1rem); color:rgba(8,8,8,0.4); padding-bottom:1.5vh; }
+
+  /* ── 2. OBJETIVO ── */
+  #s2 .slide-body { justify-content:center; align-items:center; gap:4vh; }
+  .big-statement {
+    max-width:900px; text-align:center;
+    font-size:clamp(1.8rem,3.2vw,4rem); font-weight:400;
+    letter-spacing:-0.02em; line-height:1.2; color:var(--white);
+  }
+  .big-statement em {
+    font-style:normal;
+    background:linear-gradient(90deg,var(--lime),var(--purple));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .sub-statement {
+    max-width:700px; text-align:center;
+    font-size:clamp(1.1rem,1.3vw,1.5rem); font-weight:300;
+    line-height:1.7; color:var(--muted);
+  }
+
+  /* ── 3. DIAGNÓSTICO ── */
+  #s3 .slide-body { gap:3vh; justify-content:center; }
+  .diag-grid { display:grid; grid-template-columns:1fr 1fr; gap:3vw; }
+  .diag-col { display:flex; flex-direction:column; gap:0; }
+  .diag-col-head {
+    font-size:0.8rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+    padding-bottom:1.5vh; border-bottom:1px solid rgba(240,237,228,0.1);
+    margin-bottom:0;
+  }
+  .diag-col-head.hoy { color:rgba(240,237,228,0.3); }
+  .diag-col-head.despues { color:var(--lime); }
+  .diag-item {
+    padding:1.8vh 0;
+    border-bottom:1px solid rgba(240,237,228,0.07);
+    font-size:clamp(1.1rem,1.3vw,1.5rem); font-weight:400; line-height:1.5;
+  }
+  .diag-item.hoy { color:rgba(240,237,228,0.35); }
+  .diag-item.despues { color:var(--white); }
+  .diag-item.despues strong { color:var(--lime); font-weight:500; }
+
+  /* ── 4. ALCANCE ── */
+  #s4 .slide-body { gap:2vh; }
+  .scope-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.8vw; flex:1; }
+  .scope-col { display:flex; flex-direction:column; }
+  .scope-label { font-size:clamp(1.5rem,2.2vw,2.8rem); font-weight:500; letter-spacing:-0.02em; color:var(--white); line-height:1.1; margin-bottom:1.2vh; }
+  .scope-box {
+    border:1.5px solid var(--lime); border-radius:14px;
+    padding:2.5vh 2vw; display:flex; flex-direction:column; gap:0.8em;
+    position:relative; overflow:hidden; flex:1;
+  }
+  .scope-box::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:4px;
+    background:linear-gradient(90deg, var(--lime), var(--purple), var(--coral), var(--lime));
+    opacity:0.75; pointer-events:none;
+  }
+  .scope-item {
+    font-size:clamp(1.05rem,1.1vw,1.25rem); font-weight:400;
+    color:var(--white); line-height:1.5; padding-left:1.3em; position:relative;
+  }
+  .scope-item::before { content:"·"; position:absolute; left:0; color:var(--lime); }
+  .scope-item.outcome {
+    font-weight:500; color:var(--lime);
+    border-top:1px solid rgba(240,237,228,0.08); padding-top:0.7em; margin-top:0.1em;
+  }
+  .scope-item.outcome::before { color:var(--lime); }
+
+  /* ── 5. ESTRATEGIA ── */
+  #s5 .slide-body { justify-content:center; align-items:center; }
+  .flow-wrap { display:flex; flex-direction:column; align-items:center; gap:2.2vh; width:100%; max-width:860px; }
+  .flow-sources { display:flex; gap:1.2vw; justify-content:center; flex-wrap:wrap; }
+  .flow-chip { padding:0.8vh 2vw; border-radius:100px; font-size:clamp(1rem,1.1vw,1.3rem); font-weight:400; }
+  .fc-lime  { background:rgba(170,220,106,0.12); color:var(--lime);   border:1px solid rgba(170,220,106,0.25); }
+  .fc-purp  { background:rgba(200,184,248,0.12); color:var(--purple); border:1px solid rgba(200,184,248,0.25); }
+  .fc-coral { background:rgba(255,107,86,0.12);  color:var(--coral);  border:1px solid rgba(255,107,86,0.25);  }
+  .flow-arrow { font-size:1.4rem; color:rgba(240,237,228,0.15); line-height:1; }
+  .flow-hub {
+    text-align:center; width:100%; padding:2.5vh 0;
+    border-top:1px solid rgba(240,237,228,0.1); border-bottom:1px solid rgba(240,237,228,0.1);
+    font-size:clamp(3rem,7.5vw,9.5rem); font-weight:400; letter-spacing:-0.04em; color:var(--white);
+  }
+  .flow-hub span { color:var(--muted); font-weight:300; }
+  .flow-outputs { display:flex; gap:1.5vw; justify-content:center; flex-wrap:wrap; }
+  .flow-pill { padding:1vh 2.2vw; border-radius:100px; font-size:clamp(1rem,1.1vw,1.3rem); font-weight:400; }
+  .fp-lime  { background:var(--lime); color:var(--black); }
+  .fp-ghost { background:rgba(240,237,228,0.06); color:var(--white); border:1px solid rgba(240,237,228,0.14); }
+  .flow-result { font-size:clamp(2.2rem,4.5vw,5.5rem); font-weight:400; letter-spacing:-0.03em; color:var(--lime); }
+  .flow-result-sub { font-size:clamp(1rem,1.1vw,1.3rem); font-weight:300; color:var(--muted); text-align:center; line-height:1.7; }
+
+  /* ── 6. INVERSIÓN ── */
+  #s6 .slide-body { gap:3.5vh; }
+  .inv-grid { display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:2vw; align-items:start; }
+  .inv-col-title { font-size:clamp(1.6rem,2.4vw,3rem); font-weight:400; letter-spacing:-0.02em; color:var(--white); margin-bottom:1.5vh; }
+  .inv-box {
+    border:1px solid rgba(240,237,228,0.14); border-radius:14px; padding:3vh 2vw;
+    position:relative; overflow:hidden;
+  }
+  .inv-box::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,transparent,rgba(170,220,106,0.5),rgba(200,184,248,0.5),rgba(255,107,86,0.5),transparent);
+    pointer-events:none;
+  }
+  .price-range { font-size:clamp(2rem,3vw,3.8rem); font-weight:500; letter-spacing:-0.02em; color:var(--lime); line-height:1.1; }
+  .price-range small { display:block; font-size:clamp(1rem,1.15vw,1.35rem); font-weight:400; color:var(--muted); margin-top:0.8vh; letter-spacing:0; }
+  .price-divider { border:none; border-top:1px solid rgba(240,237,228,0.09); margin:2vh 0; }
+  .price-note { font-size:clamp(1rem,1.2vw,1.4rem); color:var(--muted); font-weight:300; line-height:1.65; }
+  .price-note strong { color:var(--white); font-weight:400; }
+  .entregable { font-size:clamp(1.15rem,1.3vw,1.55rem); color:var(--white); font-weight:300; line-height:1.5; padding-left:1.2em; position:relative; margin-bottom:1vh; }
+  .entregable::before { content:"·"; position:absolute; left:0; opacity:0.4; }
+
+  /* ── SITIOS RECIENTES ── */
+  #s9 .slide-body { justify-content:center; gap:4vh; }
+  .sites-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.5vw; width:100%; max-width:1100px; margin:0 auto; }
+  .site-card {
+    border:1px solid rgba(240,237,228,0.14); border-radius:14px;
+    padding:3vh 2vw; display:flex; flex-direction:column; gap:0.5em;
+    text-decoration:none; position:relative; overflow:hidden;
+    transition:border-color 0.2s, transform 0.2s;
+  }
+  .site-card::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+    background:linear-gradient(90deg,var(--lime),var(--purple),var(--coral),var(--lime));
+    opacity:0; transition:opacity 0.2s; pointer-events:none;
+  }
+  .site-card:hover { border-color:var(--lime); transform:translateY(-3px); }
+  .site-card:hover::after { opacity:0.8; }
+  .site-name { font-size:clamp(1.3rem,1.7vw,1.9rem); font-weight:500; color:var(--white); letter-spacing:-0.02em; line-height:1.1; }
+  .site-url { font-size:clamp(0.9rem,0.95vw,1.05rem); font-weight:300; color:var(--muted); }
+  .close-cta { display:flex; flex-direction:column; align-items:center; gap:1.6vh; text-align:center; margin-top:0.5vh; }
+  .portfolio-link { text-align:center; font-size:clamp(1.1rem,1.5vw,1.7rem); font-weight:300; color:var(--muted); text-decoration:none; transition:color 0.2s; }
+  .portfolio-link strong { font-weight:500; color:var(--white); }
+  .portfolio-link:hover { color:var(--white); }
+
+  /* ── TIMELINE (Inversión) ── */
+  .timeline { border-top:1px solid rgba(240,237,228,0.09); padding-top:2vh; }
+  .timeline-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:1.4vh; flex-wrap:wrap; gap:0.6vh 1vw; }
+  .tl-legend { display:flex; gap:1.4vw; font-size:clamp(0.82rem,0.92vw,1rem); }
+  .tl-std { color:var(--muted); }
+  .tl-fast { color:var(--lime); font-weight:500; }
+  .timeline-track { display:grid; grid-template-columns:repeat(4,1fr); gap:0.9vw; }
+  .tl-phase { border:1px solid rgba(240,237,228,0.14); border-radius:10px; padding:1.4vh 1vw; }
+  .tl-phase-num { font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--lime); font-weight:600; margin-bottom:0.5vh; }
+  .tl-phase-name { font-size:clamp(0.92rem,1vw,1.15rem); color:var(--white); font-weight:400; line-height:1.25; }
+  .tl-phase-wk { font-size:clamp(0.76rem,0.85vw,0.92rem); color:var(--muted); margin-top:0.5vh; }
+  .tl-foot { font-size:clamp(0.82rem,0.9vw,1rem); color:var(--muted); font-weight:300; line-height:1.55; margin-top:1.4vh; }
+  .tl-foot strong { color:var(--lime); font-weight:500; }
+
+  /* Tiempos como slide completo */
+  #s7 .slide-body { gap:4vh; justify-content:center; align-items:stretch; }
+  #s7 .timeline-head { justify-content:center; gap:2.5vw; margin-bottom:0; }
+  #s7 .label { font-size:clamp(1rem,1.1vw,1.3rem); }
+  #s7 .tl-legend { font-size:clamp(1.1rem,1.3vw,1.6rem); gap:2.5vw; }
+  #s7 .timeline-track { gap:1.4vw; width:100%; }
+  #s7 .tl-phase { position:relative; overflow:hidden; padding:4vh 1.8vw; min-height:40vh; display:flex; flex-direction:column; }
+  #s7 .tl-phase::after { content:''; position:absolute; bottom:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--lime),var(--purple),var(--coral),var(--lime)); opacity:0.6; pointer-events:none; }
+  #s7 .tl-phase-num { font-size:clamp(0.85rem,0.95vw,1.05rem); margin-bottom:2.5vh; }
+  #s7 .tl-phase-name { font-size:clamp(1.5rem,2vw,2.6rem); line-height:1.15; }
+  #s7 .tl-phase-wk { font-size:clamp(1.05rem,1.2vw,1.45rem); margin-top:auto; padding-top:2.5vh; }
+  #s7 .tl-foot { font-size:clamp(1.1rem,1.25vw,1.5rem); text-align:center; max-width:1100px; margin:1vh auto 0; line-height:1.6; }
+
+  /* ── 8. CIERRE ── */
+  #s8 .slide-body { justify-content:center; align-items:center; gap:3.5vh; text-align:center; }
+  .thanks-word { font-size:clamp(3.5rem,10vw,12rem); font-weight:600; letter-spacing:-0.03em; line-height:0.9; color:var(--white); }
+  .thanks-contact { font-size:clamp(1.1rem,1.3vw,1.5rem); color:var(--muted); font-weight:300; line-height:1.8; }
+  .cta-pill {
+    display:inline-block; margin-top:1vh; padding:1.4vh 2.6vw; border-radius:100px;
+    background:var(--lime); color:var(--black); font-size:clamp(1rem,1.2vw,1.3rem); font-weight:500;
+    text-decoration:none; transition:transform 0.15s, opacity 0.15s;
+  }
+  .cta-pill:hover { transform:translateY(-2px); opacity:0.9; }
+
+  /* ── NAV ── */
+  .nav {
+    position:fixed; bottom:3vh; left:50%; transform:translateX(-50%);
+    display:flex; align-items:center; gap:1rem; z-index:100; color:var(--black);
+    padding:7px 14px; border-radius:100px;
+    background:rgba(230,227,216,0.72);
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    box-shadow:0 6px 24px rgba(0,0,0,0.18);
+    transition:background 0.3s, color 0.3s;
+  }
+  .nav.on-dark { color:var(--white); background:rgba(8,8,8,0.6); box-shadow:0 6px 24px rgba(0,0,0,0.45); }
+  .nav-btn {
+    width:44px; height:44px; border-radius:50%; border:1px solid currentColor; opacity:0.55;
+    background:transparent; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem; transition:opacity 0.2s; color:inherit;
+  }
+  .nav-btn:hover { opacity:1; }
+  .nav-counter { font-size:0.85rem; min-width:44px; text-align:center; opacity:0.4; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    .slide-body { padding:6vw 6vw 88px; overflow-y:auto; }
+    .slide-footer { padding:0 6vw 20px; }
+
+    #s1 .slide-body { padding-bottom:6vw; }
+    .cover-wordmark { font-size:clamp(3.8rem,17vw,6rem); margin-top:1vh; }
+    .cover-meta { font-size:0.95rem; }
+    .cover-footer-row { font-size:0.8rem; }
+
+    #s2 .slide-body { justify-content:flex-start; gap:5vw; padding-top:8vw; }
+    .big-statement { font-size:clamp(1.5rem,6.5vw,2rem); text-align:left; }
+    .sub-statement { font-size:0.95rem; text-align:left; }
+
+    .diag-grid { grid-template-columns:1fr; gap:0; }
+    .diag-col + .diag-col { margin-top:5vw; }
+    .diag-item { font-size:0.95rem; padding:1.2vh 0; }
+
+    #s4 .slide-body { gap:1.5vh; }
+    .scope-grid { grid-template-columns:1fr; gap:3vw; }
+    .scope-col { flex-direction:row; align-items:stretch; gap:3vw; }
+    .scope-label {
+      font-size:1rem; writing-mode:vertical-rl; text-orientation:mixed;
+      transform:rotate(180deg); margin-bottom:0; margin-right:0;
+      color:var(--lime); opacity:0.7; flex-shrink:0;
+      display:flex; align-items:center; letter-spacing:0.05em;
+    }
+    .scope-box { padding:3.5vw; flex:1; }
+    .scope-item { font-size:0.88rem; line-height:1.45; }
+    .scope-item.outcome { font-size:0.85rem; }
+
+    .flow-wrap { gap:1.8vh; }
+    .flow-sources { gap:2vw; }
+    .flow-chip { font-size:0.82rem; padding:1.5vw 3.5vw; }
+    .flow-hub { font-size:clamp(2rem,11vw,3.2rem); padding:3vw 0; }
+    .flow-pill { font-size:0.82rem; padding:2vw 4vw; }
+    .flow-outputs { gap:2vw; }
+    .flow-result { font-size:clamp(1.6rem,8vw,2.5rem); }
+    .flow-result-sub { font-size:0.82rem; }
+
+    .inv-grid { grid-template-columns:1fr; gap:4vw; }
+    .inv-col-title { font-size:1.2rem; margin-bottom:0.8vh; margin-top:1vw; }
+    .inv-box { padding:4vw; }
+    .price-range { font-size:1.9rem; }
+    .entregable { font-size:0.88rem; }
+    .price-note { font-size:0.85rem; }
+    .timeline-track { grid-template-columns:1fr 1fr; gap:3vw; }
+    .tl-phase { padding:3vw; }
+    .tl-phase-name { font-size:0.9rem; }
+    .tl-phase-wk { font-size:0.75rem; }
+    .tl-legend { flex-direction:column; gap:0.4vh; }
+    .tl-foot { font-size:0.82rem; }
+
+    #s7 .slide-body { gap:4vw; justify-content:flex-start; padding-top:8vw; }
+    #s7 a { font-size:clamp(1.4rem,7vw,2rem) !important; }
+    #s7 img { width:100% !important; max-width:100% !important; }
+
+    #s9 .slide-body { justify-content:flex-start; padding-top:8vw; gap:5vw; }
+    .sites-grid { grid-template-columns:1fr 1fr; gap:3vw; }
+    .site-card { padding:4vw 4vw; }
+    .site-name { font-size:1.1rem; }
+    .site-url { font-size:0.82rem; }
+
+    .thanks-word { font-size:clamp(3rem,14vw,4.5rem); }
+    .thanks-contact { font-size:0.95rem; }
+    .cta-pill { padding:2.4vw 6vw; font-size:0.95rem; }
+    #s8 img { width:10vw !important; min-width:40px !important; }
+
+    .nav { bottom:16px; gap:0.6rem; }
+    .nav-btn { width:40px; height:40px; font-size:0.9rem; }
+    .nav-counter { font-size:0.78rem; }
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1. COVER -->
+  <div class="slide slide-light active" id="s1">
+    <div class="slide-body" style="justify-content:space-between;">
+      <div>
+        <img src="icon-black.png" alt="Casa Soda" style="width:3.2vw;min-width:36px;">
+        <div class="cover-wordmark">CASA<br>SODA</div>
+      </div>
+      <div>
+        <div class="cover-meta">
+          <span class="cover-lead">Prudence · Propuesta de Proyecto</span>
+          <span class="cover-sub">Julio 2026</span>
+        </div>
+      </div>
+      <div class="cover-footer-row">
+        <span>hola@casasoda.com</span>
+        <span>casasoda.com</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. OBJETIVO -->
+  <div class="slide slide-dark" id="s2">
+    <div class="slide-body" style="justify-content:center;align-items:center;gap:4vh;">
+      <div class="label" style="text-align:center;">Objetivo</div>
+      <div class="big-statement">
+        Prudence ya tiene la marca,<br>el tono y la audiencia.<br>
+        <em>Le falta el hub digital que lo conecte todo.</em>
+      </div>
+      <div class="sub-statement">
+        Catálogo, educación sin tabúes y cercanía de marca.<br>100% móvil.
+      </div>
+    </div>
+    <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
+  </div>
+
+  <!-- 4. ALCANCE -->
+  <div class="slide slide-dark" id="s4">
+    <div class="slide-body" style="gap:2vh;">
+      <div class="label">Alcance del proyecto</div>
+      <div class="scope-grid">
+        <div class="scope-col">
+          <div class="scope-label">Diseño<br>UX/UI</div>
+          <div class="scope-box">
+            <div class="scope-item">Diseño mobile-first — wireframes + mockups</div>
+            <div class="scope-item">Sistema visual alineado al tono Prudence</div>
+            <div class="scope-item">Arquitectura de información y sitemap</div>
+            <div class="scope-item">Archivos Figma editables</div>
+            <div class="scope-item">3 rondas de revisión incluidas</div>
+            <div class="scope-item outcome">Una experiencia segura, inclusiva, moderna y muy visual</div>
+          </div>
+        </div>
+        <div class="scope-col">
+          <div class="scope-label">Sitio<br>Framer</div>
+          <div class="scope-box">
+            <div class="scope-item">Home con banners de campañas + accesos rápidos</div>
+            <div class="scope-item">Catálogo CMS — filtros por categoría + fichas técnicas</div>
+            <div class="scope-item">¿Dónde comprar? — localizador / enlaces a puntos de venta</div>
+            <div class="scope-item">Contacto + FAQ con formulario</div>
+            <div class="scope-item outcome">Autoadministrable — el equipo sube productos sin código</div>
+          </div>
+        </div>
+        <div class="scope-col">
+          <div class="scope-label">Contenido<br>& SEO</div>
+          <div class="scope-box">
+            <div class="scope-item">Blog / sección educativa en CMS</div>
+            <div class="scope-item">SEO básico — estructura, metas, slugs</div>
+            <div class="scope-item">Capacitación al equipo interno</div>
+            <div class="scope-item outcome">Listo para posicionar y crecer orgánico</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
+  </div>
+
+  <!-- 6. INVERSIÓN -->
+  <div class="slide slide-dark" id="s6">
+    <div class="slide-body" style="gap:2.5vh;justify-content:center;">
+      <div class="label">Inversión</div>
+      <div class="inv-grid">
+        <div>
+          <div class="inv-col-title">Proyecto</div>
+          <div class="inv-box">
+            <div class="price-range">
+              $110,000 – $130,000
+              <small>MXN + IVA</small>
+            </div>
+            <hr class="price-divider">
+            <div class="price-note">
+              <strong>50% anticipo</strong> al inicio · <strong>50%</strong> al lanzamiento<br>
+              <strong>3 rondas de revisión</strong> incluidas<br><br>
+              El rango se ajusta según el alcance final de contenido. Lo cerramos juntos en una llamada corta.
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="inv-col-title">Incluye</div>
+          <div class="inv-box">
+            <div class="entregable">Diseño UX/UI mobile-first (Figma)</div>
+            <div class="entregable">Sitio en Framer autoadministrable</div>
+            <div class="entregable">Catálogo CMS con filtros + fichas</div>
+            <div class="entregable">Blog / sección educativa</div>
+            <div class="entregable">¿Dónde comprar? + Contacto / FAQ</div>
+            <div class="entregable">SEO básico + capacitación</div>
+            <div class="entregable">QA + deploy a producción</div>
+          </div>
+        </div>
+        <div>
+          <div class="inv-col-title">Infraestructura</div>
+          <div class="inv-box">
+            <div class="price-note" style="line-height:1.9;">
+              Sitio en <strong>Framer</strong> — rápido, seguro y editable por tu equipo.<br><br>
+              <strong style="color:var(--white);font-weight:500;">$1,200 MXN/mes</strong> — hosting + dominio<br>
+              <strong style="color:var(--lime);font-weight:500;">$2,500 MXN/mes</strong> — incluye soporte y cambios chicos<br><br>
+              <span style="opacity:0.7;">Opcionales: copywriting, mapa interactivo, paquete de artículos de blog.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
+  </div>
+
+  <!-- 7. TIEMPOS -->
+  <div class="slide slide-dark" id="s7">
+    <div class="slide-body" style="gap:2.5vh;justify-content:center;">
+      <div class="timeline-head">
+        <div class="label" style="margin:0;">Tiempos</div>
+        <div class="tl-legend">
+          <span class="tl-std">● Estándar ~3 meses</span>
+          <span class="tl-fast">● Fast track ~2 meses · +25%</span>
+        </div>
+      </div>
+      <div class="timeline-track">
+        <div class="tl-phase">
+          <div class="tl-phase-num">Fase 1</div>
+          <div class="tl-phase-name">Descubrimiento & arquitectura</div>
+          <div class="tl-phase-wk">Sitemap · IA — sem 1–2</div>
+        </div>
+        <div class="tl-phase">
+          <div class="tl-phase-num">Fase 2</div>
+          <div class="tl-phase-name">Diseño UX/UI</div>
+          <div class="tl-phase-wk">Wireframes → Figma — sem 3–6</div>
+        </div>
+        <div class="tl-phase">
+          <div class="tl-phase-num">Fase 3</div>
+          <div class="tl-phase-name">Build en Framer</div>
+          <div class="tl-phase-wk">CMS · catálogo · blog — sem 6–10</div>
+        </div>
+        <div class="tl-phase">
+          <div class="tl-phase-num">Fase 4</div>
+          <div class="tl-phase-name">QA, contenido & lanzamiento</div>
+          <div class="tl-phase-wk">Capacitación + live — sem 11–12</div>
+        </div>
+      </div>
+      <div class="tl-foot"><strong>Fast track</strong> = equipo dedicado + diseño y build en paralelo para lanzar en ~2 meses en lugar de 3. Arrancando ahora, live a mediados de septiembre (estándar) o mediados de agosto (fast).</div>
+    </div>
+    <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
+  </div>
+
+  <!-- 9. SITIOS RECIENTES -->
+  <div class="slide slide-dark" id="s9">
+    <div class="slide-body" style="gap:3vh;justify-content:center;">
+      <a class="portfolio-link" href="https://casasoda.com" target="_blank" rel="noopener">Visita <strong>casasoda.com</strong> para el portafolio completo ↗</a>
+      <div class="label" style="text-align:center;">Sitios recientes</div>
+      <div class="sites-grid">
+        <a class="site-card" href="https://www.somosradar.com/" target="_blank" rel="noopener">
+          <span class="site-name">Radar</span>
+          <span class="site-url">somosradar.com ↗</span>
+        </a>
+        <a class="site-card" href="https://yardzen.com" target="_blank" rel="noopener">
+          <span class="site-name">Yardzen</span>
+          <span class="site-url">yardzen.com ↗</span>
+        </a>
+        <a class="site-card" href="https://www.pedralbes-partners.com/" target="_blank" rel="noopener">
+          <span class="site-name">Pedralbes Partners</span>
+          <span class="site-url">pedralbes-partners.com ↗</span>
+        </a>
+        <a class="site-card" href="https://www.estudionovena.com/" target="_blank" rel="noopener">
+          <span class="site-name">Estudio Novena</span>
+          <span class="site-url">estudionovena.com ↗</span>
+        </a>
+        <a class="site-card" href="https://www.finsera.com/" target="_blank" rel="noopener">
+          <span class="site-name">Finsera</span>
+          <span class="site-url">finsera.com ↗</span>
+        </a>
+        <a class="site-card" href="https://mezcalsalmero.com/" target="_blank" rel="noopener">
+          <span class="site-name">Mezcal Salmero</span>
+          <span class="site-url">mezcalsalmero.com ↗</span>
+        </a>
+      </div>
+      <div class="close-cta">
+        <div class="thanks-contact">Te invitamos a agendar una llamada de revisión para definir el precio final.</div>
+        <a class="cta-pill" href="https://wa.me/525510265196" target="_blank">Agendar por WhatsApp ↗</a>
+      </div>
+    </div>
+    <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
+  </div>
+
+</div>
+
+<nav class="nav">
+  <button class="nav-btn" onclick="go(-1)">←</button>
+  <span class="nav-counter" id="counter">1 / 8</span>
+  <button class="nav-btn" onclick="go(1)">→</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const nav = document.querySelector('.nav');
+  let cur = 0;
+
+  function updateNav() {
+    const isDark = slides[cur].classList.contains('slide-dark');
+    nav.classList.toggle('on-dark', isDark);
+  }
+
+  function go(dir) {
+    slides[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(slides.length - 1, cur + dir));
+    slides[cur].classList.add('active');
+    document.getElementById('counter').textContent = (cur+1) + ' / ' + slides.length;
+    updateNav();
+  }
+
+  updateNav();
+  document.getElementById('counter').textContent = '1 / ' + slides.length;
+  document.addEventListener('keydown', e => {
+    if (e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
+    if (e.key==='ArrowLeft' ||e.key==='ArrowUp')   go(-1);
+  });
+
+  let touchX = 0;
+  document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive:true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+  }, { passive:true });
+</script>
+</body>
+</html>
