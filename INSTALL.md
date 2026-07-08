@@ -60,6 +60,8 @@ ln -s ~/projects/soda/skills/prompting-guide.md ~/.claude/skills/soda-front.md
 ln -s ~/projects/soda/skills/prompting-guide.md ~/.claude/commands/soda-front.md
 ln -s ~/projects/soda/skills/soda-quote.md ~/.claude/skills/soda-quote.md
 ln -s ~/projects/soda/skills/soda-quote.md ~/.claude/commands/soda-quote.md
+ln -s ~/projects/soda/skills/screens.md ~/.claude/skills/screens.md
+ln -s ~/projects/soda/skills/screens.md ~/.claude/commands/screens.md
 ```
 
 ---

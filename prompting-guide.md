@@ -805,7 +805,7 @@ When in doubt: if something *feels* off, it probably is. Flag it.
 
 ## Screenshot QA — The One Pattern
 
-The canonical way to screenshot any app at desktop + mobile and hand the folders to Dan. Everyone — devs, QA, AI agents — uses this exact pattern. No custom drivers, no browser extensions, no manual resizing.
+> **This pattern is packaged as its own skill: `/screens`** (`screens.md` in this repo — symlink it per INSTALL.md). **Whenever the user asks to take screenshots, QA a UI change visually, or capture routes for review, load `/screens` and follow it** — usage: `/screens <app> [routes...]`. The section below is the same pattern, kept as reference.
 
 **Output convention:** `~/Desktop/screens/<app>/desktop/` and `~/Desktop/screens/<app>/mobile/` — one folder per viewport, one PNG per route, then `open` both folders.
 
