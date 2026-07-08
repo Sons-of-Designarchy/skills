@@ -9,7 +9,23 @@ Screenshot an app at fixed viewports, one PNG per route, into `~/Desktop/screens
 
 ## Arguments
 
-`/screens <app> [routes...]` — app name (folder under `~/Desktop/screens/`) and space-separated routes. Defaults to `/` if no routes given. No app given? Infer it from the project you're working in (see port table).
+`/screens <app> [targets...]` — app name (folder under `~/Desktop/screens/`) plus what to shoot. Defaults to `/` if no targets given. No app given? Infer it from the project you're working in (see port table).
+
+Each target is one of:
+- **A route** — starts with `/` (e.g. `/packages`). Shot directly with the script below.
+- **A flow or screen name** — plain words (e.g. `budget`, `upload flow`, `checkout empty state`). The state lives behind client-side navigation, so you must drive the browser to it — see "Targeting a specific flow or screen".
+
+Only shoot what was asked. `budget` means the budget step — not the whole funnel.
+
+## Targeting a specific flow or screen
+
+For SPA prototypes (funnels, quizzes, steppers) the interesting states are not routes. To capture one:
+
+1. **Look for a deep link first.** Read the app source for query-param or hash support (`useSearchParams`, `?stage=`, `?step=`, dev-only stage jumpers). If one exists, it's just a route — use the normal script (`ROUTES="/?stage=budget"`).
+2. **Otherwise, script the walk.** Copy the script inline and add the interaction steps before the screenshot — `page.click`, `page.fill`, `page.getByRole(...)` — reading the app's components to find real button labels and selectors. Never guess selectors; read the source.
+3. **Name shots by state, not route:** slug = the flow/step name (`budget.png`, `upload-flow-2-of-3.png`). One PNG per requested state, both viewports, same output folders.
+4. A multi-step flow request ("the upload flow") = one shot per meaningful step of that flow, in order — not one shot of the last screen.
+5. Re-run the walk fresh for each viewport (state doesn't carry across pages).
 
 ## Step 1 — Ensure the dev server is running
 
