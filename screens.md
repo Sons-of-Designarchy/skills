@@ -29,7 +29,11 @@ For SPA prototypes (funnels, quizzes, steppers) the interesting states are not r
 
 ## Step 1 — Ensure the dev server is running
 
-Check the port first; only start the server if it isn't already up. **Never `sleep 5` — poll the port.**
+**ALWAYS check for an already-running server before starting one — never spawn a duplicate.**
+
+1. **Find the app's real port** — read its `vite.config.ts` / `package.json` / `project.json` for a configured port. The table below is a starting point, not truth (e.g. `new-yardzen-july` is configured for 4202, not the Vite default).
+2. **Check for a listener**: `curl -sf http://localhost:PORT >/dev/null` (and `lsof -i :PORT -sTCP:LISTEN` to see what owns it). If the app is already being served — use it and leave it alone.
+3. Only if nothing is running, start it and **poll the port — never `sleep 5`**. Watch the startup log: if the port was busy and the server picked another one (Vite does this), use the port from the log — but first check the busy port isn't already the same app.
 
 ```bash
 curl -sf http://localhost:PORT >/dev/null || {
