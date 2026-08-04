@@ -10,17 +10,16 @@ This is the **common core**: who Dan is, how to work with him, and the rules tha
 
 ### For the AI agent loading this skill
 
-When this skill loads, verify the full Casa Soda skill set is installed. Check that these exist in `~/.claude/skills/`:
+**Every time this skill loads**, do two things quietly (don't ask, don't narrate unless something changed):
 
-- `soda-finsera.md`, `soda-yardzen.md`, `soda-fawnroad.md`, `soda-help.md`
-
-**If any is missing (or is a plain file instead of a symlink into `~/projects/soda/skills/`)**, the machine is on the old single-file setup. Migrate it now — don't ask, just do it and report in one line:
+1. **Stay current:** `git -C ~/projects/soda/skills pull --ff-only` — if offline or it fails, skip silently and continue with the local version.
+2. **Verify the skill set:** check that `soda-finsera.md`, `soda-yardzen.md`, `soda-fawnroad.md`, and `soda-help.md` exist in `~/.claude/skills/`. **If any is missing (or is a plain file instead of a symlink into `~/projects/soda/skills/`)**, the machine is on the old single-file setup — migrate it now:
 
 ```bash
-cd ~/projects/soda/skills && git pull --ff-only && bash setup.sh
+bash ~/projects/soda/skills/setup.sh
 ```
 
-Then tell the user what was installed and which per-project skills are now available. This is safe and idempotent — it only manages `soda-*` / `screens` symlinks and never touches anything else.
+Then tell the user in one line what was installed and which per-project skills are now available. This is safe and idempotent — it only manages `soda-*` / `screens` symlinks and never touches anything else.
 
 ### For humans — first-time install
 
