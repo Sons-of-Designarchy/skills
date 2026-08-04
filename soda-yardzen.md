@@ -10,6 +10,33 @@ NX monorepo (pnpm), Next.js 15 (App Router), TypeScript strict, Tailwind CSS, Gr
 
 ---
 
+## Design Values — Dan's Brand Doc (living draft)
+
+> There is currently no dedicated brand/design lead at Yardzen — Dan owns brand judgment. This section is his working read of the brand, distilled from what's actually shipped (tokens, type, photography rules, partner lineup). Treat it as the source of truth for design decisions until it graduates into a standalone brand doc. If a decision isn't covered here, Dan decides — then it gets added here.
+
+### 1. Real yards, real work
+Trust is the product. Yardzen sells a transformation people can't preview, so every image must be a real Yardzen project — never Unsplash, never stock, never AI-generated filler. If we don't have the photo, we change the layout, not the honesty. (This is why the `@yz-ds` asset rule exists — it's a brand value enforced in code.)
+
+### 2. Nature does the color
+The palette stays quiet so the landscapes carry the color. Deep green `action-main` (#1B6245) for action, warm near-black `typo-primary` (#323232) for text, warm off-white `texture-primary` (#F6F5F4) for surfaces. The UI is the frame, the yard is the painting. Never introduce a loud accent that competes with plant/photo imagery.
+
+### 3. Editorial warmth, utilitarian clarity
+The type system is the brand's voice: **Arsenal** (serif display) gives the garden-magazine, considered-design feel; **Roboto** (app) / **Geist** (sandbox body) do the work. Serif for aspiration, sans for action. Never swap the roles — a serif button or a sans hero headline both read as off-brand.
+
+### 4. Premium taste, approachable delivery
+The partner lineup (Serena & Lily, McGee & Co., Belgard…) signals design-world credibility. The product should feel like working with a design studio, not using a SaaS tool — but a homeowner who's never hired a designer must never feel out of their depth. Aspirational imagery, plain-spoken copy, obvious next steps.
+
+### 5. Calm layouts, portfolio whitespace
+Photography-first composition: generous whitespace, few competing elements, hierarchy through scale and weight rather than boxes and borders. Follows the global Soda rules (1px subtle borders, no visual noise) but leans warmer and more editorial than fintech-clean.
+
+### 6. One system, no forks
+Brand consistency is credibility. Everything comes from the design system (Trellis / `@yardzen/ui` in-app, `@yz-ds` in sandboxes). A one-off style is a brand leak — when the system has a gap, file the ticket and surface it, don't invent around it.
+
+### 7. The feeling to protect
+If a screen could belong to a generic home-services marketplace, it's wrong. The target feeling: *"these people have taste, and they'll handle it."* Confident, warm, grounded in real outdoor living — never corporate, never salesy, never sterile.
+
+---
+
 ## Dev Setup
 
 ```bash
