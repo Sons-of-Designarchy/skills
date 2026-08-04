@@ -1,4 +1,4 @@
-# How to Set Up Claude Code with Dan's Frontend Bible
+# How to Set Up Claude Code with the Casa Soda Skills
 
 This guide gets your machine set up so Claude Code automatically loads Dan's working preferences, design rules, and project-specific guides in every session.
 
@@ -6,13 +6,19 @@ This guide gets your machine set up so Claude Code automatically loads Dan's wor
 
 ## What You're Installing
 
-**Dan's Frontend Bible** (`soda-front`) is a skill file that loads into Claude Code and tells it:
-- How Dan works, how to communicate with him, and what his commands mean
-- Universal design and code rules across all projects
-- Project-specific rules for Finsera, Yardzen, and Fawnroad
-- A QA guide for the junior dev
+The Casa Soda skill set:
 
-Once installed, you run `/soda-front` at the start of any Claude Code session and it instantly has full context.
+| Skill | What it is |
+|---|---|
+| `/soda-front` | **Dan's Frontend Bible** — how Dan works, communication, universal design & code rules. Load in every session. |
+| `/soda-finsera` | Finsera project guide — stack, theme system, workflows |
+| `/soda-yardzen` | Yardzen project guide — monorepo, Contentful, sandbox deploys |
+| `/soda-fawnroad` | Fawnroad project guide — stack, design system, flows |
+| `/soda-help` | Quick reference — ports, commands, troubleshooting |
+| `/screens` | Screenshot QA at fixed viewports |
+| `/soda-quote` | Client quotes and pricing |
+
+Once installed, you run `/soda-front` at the start of any Claude Code session (plus the skill for the project you're in) and Claude instantly has full context.
 
 ---
 
@@ -34,39 +40,23 @@ Follow the prompts to log in with your Anthropic account.
 
 ---
 
-## Step 2 — Clone the skills repo
+## Step 2 — Clone the repo and run setup
 
 ```bash
 git clone https://github.com/Sons-of-Designarchy/skills.git ~/projects/soda/skills
+bash ~/projects/soda/skills/setup.sh
 ```
+
+`setup.sh` does everything:
+- Symlinks all the skills into `~/.claude/skills` and `~/.claude/commands` (so a `git pull` always gives you the latest)
+- Installs **nvm** if you don't have it
+- Installs the Node versions our projects use (`24.0.0` default, `20.19.6` for Finsera)
+
+It's idempotent — safe to re-run any time. Already had the old single-file setup? Running it migrates you automatically.
 
 ---
 
-## Step 3 — Create the Claude config directories
-
-```bash
-mkdir -p ~/.claude/skills
-mkdir -p ~/.claude/commands
-```
-
----
-
-## Step 4 — Symlink the skill file
-
-This links the file from the repo into Claude's config so you always have the latest version when you `git pull`.
-
-```bash
-ln -s ~/projects/soda/skills/prompting-guide.md ~/.claude/skills/soda-front.md
-ln -s ~/projects/soda/skills/prompting-guide.md ~/.claude/commands/soda-front.md
-ln -s ~/projects/soda/skills/soda-quote.md ~/.claude/skills/soda-quote.md
-ln -s ~/projects/soda/skills/soda-quote.md ~/.claude/commands/soda-quote.md
-ln -s ~/projects/soda/skills/screens.md ~/.claude/skills/screens.md
-ln -s ~/projects/soda/skills/screens.md ~/.claude/commands/screens.md
-```
-
----
-
-## Step 5 — Verify it works
+## Step 3 — Verify it works
 
 Open a new Claude Code session in any project:
 
@@ -80,29 +70,26 @@ Then type:
 /soda-front
 ```
 
-You should see Dan's Frontend Bible load. If it loads, you're done.
+You should see Dan's Frontend Bible load. Then try `/soda-help`. If both load, you're done.
 
 ---
 
 ## Keeping It Up to Date
 
-The skill lives in the repo, so updating is just a pull:
-
 ```bash
-cd ~/projects/soda/skills && git pull
+cd ~/projects/soda/skills && git pull && bash setup.sh
 ```
 
-No need to re-symlink — the symlink always points to the latest file.
+Usually `git pull` alone is enough (the symlinks always point to the latest files) — run `setup.sh` again when new skills are added.
 
 ---
 
 ## How to Use It
 
-At the start of any work session with Claude Code, load the skill:
+At the start of any work session with Claude Code:
 
-```
-/soda-front
-```
+1. Load `/soda-front`
+2. Load the project skill for the repo you're in: `/soda-finsera`, `/soda-yardzen`, or `/soda-fawnroad`
 
 Claude now knows:
 - Dan's design rules and preferences
@@ -110,13 +97,13 @@ Claude now knows:
 - What not to do (the corrections log)
 - How to request QA plans (for the junior dev)
 
-You don't need to re-explain context. Just give commands.
+You don't need to re-explain context. Just give commands. Need a quick reference? `/soda-help`.
 
 ---
 
 ## For the Junior Dev — QA Quick Start
 
-Once you have the skill installed, load it and go to the **QA Guide** section. That section has:
+Once you have the skills installed, load `/soda-front` and go to the **QA Guide** section. That section has:
 
 - A template for requesting a QA testing plan from Dan or another dev
 - A visual QA checklist to run before anything ships
@@ -129,4 +116,4 @@ When Dan says a feature is ready for QA, ask him to share the staging URL and ru
 
 ## Questions?
 
-Ask Dan.
+Run `/soda-help`. Then ask Dan.

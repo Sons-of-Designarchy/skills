@@ -8,35 +8,38 @@ This repo contains the team's shared knowledge base for working with AI agents (
 
 | File | What it is |
 |---|---|
-| `prompting-guide.md` | The main guide — read this first |
+| `prompting-guide.md` | `/soda-front` — the main guide (Dan's rules, common core) — read this first |
+| `soda-finsera.md` | `/soda-finsera` — Finsera project guide |
+| `soda-yardzen.md` | `/soda-yardzen` — Yardzen project guide |
+| `soda-fawnroad.md` | `/soda-fawnroad` — Fawnroad project guide |
+| `soda-help.md` | `/soda-help` — quick reference: ports, commands, troubleshooting |
+| `setup.sh` | One-command installer — symlinks all skills, sets up nvm + Node |
 | `INSTALL.md` | How to install everything on your computer |
 
 ---
 
-## Install in 4 commands
+## Install in 2 commands
 
 Open your terminal and paste this:
 
 ```bash
 git clone https://github.com/Sons-of-Designarchy/skills.git ~/projects/soda/skills
-mkdir -p ~/.claude/skills ~/.claude/commands
-ln -s ~/projects/soda/skills/prompting-guide.md ~/.claude/skills/soda-front.md
-ln -s ~/projects/soda/skills/prompting-guide.md ~/.claude/commands/soda-front.md
+bash ~/projects/soda/skills/setup.sh
 ```
 
-Done. Now open Claude Code in any project and type `/soda-front`.
+Done. Now open Claude Code in any project and type `/soda-front` — plus the skill for the project you're in (`/soda-finsera`, `/soda-yardzen`, or `/soda-fawnroad`).
 
 ---
 
 ## How to update
 
-When the guide gets updated, pull the latest:
+When the guides get updated, pull the latest:
 
 ```bash
 cd ~/projects/soda/skills && git pull
 ```
 
-No reinstall needed — the link always points to the newest version.
+No reinstall needed — the links always point to the newest versions. If new skills were added, run `bash setup.sh` once more.
 
 ---
 
@@ -61,7 +64,7 @@ cd apps/web
 npm run dev           # start the app (localhost:8888)
 
 # Finsera
-nvm use 20.19.3
+nvm use 20.19.6
 yarn start            # start all apps
 
 # Yardzen
@@ -106,6 +109,7 @@ git checkout -b my-branch-name   # start working on a new thing
 2. Go to the project folder (`cd path/to/project`)
 3. Type `claude` and hit enter
 4. When it loads, type `/soda-front` — this loads all the rules and context
+5. Working on Finsera, Yardzen, or Fawnroad? Also load that project's skill (`/soda-finsera`, `/soda-yardzen`, `/soda-fawnroad`)
 
 ### Giving instructions
 

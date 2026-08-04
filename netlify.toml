@@ -17,7 +17,37 @@
   force = true
 
 [[redirects]]
-  from = "/soda-front.md"
+  from = "/soda-finsera.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/soda-yardzen.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/soda-fawnroad.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/soda-help.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/screens.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/setup.sh"
   to = "/404"
   status = 404
   force = true

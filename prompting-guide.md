@@ -2,6 +2,65 @@
 
 A living reference for everyone working on Casa Soda projects — junior devs, AI agents, contractors. Built from real session history, explicit corrections, and Dan's own words.
 
+This is the **common core**: who Dan is, how to work with him, and the rules that apply to every project. Project-specific guides live in their own skills — see the skill map below.
+
+---
+
+## Setup & Staying Current — READ THIS FIRST
+
+### For the AI agent loading this skill
+
+When this skill loads, verify the full Casa Soda skill set is installed. Check that these exist in `~/.claude/skills/`:
+
+- `soda-finsera.md`, `soda-yardzen.md`, `soda-fawnroad.md`, `soda-help.md`
+
+**If any is missing (or is a plain file instead of a symlink into `~/projects/soda/skills/`)**, the machine is on the old single-file setup. Migrate it now — don't ask, just do it and report in one line:
+
+```bash
+cd ~/projects/soda/skills && git pull --ff-only && bash setup.sh
+```
+
+Then tell the user what was installed and which per-project skills are now available. This is safe and idempotent — it only manages `soda-*` / `screens` symlinks and never touches anything else.
+
+### For humans — first-time install
+
+```bash
+git clone https://github.com/Sons-of-Designarchy/skills.git ~/projects/soda/skills
+bash ~/projects/soda/skills/setup.sh
+```
+
+That's it. `setup.sh` creates all the skill symlinks, installs nvm if you don't have it, and installs the Node versions the projects need. Re-run it any time — it's idempotent. To update later: `cd ~/projects/soda/skills && git pull && bash setup.sh`.
+
+### Skill map — load the right skill for the job
+
+| Skill | Load when |
+|---|---|
+| `/soda-front` | Always — every session. Dan's rules, communication, design principles. |
+| `/soda-finsera` | Working on Finsera (dashboard, thematic-baskets, portfolios, design-system) |
+| `/soda-yardzen` | Working on Yardzen (build-marketplace, design sandbox, back-office) |
+| `/soda-fawnroad` | Working on Fawnroad (apps/web) |
+| `/soda-help` | Quick reference — ports, commands, troubleshooting, "what do I run?" |
+| `/screens` | Screenshot QA — capture any app at desktop + mobile viewports |
+| `/soda-quote` | Client quotes and pricing |
+
+Working in a project repo? Load `/soda-front` **and** that project's skill. The project skill wins on any conflict (e.g. Node version).
+
+### Global environment — Node versions
+
+Everything runs through **nvm**. The Soda default is **Node `24.0.0`** — use it before installing deps or starting any dev server:
+
+```bash
+nvm use 24.0.0
+```
+
+**Exception: Finsera pins Node `20.19.x`** (`nvm use 20.19.6`) — the per-project skill is the source of truth.
+
+Why this matters: older Node (18/20) on Node-24 projects causes silent breakage — e.g. `npm install` under Node 18 skips native optional deps like `@tailwindcss/oxide-darwin-arm64`, and the dev server then fails to compile CSS with "Cannot find native binding". If you see that error: `nvm use 24.0.0` and reinstall clean (`rm -rf node_modules package-lock.json .next && npm install`).
+
+### Help
+
+Lost? Run `/soda-help` in Claude Code, or in a terminal: `bash ~/projects/soda/skills/setup.sh --help`. Still lost? Ask Dan.
+
 ---
 
 ## Who You're Working With
@@ -102,35 +161,7 @@ When there are multiple similar components, merge them into one. No parallel com
 ### 4. Design system components everywhere
 No inventing new button styles, card layouts, or input components. Use what's in the design system. Every button is `<Button>`, every card is `<Card>`. If something doesn't exist in the design system, **add it there first**, then use it. New code using a custom button gets immediately rejected.
 
-### 4a. Typography for ALL text — no exceptions (yardzen-shop)
-Every visible text node in `apps/design-sandbox/yardzen-shop` must use `<Typography>` from `@yz-ds`. No raw `<h1>`–`<h6>`, `<p>`, or `<span>` with inline font styles.
-
-**Rules:**
-- Font → `font="display"` (Arsenal) or `font="body"` (Geist). Never `fontFamily` in a `style` prop on Typography.
-- Size → `variant` preset or `size` prop. Only use `fontSize` in `style` for clamp/fluid values with no preset equivalent.
-- Color → `color` prop only (`"primary"`, `"secondary"`, `"muted"`, `"inherit"`, etc.). **Never a hardcoded hex, rgba, or CSS var on a Typography element.** No `const C = "..."` color constants — ever.
-- For links with hover color changes: set `color` on the `<Link>` element, use `color="inherit"` on the `<Typography>` inside.
-- Weight → `weight` prop. Never `fontWeight` in a `style` prop on Typography.
-
-**Violations that get immediately rejected:**
-```tsx
-// ❌ raw element with inline styles
-<h2 style={{ fontFamily: "var(--yz-font-display)", fontSize: 40, color: "#212121" }}>
-
-// ❌ color constant anywhere in the file
-const C = "#212121";
-
-// ❌ fontFamily or color on a Typography style prop
-<Typography style={{ fontFamily: "var(--yz-font-display)", color: "#212121" }}>
-
-// ✅ correct
-<Typography font="display" weight="normal" as="h2" style={{ fontSize: "clamp(40px, 5vw, 64px)", lineHeight: 1.08 }}>
-<Typography color="secondary" variant="body-sm">
-// ✅ correct hover pattern
-<Link style={{ color: "var(--yz-color-text-secondary)" }} onMouseEnter={...}>
-  <Typography color="inherit" variant="body-sm">link text</Typography>
-</Link>
-```
+> Project-specific typography/component enforcement rules (e.g. the yardzen-shop `<Typography>` mandate) live in each project's skill.
 
 ### 5. No 2px borders
 All borders are 1px. Always. Every project. Global rule.
@@ -199,6 +230,8 @@ Dan said: *"If they'd just ask those four things before starting, 80% of rewrite
 - CVA (class-variance-authority) for variant-based components
 - Prefer semantic HTML elements — affordances matter
 
+(Finsera is the exception on styling: MUI + theme, no Tailwind — see `/soda-finsera`.)
+
 ### Pushback protocol
 When you disagree with a design decision, back it with logic, not opinion. "This will break on mobile below 375px" is valid. "I don't like it" is not. Dan always listens to logic.
 
@@ -224,7 +257,7 @@ END CONTAINER
 
 ## What NOT to Do (Real Corrections Log)
 
-These mistakes were made on actual projects. Don't repeat them.
+These mistakes were made on actual projects. Don't repeat them. (Project-specific corrections — Fawnroad `fr-*` classes and palette, Finsera MUI gotchas, etc. — live in each project's skill.)
 
 - **Don't create aliases when renaming.** Delete old, use new. No backwards compat exports.
 - **Don't add uppercase or monospace as defaults.** Opt-in only. He corrected this 3+ times in single sessions.
@@ -251,15 +284,7 @@ These mistakes were made on actual projects. Don't repeat them.
 - **Don't wrap theme changes in local ThemeProviders.** Global theme changes go in the base theme config.
 - **Don't use black solid borders on cards or containers.** Subtle borders only.
 - **Don't say "it's ready" without QA at all viewports.** Before presenting any UI work as done, screenshot it at desktop (1280×800), tablet (768×1024), and mobile (390×844). Walk through the full flow at each size. Check focus states, borders, overflow, touch targets. Fix everything before showing Dan. He should review design, not bugs.
-- **Don't use `focus:ring-*` on form inputs.** Fawnroad has a global `*:focus-visible` rule that adds a 2px gray outline. Use `outline-none focus-visible:outline-none ring-0 focus:ring-0 focus:border-black` to get a clean single-border focus state.
-- **Test mode lifecycle.** When creating a feature branch, enable test mode (`localStorage.setItem('fawnroad-test-mode', 'true')`) so forms prefill with edge-case data for fast QA. Before creating a PR, disable it (`localStorage.setItem('fawnroad-test-mode', 'false')`) and ensure the default is opt-in only. Test mode code stays in the build (dev-only via `import.meta.env.DEV`) but must never auto-enable in production or by default.
 - **Swiss grid alignment is mandatory.** When two panels sit side by side, their content must start at the same vertical baseline — not "roughly aligned." Use fixed values (px), not viewport-relative (vh), because viewport changes break alignment. Whitespace is structure, not decoration. Asymmetric layouts are fine as long as elements anchor to a consistent grid. One typeface family, hierarchy through weight and size only.
-- **Always use the `fr-*` class system.** Fawnroad has global CSS classes in `styles.css` prefixed `fr-`. Use them instead of repeating Tailwind chains. Key classes: `fr-label` (bold uppercase mono black), `fr-input` (clean border + focus), `fr-input-error`, `fr-body`, `fr-body-muted`, `fr-headline`, `fr-error`, `fr-info`, `fr-step-counter`, `fr-review-label`, `fr-review-value`, `fr-btn`, `fr-btn-primary`, `fr-btn-secondary`. This is mandatory — never write a raw Tailwind chain when an `fr-*` class exists for it.
-- **Never use gray/muted labels.** Labels, field names, and table headers must be bold uppercase mono black (`font-semibold uppercase font-mono text-black`). No gray-ish faded labels — ever.
-- **Never hardcode color hex values.** Always use the Fawnroad brand palette from CSS vars (`--fawnroad-yellow`, `--fawnroad-blue`, `--fawnroad-lime`, `--fawnroad-purple`, `--fawnroad-orange`, `--fawnroad-green`, `--fawnroad-red`, `--fawnroad-brown`). When you need a tint/pastel version, derive it from the brand color. In JS/TSX components, reference the constants — never invent new colors.
-- **Never use custom hex colors or rgba values in MUI sx props.** Always use theme colors (`color="warning"`, `bgcolor: 'primary.main'`, etc.). Only use custom values when Dan explicitly asks for them.
-- **Don't use `pt` on `mui.core.DialogContent`.** MUI's internal styles override it silently. Use `mt` on the first child inside DialogContent instead (e.g. wrap first element in `<Box mt={3}>`).
-- **Don't use ButtonBase for custom-shaped clickable cards.** ButtonBase inherits theme `borderRadius` and overrides any explicit value, causing pills/ovals. Use a plain `Box` with `onClick`, `role="button"`, and `tabIndex={0}` instead.
 
 ---
 
@@ -291,6 +316,8 @@ EOF
 - `fix/` — bug fixes
 - `chore/` — cleanup, deps, no user-facing change
 - `docs/` — documentation only
+
+(Project skills override this where the project has its own convention — e.g. Finsera uses Shortcut branch names, Fawnroad uses `danpliego/<flow-name>`.)
 
 ### PR rules
 - Include a testing plan in every PR — Dan will use it to QA
@@ -560,10 +587,10 @@ rm -rf node_modules && npm install   # nuclear reset for dependencies
 This is the loop for prototyping:
 
 1. **Open Claude Code** in the project folder
-2. **Load the skill:** `/soda-front`
+2. **Load the skills:** `/soda-front` + the project's skill (`/soda-finsera`, `/soda-yardzen`, or `/soda-fawnroad`)
 3. **Describe what you want** — use the prompt structure below
 4. **Watch it build** — don't interrupt unless it's clearly going wrong
-5. **Open the browser** — check `localhost:3000` (or whatever port)
+5. **Open the browser** — check `localhost:3000` (or whatever port — `/soda-help` has the list)
 6. **Screenshot what's wrong** — paste into Claude, say "fix this"
 7. **Repeat until it looks right**
 
@@ -657,6 +684,8 @@ If no → add more specifics.
 4. Repeat until prompts get executed without clarifying questions
 
 ---
+
+## QA Guide (Junior Dev)
 
 This section is for the junior dev coming from Webflow/Framer. Your job is to be the last line of defense before anything ships. You don't need to write code — you need to verify it works exactly as intended and report back clearly.
 
@@ -803,981 +832,37 @@ When in doubt: if something *feels* off, it probably is. Flag it.
 
 ---
 
-## Screenshot QA — The One Pattern
+## Screenshot QA — Use `/screens`
 
-> **This pattern is packaged as its own skill: `/screens`** (`screens.md` in this repo — symlink it per INSTALL.md). **Whenever the user asks to take screenshots, QA a UI change visually, or capture routes for review, load `/screens` and follow it** — usage: `/screens <app> [routes...]`. The section below is the same pattern, kept as reference.
+> **The Screenshot QA pattern is its own skill: `/screens`** (`screens.md` in this repo — installed by `setup.sh`). **Whenever the user asks to take screenshots, QA a UI change visually, or capture routes for review, load `/screens` and follow it** — usage: `/screens <app> [routes...]` (e.g. `/screens build-marketplace / /packages`).
 
 **Output convention:** `~/Desktop/screens/<app>/desktop/` and `~/Desktop/screens/<app>/mobile/` — one folder per viewport, one PNG per route, then `open` both folders.
 
-### Step 1 — Start the dev server, poll the port
+**Viewports are fixed:** desktop **1280×800**, mobile **390×844**, tablet **768×1024** — same numbers as the Visual QA Checklist. Don't improvise sizes.
 
-```bash
-# from the app's directory — use the project's dev command
-npm run dev &          # or: nx serve build-marketplace, yarn start, etc.
-echo $! > /tmp/dev.pid
-timeout 60 bash -c 'until curl -sf http://localhost:PORT >/dev/null; do sleep 1; done'
-```
-
-Never `sleep 5` — poll the port. Stop later with `kill $(cat /tmp/dev.pid)`.
+**Dev server ports per app:**
 
 | Project / app | Port | Dev command |
 |---|---|---|
 | Yardzen `build-marketplace` | 4200 | `npx nx serve build-marketplace` (monorepo root) |
 | Yardzen design-sandbox apps | 5173 | `npm run dev` (from the app folder) |
+| Yardzen back-office | 4210 | `npx nx serve back-office` |
 | Finsera dashboard | 3000 | `yarn start` |
 | Finsera thematic-baskets | 3002 | `yarn start` |
 | Fawnroad | 8888 | `npm run dev:start` (from `apps/web`) |
 
-### Step 2 — Run the screenshot script
-
-Run from a directory whose `node_modules` has `playwright` (Yardzen: `apps/design-sandbox/new-yardzen` has it; Fawnroad: `apps/web`). If `require("playwright")` fails, run `npm i -D playwright` once in that app — Chromium is already cached globally at `~/Library/Caches/ms-playwright` (first time ever: `npx playwright install chromium`).
-
-```bash
-APP=build-marketplace BASE=http://localhost:4200 ROUTES="/ /packages" node - <<'EOF'
-const { chromium } = require("playwright");
-const { mkdirSync } = require("fs");
-const { homedir } = require("os");
-
-const app = process.env.APP, base = process.env.BASE;
-const routes = (process.env.ROUTES || "/").trim().split(/\s+/);
-const VIEWPORTS = {
-  desktop: { width: 1280, height: 800 },
-  mobile:  { width: 390,  height: 844 },
-};
-
-(async () => {
-  const browser = await chromium.launch();
-  for (const [name, viewport] of Object.entries(VIEWPORTS)) {
-    const dir = `${homedir()}/Desktop/screens/${app}/${name}`;
-    mkdirSync(dir, { recursive: true });
-    const page = await browser.newPage({ viewport });
-    for (const route of routes) {
-      await page.goto(base + route, { waitUntil: "load" });
-      await page.waitForTimeout(1500); // let fonts/data settle
-      const slug = route === "/" ? "home" : route.replace(/^\//, "").replace(/\//g, "-");
-      await page.screenshot({ path: `${dir}/${slug}.png`, fullPage: true });
-      console.log(`${name}/${slug}.png`);
-    }
-    await page.close();
-  }
-  await browser.close();
-})();
-EOF
-```
-
-- `APP` — folder name under `~/Desktop/screens/`
-- `BASE` — dev server URL
-- `ROUTES` — space-separated routes; defaults to `/`
-- Need tablet too? Add `tablet: { width: 768, height: 1024 }` to `VIEWPORTS` — nothing else changes.
-- Page needs auth or a click first? Add the `fill`/`click` lines before the screenshot — don't switch tools.
-- If a route renders blank, bump the `waitForTimeout` or use `page.waitForSelector()` on a real element — Vite/Next compile routes on demand, first paint can take 10s+.
-
-### Step 3 — Open the folders (macOS)
-
-```bash
-open ~/Desktop/screens/$APP/desktop ~/Desktop/screens/$APP/mobile
-```
-
-### Rules
-
-- Viewports are fixed: desktop **1280×800**, mobile **390×844**, tablet **768×1024** — same numbers as the Visual QA Checklist. Don't improvise sizes.
-- **Look at every screenshot before sharing.** A blank frame means the page didn't load — that's a failure, not a deliverable.
-- Multiple apps in one request → run the script once per app with its own `APP`/`BASE`. Separate folders per app, always.
+**Look at every screenshot before sharing.** A blank frame means the page didn't load — that's a failure, not a deliverable.
 
 ---
 
-## Project-Specific Guides
+## Project-Specific Guides — load the project's skill
 
----
+The per-project guides that used to live in this file are now their own skills. Load the one for the repo you're working in:
 
-### Finsera
-
-**Stack:** Turborepo (Yarn classic), React 19, TypeScript 5, MUI 7, Vite 7, Vitest, Redux + redux-thunk, amCharts 5, MUI X Data Grid Premium, lodash-es, PostHog, Sentry
-
-**Monorepo layout:**
-```
-apps/
-  finsera/            # Main dashboard SPA (Vite, client-only) — localhost:3000
-  thematic-baskets/   # Public SSR app (React Router v7, SSR) — localhost:3002
-  portfolios/         # localhost:3001
-  design-system/      # Component QA gallery — localhost:3003
-packages/
-  finsera-core/       # @local/finsera-core — shared components, theme, API, types
-```
-
-**Dev workflow:**
-```bash
-# Setup
-nvm use 20.19.3
-yarn start            # runs all apps in parallel via Turborepo
-
-# If it fails:
-yarn                  # reinstall all packages
-
-# Clean install (nuclear):
-rm -rf .turbo apps/finsera/.turbo/ apps/portfolios/.turbo/ packages/finsera-core/.turbo/ packages/thematic-baskets/.turbo/
-rm -rf node_modules apps/finsera/node_modules/ apps/portfolios/node_modules/ packages/finsera-core/node_modules/ packages/thematic-baskets/node_modules/
-yarn
-
-# Lint, type check, test
-yarn lint
-yarn tsc
-yarn test:no-watch    # CI single-run
-yarn format           # prettier --write
-```
-
-> ⛔ **DO NOT run `yarn tsc` / `yarn lint` / `eslint` / `prettier` after every edit or every turn — it is SUPER SLOW and Dan hates it.** Make the edits and keep moving. Dan runs the checks himself at the end, only when the work is ready to be merged. Run a final check only if HE explicitly asks. Same for commits: **never `git commit` / `git merge` / `git push` until Dan explicitly tells you — always.**
-
-**Git workflow:**
-- Base branch: `master`
-- Always `git pull` before starting new work
-- Branch names come from Shortcut — use the "copy branch" setting in Shortcut
-- Use Finsera Chrome browser profile when working in Shortcut
-
-**Environments:**
-| Name | URL |
-|---|---|
-| localhost | `localhost:3002/` (thematic-baskets) |
-| development | `https://themes.finseradev.net/` |
-| staging | `https://themes.finserastg.net/` |
-| production | `https://themes.finsera.com/` |
-
-**Tools used:** Shortcut (tasks), GitLab (code hosting), Pitch (presentations), RB2B (tracking), PostHog (analytics)
-
-**Meetings:**
-- Monday 12pm — testing meeting + new feature demo
-
-**Shared package — `@local/finsera-core`:**
-```ts
-import { ui, uitheme, hooks, helpers, enums, types, coreData } from '@local/finsera-core';
-import { FinseraCoreProvider } from '@local/finsera-core';
-```
-- `ui.*` — all shared UI components (Button, Card, FinDataGrid, LineChart, PieChart, AssetSelector, etc.)
-- `uitheme.blue` / `uitheme.green` — MUI theme objects
-- `mui.core.*`, `mui.icons.*`, `mui.lab.*` — all MUI re-exports (never import from `@mui/material` directly)
-
-**Theme:**
-- Theme files: `packages/finsera-core/src/theme/`
-- All MUI overrides → `base-config-theme.ts` — never in local `ThemeProvider` wrappers
-- MUI spacing base: `4px` (so `theme.spacing(2) = 8px`)
-- Custom breakpoints: `xs:0, sm:600, md:900, lg:1300, xl:1536`
-- Design tokens in `layout-size.ts`: `FONT_SIZE`, `INPUT_SIZE`, `APP_BAR_HEIGHT (50px)`, `LEFT_DRAWER_WIDTH (270px)`, `SECTION_BG`, `Z_INDEX`
-- Fonts: Libre Caslon Condensed (serif heading) + Inter (body), loaded via `fonts.css`
-- MUI filled variant is preferred for all inputs, autocompletes, date pickers (migrating from outlined)
-- Use `uitheme.blue` by default, `uitheme.green` for production mode
-- Custom button variant added: `'light'`
-
-**Import pattern in apps:**
-```ts
-// Everything comes from the _core barrel — never direct imports
-import { mui, React, ts, ui, api } from '_core';
-// baseUrl is "src" so all imports are from src/
-import Layout from 'views/layout';
-```
-
-**Data fetching — REST only (no GraphQL):**
-```ts
-// SCRUD factory generates get/search/create/update/delete per resource
-const basket = await api.baskets.get(id);
-await api.baskets.update(id, data);
-// thematic-baskets uses adminApi/usersApi for server-side loaders
-const data = await adminApi(request.headers).baskets.search({ query: [...] });
-```
-
-**Auth:**
-- `finsera` app: cookie `fauth`, session fetched on mount via `api.auth.getSession()`
-- `thematic-baskets`: cookie `fauth` read in root middleware, role-based access via `checkAccessByRole()`
-- Role hierarchy: `ANONYMOUS → FREE → PREMIUM → ADMIN`
-- **thematic-baskets role hierarchy:** `ANONYMOUS → FREE → TIER1 (Pro) → TIER2 (Max) → ADMIN`
-  - **FREE** — limited access, 10 baskets, basic overview. No login required to browse.
-  - **TIER1 / Pro** — full basket library, compare baskets & ETFs, holdings/performance views, watchlists. Currently free for a limited time.
-  - **TIER2 / Max** — custom baskets, guided support, advanced workflows. Coming soon.
-  - **ADMIN** — full access.
-  - Welcome modal variant (`free` vs `tier1`) driven by `user.thematic_baskets_metadata`.
-  - "Public Beta" was the old name for TIER1/Pro — it is now called **Pro** everywhere.
-
-**Routing:**
-- `finsera`: React Router v7 as library in Vite SPA — `logged-in-router.tsx` + `logged-out-router.tsx`, all lazy-loaded
-- `thematic-baskets`: React Router v7 SSR — config-based route table in `app/routes.ts`
-
-**Layout model:**
-```
-CONTAINER (100vh)
-  NAVBAR (sticky, always visible — APP_BAR_HEIGHT: 50px)
-  LEFT COLUMN (scrolls) | RIGHT COLUMN (scrolls)
-END CONTAINER
-```
-- Dialogs: `minWidth: 1100px`, below that `90vw`
-- Dialogs never scroll — only inner panes scroll
-- Page-level `overflow` is almost always wrong
-
-**Key files to read first:**
-1. `packages/finsera-core/src/index.ts` — everything exported from the shared library
-2. `packages/finsera-core/src/theme/base-config-theme.ts` — all MUI overrides
-3. `packages/finsera-core/src/theme/layout-size.ts` — all design tokens
-4. `apps/finsera/src/_core/index.ts` — the import barrel
-5. `apps/finsera/src/in-app.tsx` — auth boot, session fetch, router switching
-6. `apps/thematic-baskets/app/routes.ts` — complete SSR route table
-7. `apps/thematic-baskets/app/_helpers/server/with-access-control.ts` — role-based auth guard
-
-**Visual rules:**
-- Padding: less is more — he actively hunts excessive padding
-- Shadows on chart legends: remove
-- Backgrounds on accordions: remove
-- Dividers: `showDivider` prop, default `false`
-- No link underlines
-- Table numbers (market cap, weight, price): right-aligned
-- Chips in autocompletes: darker background
-- Fonts loaded via `<link>` in HTML head — never CSS `@import`
-
-**Syntax preferences:**
-- Optional chaining everywhere: `?.length` not `&& .length > 0`
-- Lodash (`lodash-es`) for utility operations
-- `useMemo` for expensive calculations
-- MUI breakpoint hooks — never calculate window size manually
-- Null guard in map: `if (!item) return null`
-
-#### Thematic Baskets — App Architecture (apps/thematic-baskets)
-
-**Routes & views:**
-- `/dashboard` → `views/dashboard/index.tsx` → `ChartsSection` → `EmergingBaskets`
-- `/basket/:id/:slug` → `views/basket/index.tsx` → `BasketDetail`
-- `/watchlist/:id` → watchlist view with sidebar
-- `/custom-themes` — TIER1+ only
-
-**Key contexts:**
-- `BasketsContext` (`_contexts/baskets-context.tsx`) — all basket data, polling, CRUD callbacks
-  - `allBaskets`, `baskets` (non-ETF), `userBaskets`, `labels`, `isLoading`
-  - `startPolling()` / `stopPolling()` — called in dashboard/basket route effects
-- `UserContext` — current user, `thematic_baskets_role`, `thematic_baskets_metadata`
-
-**ExtendedBasket type** (`_core/typescript-definitions/app.ts`):
-```ts
-type ExtendedBasket = ReducedBasket
-  & { jobStatus: JobStatus }
-  & { returns: { [key in PORTFOLIOS_HISTORY_ENUM]: number } }
-  & { exposures: { theme_momentum, theme_volume, theme_sentiment, theme_hedge_fund, theme_overall } }
-  & { is_etf?, is_user_basket? }
-```
-
-**Returns keys** — always use `ts.enums.PORTFOLIOS_HISTORY_ENUM.*`:
-- `ONE_DAY` (LD), `ONE_MONTH` (LM), `YTD`, `THREE` (L3Y), `FULL`
-
-**Exposure keys** (from `EXPOSURE_RANK_METRICS` in `_core/shared-variables.ts`):
-- `theme_momentum`, `theme_volume`, `theme_sentiment`, `theme_hedge_fund`, `theme_overall`
-
-**Enums access pattern** — `ts.enums` is exported from the `_core` barrel:
-```ts
-import { ts } from '_core';
-basket.returns[ts.enums.PORTFOLIOS_HISTORY_ENUM.YTD]
-```
-
-**Component locations:**
-- `_components/basket/basket-detail.tsx` — full basket detail (tabs: overview, compare, related_etfs)
-- `_components/basket/basket-nav-footer.tsx` — guided next/back footer (new, April 2026)
-- `_components/chart-sections/emerging-baskets/index.tsx` — dashboard table + filters
-- `_components/insight-banner/index.tsx` — "what's happening now" banner (new, April 2026)
-- `_components/welcome/index.tsx` — onboarding modal (3-step guided flow, new April 2026)
-- `_components/basket-image.tsx` — basket icon/image renderer
-- `_helpers/basket.ts` — `generateBasketUrl`, `generateBasketSlug`, `getBasketSegments`, `extendBasketMetadata`
-
-**ClickUp EPICS:** `Clientes CS 2026 → Finsera / Fawnroad / Novena → EPICS` (list id: `901326864344`)
-
-**GitLab MR workflow** — no `glab` CLI installed. Push branch, use the MR URL printed in push output:
-```
-remote: To create a merge request for feat/xxx, visit:
-remote:   https://gitlab.com/finsera/web-ui/-/merge_requests/new?...
-```
-
-**Finsera product context (April 2026):** Active initiative is "Guided Discovery & Insight Activation" — turning the app from a data tool into a guided experience for decision-makers. All work is frontend-first from BasketsContext data (no new API calls without approval).
-
----
-
-### Yardzen
-
-**Stack:** NX monorepo (pnpm), Next.js 15 (App Router), TypeScript strict, Tailwind CSS, GraphQL (Apollo codegen), Prisma + PostgreSQL, Contentful CMS, NextAuth v4 + custom V2 JWT auth, Split.io feature flags
-
-**Dev setup:**
-```bash
-cd yardzen-app        # or wherever the monorepo is cloned
-nvm use 24.0.0
-git checkout dev && git pull    # base branch is dev (not main/master)
-```
-
-**Dev commands** (run from monorepo root):
-```bash
-# Run only build-marketplace (most common)
-npx nx run-many --target=serve --projects=build-marketplace
-
-# Run with API backend too (required for: design profile quiz, any Prisma DB features)
-npx nx run-many --target=serve --projects=api,build-marketplace
-
-# Run API alone (only when you need backend data — not the default)
-nx serve dev
-
-# Run single app directly
-nx serve build-marketplace                    # port 4200
-
-nx build build-marketplace                    # production build
-nx lint build-marketplace                     # lint
-nx test build-marketplace                     # tests
-nx run build-marketplace:graphql-codegen      # regenerate GQL types
-
-# Always run before pushing:
-pnpm run lint
-```
-
-**Git & PR workflow:**
-- Base branch: **`dev`** (not `main` — that's a different branch, exists but is not ours)
-- Always pull from `dev` before starting
-- Open Jira ticket first, create branch from the ticket (use Jira's "create branch" option)
-- Commit format: `git ci -m "message-branch"`
-- Run `pnpm run lint` before every push
-- PR must include: title matching ticket name, bullet-point description of changes, before/after screenshots, local URL + which component to test
-- Add Natalie and the other dev as reviewers on every PR
-- Add screenshot with link to Dan's playground in the GitHub PR conversation
-- Use the Yardzen Chrome browser profile for Claude and GitLab access — always run Claude from the batman account via this profile
-
-**Contentful access:**
-- Email: `daniel.pliego@yardzen.com`
-- Password: (see 1Password)
-
-**Yard Capture (mobile app) setup:**
-```bash
-cd yardzen-app/mobile-apps/yardzen-capture
-./start.sh            # loads QR code for the mobile app
-```
-
-**Route groups in `app/`:**
-| Group | Paths | Purpose |
+| Project | Skill | Covers |
 |---|---|---|
-| `(default)` | `/login`, `/profile`, `/gallery`, `/build-studio`, `/payments/[invoiceId]` | Authenticated user flows |
-| `(marketing)` | `/home`, `/packages`, `/[...slug]` | Public marketing, Contentful-driven |
-| `(minimal)` | `/checkout`, `/checkout/extras` | Stripped shell, no main nav |
-| `(quiz)` | `/design-consultation/[survey_id]/[[...slug]]` | Multi-step design quiz |
-
-**Key files to read first:**
-1. `middleware.ts` — auth gating, `PUBLIC_PATHS`, anonymous ID creation
-2. `app/(default)/layout.tsx` + `ClientsideLayout.tsx` — full provider stack (Apollo, GTM, Split, Datadog)
-3. `app/(default)/ServerContext.ts` — `getUserIdFromServerContext()` — canonical user getter in server components
-4. `providers/V2Auth/serverSideV2Auth.ts` — dual-token (V1 Firebase / V2 JWT) auth chain
-5. `app/(marketing)/packages/ContentfulPage.tsx` — Contentful section router (`isTypeXxx` chain)
-6. `libs/contentful/utils/getEntry.ts` — caching, overrides, preview logic
-7. `app/(default)/prisma.ts` — Prisma singleton
-8. `codegen.ts` + `gql/apollo.ts` — generated GQL types imported everywhere
-
-**Shared libs (most-used):**
-| Alias | Role |
-|---|---|
-| `@contentful/types` | Generated TypeScript skeletons for every Contentful type |
-| `@contentful/utils` | `getPage()`, `getPackageDetail()`, `getBanner()` with ISR cache tagging |
-| `@yardzen/components/*` | Granular component subpath exports |
-| `@yardzen/ui/components/*` | Base design system (Page, Footer, Spinner, Link, etc.) |
-| `@yardzen/next-api-util` | `fetchYzGqlApi()` — server-side typed GQL fetcher |
-| `@yardzen/next-client-util` | `GQLClient()`, GTM events, analytics helpers |
-| `@yardzen/splitio` | Feature flags — `SplitTreatmentName` enum, server/client wrappers |
-| `@yardzen/auth` | `validateV2Token()`, `validateLegacyToken()`, `exchangeV1ForV2Token()` |
-
-**Auth:**
-- Two systems coexist: V1 (Firebase JWT) and V2 (custom JWT, preferred)
-- Server components: use `getUserIdFromServerContext()` or `getAuthedUserInfo()`
-- If V2 token missing, auto-generated from V1 — no redirect
-- Add new public routes to `PUBLIC_PATHS` in `middleware.ts`
-
-**GraphQL:**
-- Run codegen after any schema change: `nx run build-marketplace:graphql-codegen`
-- Queries in co-located `queries.ts` files using `gql` tag
-- Server-side: `fetchYzGqlApi<QueryType, VariablesType>({ query, variables })`
-- Client-side: standard Apollo hooks from `gql/apollo.ts`
-- Never write raw fetch calls — always use typed helpers
-
-**Contentful integration:**
-- Types in `libs/contentful/types/` — always use generated types
-- Fields accessed as `entry.fields.fieldName` — guard with `?.` (can be `undefined`)
-- `customStyles` prop = scoped `<style>` tag in component root — intentional architecture, not a hack
-- `internalYardzenId` field → prefix with `hero-` → CSS class for per-instance scoping
-- Class goes on the **correct inner element**, never a generic outer wrapper
-- Section routing: `isTypeXxx(section) && <Component />` chain — no switch/case
-
-**Styling:**
-- Tailwind extends `libs/ui/src/tailwind.config.js`
-- Fonts: `Arsenal` (serif) and `Roboto` via `next/font/google`
-- Custom tokens: `action-main` (#1B6245), `typo-primary` (#323232), `texture-primary` (#F6F5F4)
-- Run Prettier before pushing — formatting failures are the most common CI break
-
-**Conventions:**
-- No `@/` alias — use relative paths within the app; monorepo libs via `@yardzen/<lib>`
-- Server components: async functions, no directive. Client components: `"use client"` as first line.
-- Pattern: server component fetches → passes serializable props to client leaf
-- Co-located: `queries.ts` (GQL), `actions.ts` (server actions), `classes.ts` (Tailwind strings)
-
-**Scope discipline:**
-- Only touch files relevant to the task
-- Lockfiles, unrelated components, go files must NOT appear in a feature branch commit
-
-**Icons:**
-- Font Awesome Pro — don't swap it, don't add icon changes without explicit confirmation
-
-**CI:**
-- Formatting errors are the most common real cause of CI failures — run Prettier first
-- Re-run failed jobs via GitHub Actions UI before diagnosing code issues
-
-**Local dev with DB (design profile quiz requires this):**
-- Docker must be running before starting the API
-- TablePlus is used to inspect the local DB
-- Run API in a **separate terminal tab** from build-marketplace:
-  - Tab 1: `npx nx serve api` (port 3000)
-  - Tab 2: `npx nx serve build-marketplace` (port 4200)
-- DB connection: `postgresql://yardzen:yardzen@localhost:5432/yardzen`
-- If Postgres container not running: `docker-compose -f apps/api/docker-compose.test.yml up -d`
-
-**NX project graph errors — common fix:**
-- `Failed to process project graph` → run `nx reset` first
-- If it persists with `--verbose`, look for: duplicate project names, missing packages, or ESM/CJS conflicts in `next.config.js` files
-- Known issue: `apps/design-sandbox/trellis-v2` must have a unique `name` in `package.json` — not `"trellis"` (conflicts with `apps/trellis`)
-
-**Node version:**
-- Next.js requires Node `^18.18.0` or `>=20` — `nvm use 20` or `nvm use 24` before running dev servers
-
-**PR hygiene — clean branches:**
-- Each PR should contain **only the commits for that ticket** — no inherited commits from previous branches
-- If a branch has extra commits (from branching off a non-dev branch), create a clean branch:
-  ```bash
-  git checkout dev
-  git checkout -b my-clean-branch
-  git cherry-pick <commit-sha>
-  git push origin my-clean-branch
-  ```
-- Then close the dirty PR and open a new one from the clean branch
-- Dan reviews PRs visually on GitHub — dirty commit history is always flagged
-
-**Git merge conflicts:**
-- When merging and you want to keep the incoming branch version: `git checkout --theirs <file>`
-- When you want your version: `git checkout --ours <file>`
-- When in doubt about which side is "theirs" vs "ours", ask Dan
-
-**Contentful components — key files:**
-| Component | Path | Notes |
-|---|---|---|
-| `Heading` | `libs/next-components/src/contentful/Heading.tsx` | Used for consult call module, section headings. Has `full-width` and `medium-width` variants via CVA. |
-| `HeadingBanner` | `libs/next-components/src/contentful/HeadingBanner.tsx` | Like Heading but with rich text + background color |
-| `BeforeAndAfterSection` | `libs/next-components/src/contentful/BeforeAndAfterSection.tsx` | Renders tabbed before/after gallery |
-| `GridItemCollection` | `libs/next-components/src/contentful/GridItemCollection.tsx` | Grid of cards — many variants: `large-top-image`, `small-top-image`, `medium-top-image`, `headshot`, `small/medium-left-side-image` |
-| `MultiModuleContainer` | `libs/next-components/src/contentful/MultiModuleContainer.tsx` | Side-by-side module layout. Uses `Heading` via `headingClassName` prop overrides — watch for hardcoded `pt-*` classes here |
-| `CalendlyEmbed` | `libs/next-components/src/contentful/CalendlyEmbed.tsx` | Calendly iframe embed — this IS the "consult call" Contentful module |
-
-**GridItemCollection — important behavior:**
-- `numberOfMobileColumns` and `numberOfDesktopColumns` come from Contentful CMS fields
-- Grid uses `grid-cols-${mobileColumnsResolved} sm:grid-cols-2 md:grid-cols-${desktopColumnsResolved}` — `sm:grid-cols-2` only applies to `large-top-image`, `small-top-image`, `medium-top-image` variants
-- Logo cards (cards with `backgroundColor !== "none"`) get fixed `h-[108px]` image container + `object-contain` — full-width image cards don't
-- `headshot`, `small-left-side-image`, `medium-left-side-image` variants are unaffected by the tablet grid fix
-
-**Icons:**
-- Custom SVG icons live in `libs/ui/src/icons/src/`
-- To update an icon: replace the SVG file with the same filename — no code changes needed
-- Quiz start icon: `libs/ui/src/icons/src/quiz-start.svg`
-
----
-
-### Fawnroad
-
-> **First time here?** Read `docs/ux-testing-bible.md` first — it has every user flow mapped out by persona with step-by-step test plans. Best way to understand what the app does.
-
-**Stack:** React 19, TypeScript 5.9, Vite 7, Wouter 3.7 (routing), Apollo Client 3.12, Hono 4.11 (server), GraphQL 16, Drizzle ORM 0.45, AWS Aurora Data API, Tailwind CSS 4.1, CVA 0.7, Biome 2.3 (lint+format), Vitest 3.2, Playwright 1.50
-
-**Node requirement:** >= 24.12.0, npm >= 11.6.0
-
-**Dev server — port 8888:**
-```bash
-cd apps/web
-npm run dev              # foreground
-npm run dev:start        # background daemon
-npm run dev:status       # check if running + URL
-npm run dev:stop         # stop
-npm run dev:logs         # tail logs
-
-# With public tunnel (Stripe webhooks, OAuth testing only)
-TUNNEL=1 npm run dev:start
-```
-
-**First-time setup:**
-```bash
-npm run setup:dev        # from repo root or apps/web
-# After first login, grant yourself super admin:
-node .opencode/skills/local-db/scripts/set-super-admin.mjs you@example.com
-```
-
-**All commands from `apps/web/`:**
-```bash
-npm run lint             # Biome format + check (writes)
-npm run lint:tsc         # TypeScript check
-npm run format           # Biome format only
-npm run graphql:codegen  # Regenerate types after schema change
-npm run db:generate      # Generate migration from schema changes
-npm run db:migrate       # Apply migrations
-npm run test:backend     # Backend/resolver tests
-npm run test:frontend    # Component tests
-npm run test:watch       # Watch mode
-```
-
-**Project structure (`apps/web/src/`):**
-```
-app/                    # App wiring (providers, router, layouts)
-features/               # Domain modules — self-contained, never import each other
-  auth/                 # Magic link flow
-  home/                 # Home feed (/h)
-  messaging/            # Direct messages
-  profile/              # User profiles (/p/*)
-  supporter/            # Supporter dashboard
-  admin/group/          # Group admin
-  admin/platform/       # Platform admin (/a/*)
-shared/
-  ui/                   # Design system (barrel-exported from shared/ui/index.ts)
-  hooks/                # useAuth, useRouting, etc.
-  lib/routes.ts         # ALL route helpers as typed factory functions
-db/schema/              # Drizzle schema (modular by domain)
-graphql/
-  schema.graphql        # Single source of truth (~109 types)
-  resolvers/            # Function-based resolvers by domain
-  generated/            # Auto-generated — never edit manually
-server/app/             # Hono server (index.tsx, services/)
-```
-
-**Import aliases:**
-```ts
-@/*         → ./src/*
-@app/*      → ./src/app/*
-@features/* → ./src/features/*
-@shared/*   → ./src/shared/*
-```
-
-**Design system — always import from barrel:**
-```ts
-import { Button, Card, Typography, Input, Badge, EmptyState } from '@/shared/ui';
-// NEVER: import { Button } from '@/shared/ui/Button/Button'
-```
-
-**Full component list:** Alert, Badge, Button (polymorphic, variants: primary/secondary/danger/ghost), Card/CardHeader/CardContent/CardFooter/CardTitle/CardDescription/CardAction (variants: default/outlined/shadowed), Checkbox, ColorPicker, ConfirmDialog, DataTable, Drawer, Dropdown, EmptyState, ErrorBoundary, FawnroadEditor, Footer/Header, GroupAvatar/UserAvatar, Input/Select/Textarea, LoadingBar/LoadingSpinner, MediaRenderer/MediaUpload, MemberAccessGate, Modal, PageLoader, Popover, Skeleton (PageSkeleton/SkeletonCard/SkeletonLine/SkeletonTable/SkeletonAvatar/SkeletonButton), StatCard, Tabs, Typography
-
-**Typography component:**
-- Variants: `display1`, `display2`, `h1`–`h6`, `body1`, `body2`, `caption`, `legend`
-- Colors: `primary`, `secondary`, `muted`, `inherit`
-- Font family: `sans` | `mono` — always explicit, **never auto-resolved from variant**
-- `uppercase` — boolean prop, **never a default**
-- Always include a space before `className=` — `variant='h1' className=` not `variant='h1'className=`
-
-**Component patterns:**
-- CVA for all variant-based components
-- Polymorphic `as` prop on Button and Typography
-- `import { clsx as cn } from 'clsx'` for class merging
-- `export function ComponentName` — named exports, no arrow functions at module level
-- `interface XxxProps` for prop types — never `type`
-- `import type` for all type-only imports
-
-**Routing (Wouter):**
-- All routes defined as factory functions in `shared/lib/routes.ts` — always use these, never hardcode strings
-- Route guards: `NeedsAuth` (redirects to `/o/login`), `NeedsAdmin`, `NotInProduction`
-- All major route groups are `React.lazy()` loaded
-
-**Route segments:**
-| Segment | What | Auth |
-|---|---|---|
-| `/h` | Home feed | NeedsAuth |
-| `/o/*` | Auth (login, verify, logout) | Public |
-| `/p/*` | Supporter/personal | NeedsAuth |
-| `/a/*` | Platform admin | NeedsAdmin |
-| `/d/*` | Dev tools / component viewer | Non-prod only |
-| `/u/:username` | User profile | Public |
-| `/:groupSlug/*` | Group pages (catch-all, must be last) | Mixed |
-
-**GraphQL — exclusive data layer (no REST for mutations):**
-```ts
-import { useQuery, useMutation } from '@apollo/client';
-// Queries in feature api/ files or graphql/documents/
-// Run codegen after any schema change: npm run graphql:codegen
-```
-- `@auth` directive — requires authenticated user
-- `@requiresRole(role: ADMIN)` — role-based access
-- Resolver pattern: `const { user, helpers } = getContext(_ctx)` — always destructure first
-
-**Database:**
-- Drizzle ORM, AWS Aurora Data API — ALL environments (no local Postgres)
-- Primary keys: nanoid strings — not auto-increment integers
-- Types: `InferSelectModel<typeof table>` / `InferInsertModel<typeof table>`
-- DB is read-only by default — state changes via browser UI or GraphQL mutations, never direct SQL
-- Migrations: `npm run db:generate` then `npm run db:migrate` — never write migration SQL manually
-
-**Auth — magic link only:**
-1. `/o/login` → `requestMagicLink` mutation
-2. User clicks link → `/o/verify?email=...&code=...` → `verifyMagicLink`
-3. Session cookie set, redirect to original path
-- In dev: login form shows "Continue as [random user]" button that auto-navigates the magic link
-- Auth state in `FawnroadContext` — access via `useAuth()` hook
-
-**Styling:**
-- Tailwind CSS 4 — semantic classes only, never raw hex colors or Tailwind gray utilities
-- Primary display font: `font-mono` (Geist Mono) — for headings, buttons, badges
-- Design tokens (CSS custom properties): `--color-surface`, `--color-text-primary`, `--color-border`, `--color-accent` (#f4ea60 yellow), `--color-accent-cta` (#c1d8ec blue)
-- Brand palette: yellow `#f4ea60`, blue `#c1d8ec`, lime `#c0dc6a`, orange `#e66e34`
-- Body: white (`bg-white`), black text — no dark mode
-
-**Card rules:**
-- Three variants: default (white), outlined, shadowed — no solid black border variant
-- Empty states: use `EmptyState` component with emoji icon, title, description, optional CTA action
-- Empty states get emojis — "make them feel as alive as possible"
-
-**Global visual rules:**
-- All borders 1px — no exceptions
-- No black solid borders on cards or containers (`border-border` or `border-border-secondary` only)
-- 1px borders: `border border-border` or `border-border-secondary`
-
-**PR workflow:**
-- Draft PRs for work-in-progress
-- Include testing plan in every PR
-- Document merge order when PRs have dependencies
-
-**Skills in `.opencode/skills/` (also at `.claude/skills/`):**
-- `frontend-conventions` — full architecture guide, component patterns, import rules
-- `graphql-policy` — GraphQL-only mutation policy
-- `dev-server` — start/stop/restart commands
-- `local-db` — read-only DB access
-- `magic-link-auth` — local and staging auth flows
-- `seed` — generate test groups/tiers/posts/polls
-- `git-conventions` — branch naming, commit format
-- `targeted-testing` — TDD process, test naming
-- `deploy` — deployment pipeline (develop → staging, v* tags → production)
-- `onboard` — first-time setup and health check
-
-**Key files to read first:**
-1. `shared/lib/routes.ts` — every route as typed factory functions
-2. `app/router/routes.tsx` — full Wouter route tree with guards
-3. `graphql/schema.graphql` — entire GraphQL contract
-4. `styles.css` — design tokens, CSS variables
-5. `shared/ui/index.ts` — full design system component catalog
-6. `shared/ui/Button/Button.tsx` — canonical CVA + polymorphic pattern
-7. `app/providers/FawnroadContext.tsx` — global auth/SSR state
-8. `db/schema.ts` — all DB table re-exports
-9. `.opencode/skills/frontend-conventions/skill.md` — most comprehensive coding guide
-10. `.opencode/skills/graphql-policy/skill.md` — data fetching rules
-11. `docs/ux-testing-bible.md` — all user flows by persona, step-by-step test plans
-
-**New to the project?** Start by reading `docs/ux-testing-bible.md` — it maps every user journey (10 flows across 6 personas) with exact routes and expected behavior. It's the fastest way to understand what the app does and how to test it.
-
-**Target audiences** (full list in `docs/ux-testing-bible.md`):
-- Groups that outgrew Facebook (neighborhood clubs, parent co-ops, Buy Nothing groups)
-- Groups that collect money but hate their tools (tenant associations, youth sports, community gardens, maker spaces)
-- Activist / advocacy orgs (mutual aid, tenant unions, immigrant defense, environmental justice, harm reduction)
-- Faith & cultural (small congregations, cultural preservation, diaspora orgs)
-- Creative & professional (journalism collectives, zine distros, DIY music venues, freelancer co-ops)
-- Solo operators (tutors, personal trainers, community educators, doulas)
-
----
-
-### Fawnroad — Active Work Context (April 2026)
-
-#### UX Testing Bible
-`docs/ux-testing-bible.md` — the team-wide source of truth for all user flows. 6 personas (P1–P6), 10 end-to-end flows with step-by-step test tables. Any team member can follow a flow to test the app. Update this file when flows change.
-
-#### User Story Specs
-Jorge wrote 18 product specs in `docs/specs/*/user-stories.md`. They are organized by feature, not by user flow. The 15 key product areas:
-
-| # | Story | Spec folder |
-|---|-------|-------------|
-| 1 | Group Public Page | `group-public-page` |
-| 2 | Group Navigation & Redesign | `group-redesign` |
-| 3 | Group Posts & Broadcasts | `group-posts`, `group-broadcasts`, `broadcast-image-upload` |
-| 4 | Group Events & Ticketing | `group-events` |
-| 5 | Group Polls | `group-polls` |
-| 6 | Group File Manager | `group-file-manager` |
-| 7 | Group Email & Mailing Lists | `group-email-archive` |
-| 8 | Messaging (DMs) | `messaging-system` |
-| 9 | Notifications & Digests | `notifications` |
-| 10 | Tiers & Checkout | `tier-system-rework`, `admin-tier` |
-| 11 | User Profile & Avatar | `user-avatar`, `sc-1273-profile-settings` |
-| 12 | Admin Dashboard & Platform Admin | (permissions in `permissions-matrix.md`) |
-| 13 | Billing & Payments | `sc-1291-billing-advance` |
-| 14 | App Polish & Beta-Ready | `beta-test-ready` |
-| 15 | UX Audit & Production Readiness | `ux-audit`, `production-readiness` |
-
-#### New Design System Components (April 2026)
-These were added to `shared/ui/` for the quiz-style application flow. Use them in any multi-step form or onboarding:
-
-| Component | Path | What it does |
-|-----------|------|-------------|
-| `SelectionCard` | `shared/ui/SelectionCard/` | Clickable card with icon + title + description. Selected state has yellow tint + ring. CVA-based. Use for single-select card grids (org type, tier picker, etc.) |
-| `ChipSelector` | `shared/ui/ChipSelector/` | Pill/tag grid for single or multi-select. Use for category pickers, tag selectors. |
-| `InfoBox` | `shared/ui/InfoBox/` | Gray rounded box for helper text, requirements lists, disclaimers. |
-| `QuizLayout` | `shared/ui/QuizLayout/` | Two-column layout: white left panel (sticky headline + step counter) + gray right panel (form content). Bottom nav bar with back arrow, progress bar, continue button. Supports overlay prop for modals. GoFundMe-inspired. |
-
-All exported from `shared/ui/index.ts`.
-
-#### Application Flow Refactor (In Progress — branch `danpliego/apply-quiz-stepper`)
-The group application form (`/j/form`) is being rebuilt from a single giant form into a Duolingo/GoFundMe-style quiz stepper:
-
-- **Route:** `/j/form` — no longer requires auth (removed `NeedsAuth` wrapper)
-- **Layout:** `QuizLayout` — two-column, left sticky headline, right form content
-- **Steps:** 7 steps (name → description → org type → nonprofit details [conditional] → website → fiscal sponsorship → review + terms)
-- **Auth:** happens at the END via inline modal overlay — not a redirect. User fills everything first, then signs in/up to submit.
-- **Backend:** unchanged — same `submitMembershipGroupApplication` GraphQL mutation, same fields
-- **File:** `src/features/public/routes/ApplyFormRoute.tsx`
-
-#### How to Work on User Flows
-Dan's process for tackling flows:
-1. Pick a flow from the UX Testing Bible
-2. Dan provides an audio transcript scoping the work
-3. Create a branch: `danpliego/<flow-slug>`
-4. Read the relevant spec(s) in `docs/specs/`
-5. Build frontend only — no backend/schema changes without Dan's approval
-6. Use existing design system components (`Button`, `Card`, `Typography`, `SelectionCard`, `QuizLayout`, etc.)
-7. Screenshot each state with Playwright, upload to files.fwnrd.net
-8. One flow at a time, finish completely before starting the next
-
-#### Branch Naming for Flows
-- `danpliego/apply-quiz-stepper` — Flow 1 (organizer application)
-- Pattern: `danpliego/<flow-name>`
-
-#### Login for Testing
-```bash
-# Get a magic link code in dev
-curl -s -X POST http://localhost:8888/graphql \
-  -H "Content-Type: application/json" \
-  -d '{"query":"mutation { requestMagicLink(input: { email: \"hola@casasoda.com\", path: \"/h\" }) { magicCode } }"}'
-
-# Then navigate to:
-# http://localhost:8888/oauth/verify?email=hola@casasoda.com&code=<CODE>&path=/h
-```
-
-#### Super Admin
-```bash
-# Grant via Aurora Data API (env vars from apps/web/.env.default)
-# 1. Get user ID
-aws rds-data execute-statement --resource-arn "$RESOURCE_ARN" --secret-arn "$SECRET_ARN" --database "$DB_NAME" --sql "SELECT id FROM users WHERE email = 'hola@casasoda.com'" --region us-east-1
-
-# 2. Insert role
-aws rds-data execute-statement --resource-arn "$RESOURCE_ARN" --secret-arn "$SECRET_ARN" --database "$DB_NAME" --region us-east-1 --sql "INSERT INTO user_roles (id, \"userId\", role, \"createdAt\", \"updatedAt\") VALUES ('$(openssl rand -hex 11)', '<USER_ID>', 'SUPER_ADMIN', NOW(), NOW()) ON CONFLICT DO NOTHING"
-```
-
----
-
-### Yardzen — Design Sandbox Deployments
-
-Design sandbox apps live in `apps/design-sandbox/` inside the NX monorepo. They are standalone Vite SPAs — each has its own `package.json`, `vite.config.ts`, and `vercel.json`.
-
-**Why they must build locally:** every app imports from `libs/ui-v2/` via the `@yz-ds` alias in `vite.config.ts`. That path resolves to `../../../libs/ui-v2/src` — outside the app subdirectory — so Vercel's remote build fails with "Can't resolve libs/ui-v2/...". The fix: always build locally first, then push the `build/` output to Vercel.
-
-#### Deploy workflow — same for every app
-
-```bash
-cd apps/design-sandbox/<app-name>
-npm run build           # resolves libs/ui-v2 correctly from the monorepo
-vercel --yes --prod     # uploads build/ and serves it — done in ~15 seconds
-```
-
-That's it. No environment variables, no secrets, no special flags.
-
-#### All deployed apps
-
-| App | Vercel project name | Primary URL | Local path |
-|-----|---------------------|-------------|------------|
-| lean-onboarding-v2 | `lean-onboarding-v2` | https://lean-onboarding-v2.vercel.app | `apps/design-sandbox/lean-onboarding-v2/` |
-| yardzen-shop | `yardzen-shop` | https://yardzen-shop.vercel.app | `apps/design-sandbox/yardzen-shop/` |
-| pros-landing | `yz-for-pros-landing` | https://yz-for-pros-landing.vercel.app | `apps/design-sandbox/pros-landing/` |
-| toll-brothers-onboarding | `yz-toll-brothers` | https://yz-toll-brothers.vercel.app | `apps/design-sandbox/toll-brothers-onboarding/` |
-| trend-report | `yz-trend-report-26` | https://yz-trend-report-26.vercel.app | `apps/design-sandbox/trend-report/` |
-| trellis-v2 | (not yet linked) | — | `apps/design-sandbox/trellis-v2/` |
-
-All projects are under the `danielpliego-4456s-projects` Vercel scope.
-
-#### First-time setup on a new machine
-
-```bash
-npm install -g vercel
-vercel login            # authenticate — use your Yardzen or personal account
-                        # Dan will add you to the danielpliego-4456s-projects scope
-```
-
-Then deploy any app:
-```bash
-cd apps/design-sandbox/<app-name>
-npm run build
-vercel --yes --prod     # first run: Vercel prompts to link to the existing project
-                        # pick "link to existing project" and enter the project name from the table above
-```
-
-After the first link, subsequent deploys just need `npm run build && vercel --yes --prod`.
-
-#### Adding a new design sandbox app to Vercel
-
-1. Copy `vercel.json` from `lean-onboarding-v2` — use `buildCommand: ""`, `installCommand: ""`, `outputDirectory: "build"` to prevent remote builds
-2. Build locally: `npm run build`
-3. Deploy: `vercel --yes --prod` (Vercel auto-detects Vite, creates a new project)
-4. Optionally set a vanity alias: `vercel alias set <generated>.vercel.app <alias>.vercel.app`
-5. Add the project to the table above
-
----
-
-### Yardzen — Back Office (Next.js sandbox)
-
-The back-office prototype is different from the other design sandbox apps: it's a **Next.js App Router** app inside the NX monorepo (mirrors eden's structure), uses **`@yardzen/ui` (Trellis from `libs/ui`)** for components, and is the proving ground for both Trellis components AND reusable page layouts (workstation shell, sidebar, role tabs, dashboards).
-
-**Why it's not a Vite SPA like the others:** the goal is that pages built here can be copy-pasted directly back into eden with zero rewrite. Same framework, same imports, same conventions.
-
-**Live:** https://yz-back-office.vercel.app
-**Local path:** `apps/design-sandbox/back-office/`
-**Dev port:** `4210`
-
-#### Run locally
-
-```bash
-nvm use 24
-npx nx serve back-office
-# → http://localhost:4210 (redirects to /back-office/design-studio)
-```
-
-If NX fails with "Failed to process project graph" or "crypto is not defined", you're on Node 18. Run `nvm use 24` and retry.
-If port 4210 is in use: `lsof -ti :4210 | xargs kill -9`.
-
-#### App structure
-
-```
-apps/design-sandbox/back-office/
-├── app/
-│   ├── layout.tsx             # root layout (fonts, no auth)
-│   ├── ClientsideLayout.tsx   # YzThemeProvider + ToastProvider only
-│   ├── global.css
-│   ├── page.tsx               # → redirects to /back-office/design-studio
-│   └── back-office/
-│       ├── layout.tsx         # top bar + IconRail + RoleTabs + Sidebar
-│       ├── page.tsx           # → redirects to design-studio dashboard
-│       ├── _components/       # Chip, ScoreBar, KanbanBoard, DropZone,
-│       │                      # RoleTabs, BackOfficeSidebar, IconRail,
-│       │                      # Dashboard (shared dashboard layout)
-│       ├── design-studio/     # dashboard + 5 leaf pages
-│       ├── design-ops/        # dashboard + 5 leaf pages
-│       ├── build-studio/      # dashboard + 4 leaf pages
-│       └── build-ops/         # dashboard + 5 leaf pages
-```
-
-#### Trellis discipline (the whole point of this app)
-
-- **Always import from `@yardzen/ui`** (Trellis / `libs/ui`) — never `@yz-ds` / `libs/ui-v2` here.
-- Same import path eden uses: `import { Button } from "@yardzen/ui/components/button"` etc.
-- When you hit a Trellis gap (missing variant, missing token, inline hex like `#6E56CF`) — file a ticket against `libs/ui` rather than work around it. This app exists to surface those gaps.
-- **Reusable layouts are first-class.** The `Dashboard` component in `_components/Dashboard.tsx` is the prototype for what eventually becomes a Trellis layout primitive. Same for `IconRail`, `RoleTabs`, `BackOfficeSidebar`. If you find yourself building the same shell twice, extract it.
-
-#### Deploy workflow
-
-The back-office is a Next.js app, so deploys work differently from the Vite sandbox apps. We deploy a **static export** because all pages are SSG.
-
-```bash
-# 1. Build (Nx will produce dist/apps/design-sandbox/back-office/dist/.next/ as static HTML)
-nvm use 24
-npx nx build back-office --configuration=production
-
-# 2. From the dist output, flatten and deploy
-cd dist/apps/design-sandbox/back-office
-mv dist/.next/* . && rm -rf dist
-# Write vercel.json (see below) then:
-vercel --yes --prod --scope danielpliego-4456s-projects
-```
-
-`vercel.json` in the dist folder:
-```json
-{
-  "buildCommand": "",
-  "installCommand": "",
-  "outputDirectory": ".",
-  "framework": null,
-  "cleanUrls": true,
-  "trailingSlash": true
-}
-```
-
-Why this dance: Nx generates a bloated `package.json` (every monorepo dep) and a `pnpm-lock.yaml` that references private Yardzen FontAwesome packages — Vercel's `pnpm install` always fails on those. Static export bypasses install entirely.
-
-#### `next.config.js` settings that make this work
-
-```js
-const nextConfig = {
-  nx: { svgr: false },
-  distDir: "dist/.next",
-  output: "export",        // required — produces static HTML
-  trailingSlash: true,     // matches Vercel routing
-  images: { unoptimized: true },  // required for static export
-};
-```
-
-#### Important: `redirect()` is NOT allowed in static export
-
-Server-side `redirect()` from `next/navigation` throws at build time. Use client-side redirects instead:
-
-```tsx
-"use client";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-
-export default function BackOfficePage() {
-  const router = useRouter();
-  useEffect(() => {
-    router.replace("/back-office/design-studio/");
-  }, [router]);
-  return null;
-}
-```
-
-#### Routes
-
-| Route | What |
-|---|---|
-| `/back-office/design-studio` | Designer dashboard |
-| `/back-office/design-ops` | Delivery cockpit (Trello replacement) |
-| `/back-office/build-studio` | Homeowner Rep workstation |
-| `/back-office/build-ops` | Build operations cockpit |
-| `/back-office/<workstation>/<page>` | Leaf pages (co-design, pipeline, etc.) |
-
-#### Source of truth
-
-The back-office prototype follows the **New Back Office System Requirements** spec by Alicia Kim (June 15, 2026). 4 workstations, one project record, AI/manual mode toggle per deliverable, tier-based default mode set at assignment, CRH pull-through end-to-end. When in doubt about behavior, the spec wins.
-
----
-
-### Yardzen — Shared Image Assets (`libs/ui-v2`)
-
-Real Yardzen project photos live in `libs/ui-v2/src/assets/` and are exported from `@yz-ds`. Any design sandbox app that needs project imagery imports from there — never Unsplash, never hardcoded URLs, never local copies.
-
-**Rule:** No Unsplash URLs anywhere in design sandbox apps. No hardcoded image URLs. Images come from `@yz-ds`.
-
-#### Current asset catalog
-
-| Export name | File | What it is |
-|---|---|---|
-| `imgCallahanHero` | `looks/callahan-florida/hero-look-callahan-florida.jpg` | Callahan Florida hero |
-| `imgCallahan01–06` | `looks/callahan-florida/look-callahan-florida-0N.jpg` | Callahan gallery shots |
-| `imgNapaHero` | `looks/napa/hero-look-napa.jpg` | Napa look hero |
-| `imgNapa01–06` | `looks/napa/look-napa-0N.jpg` | Napa gallery shots |
-
-#### Import pattern (any sandbox app)
-
-```ts
-import {
-  imgCallahanHero,
-  imgCallahan01,
-  imgNapaHero,
-  imgNapa03,
-} from "@yz-ds";
-
-// Use directly as src:
-<img src={imgCallahanHero} alt="..." />
-```
-
-#### Adding new shared images
-
-1. Copy the image file(s) into the appropriate folder under `libs/ui-v2/src/assets/`
-   - Project/look photos → `assets/looks/<look-name>/`
-   - Everything else → create a logical subfolder (e.g. `assets/misc/`)
-2. Add named exports to `libs/ui-v2/src/assets/index.ts`
-3. Use in any sandbox app via `import { imgName } from "@yz-ds"`
-
-**What goes in ui-v2 assets vs stays in the app:**
-- ✅ ui-v2: real Yardzen project photos used across multiple apps (looks, before/afters, hero shots)
-- ❌ stays in app: shop-specific category heroes, product images, collection covers — anything that only makes sense in one app
+| **Finsera** | `/soda-finsera` | Turborepo + MUI 7 stack, `@local/finsera-core`, theme system, thematic-baskets architecture, PostHog, GitLab workflow, Node 20.19.x |
+| **Yardzen** | `/soda-yardzen` | NX monorepo + Next.js 15, Contentful, GraphQL codegen, design sandbox + back-office deploys, `@yz-ds` assets, yardzen-shop Typography rules |
+| **Fawnroad** | `/soda-fawnroad` | React 19 + Vite + Wouter + Hono stack, design system + `fr-*` classes, magic-link auth, GraphQL-only data layer, UX Testing Bible, active flows |
+
+If the skill isn't installed on this machine, run `bash ~/projects/soda/skills/setup.sh` (see Setup section at the top).
