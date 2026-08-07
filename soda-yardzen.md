@@ -245,6 +245,29 @@ cd yardzen-app/mobile-apps/yardzen-capture
 
 ---
 
+## Self-verify with a headless browser before saying it's done
+
+Dan reviews visual/layout work live himself and doesn't want screenshots handed to him — but that's about not slowing *him* down, not permission to skip verifying your own work. `playwright` is already in the monorepo's pnpm store (a transitive dep) even when it's not a direct dependency of the app you're touching — use it to check real computed layout instead of guessing from a code read, every time you touch CSS/layout/interaction in any design-sandbox app.
+
+```js
+const { chromium } = require('/Users/Said/projects/yardzen/node_modules/.pnpm/playwright@1.55.1/node_modules/playwright');
+// pin the exact version installed — check node_modules/.pnpm/ if this path 404s
+```
+
+If the matching browser binary isn't cached yet (`browserType.launch: Executable doesn't exist`), download it once — this only writes to `~/Library/Caches/ms-playwright`, never the repo:
+```bash
+PLAYWRIGHT_BROWSERS_PATH="$HOME/Library/Caches/ms-playwright" \
+  node_modules/.pnpm/playwright@1.55.1/node_modules/playwright/cli.js install chromium
+```
+
+Use it to measure real `getBoundingClientRect()` / computed styles (don't eyeball a fix from the diff), drive an app's own demo/stage-jump controls to reach any state instantly instead of clicking through the whole funnel, and simulate full interaction flows (pin-drops, form fills, even camera-based recorders via `chromium.launch({ args: ['--use-fake-device-for-media-stream', '--use-fake-ui-for-media-stream'] })`).
+
+This has caught real bugs a code read alone missed — two examples from design-delivery:
+- A pill/badge shape that only reads correctly for short text — wrapping a full sentence in `rounded-full` makes it clip against the container edge instead of looking like a badge. Fine for a 2-3 word value (a Brief field's answer), broken for a full clause (a suggested next step) — check the actual rendered width, don't assume the same treatment scales.
+- A native `<img>` is draggable by default; a click-drag near an element sitting on top of it (like an annotation pin) can kick off the browser's own native image-drag, which triggers edge-auto-scroll as a side effect. Looks like a scroll bug, isn't one — the fix is `draggable={false}` on the image, not touching any scroll code.
+
+---
+
 ## Typography for ALL text — no exceptions (yardzen-shop)
 
 Every visible text node in `apps/design-sandbox/yardzen-shop` must use `<Typography>` from `@yz-ds`. No raw `<h1>`–`<h6>`, `<p>`, or `<span>` with inline font styles.
