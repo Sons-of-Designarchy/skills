@@ -6,6 +6,42 @@ This is the **common core**: who Dan is, how to work with him, and the rules tha
 
 ---
 
+## RULE ZERO — Text is sized by the Typography component. Always.
+
+**Never write a text size, weight, font, or colour by hand. Not in a
+`className`, not in a `style` prop, not "just this once."**
+
+```tsx
+// ❌ NEVER — the most expensive mistake in these codebases
+<div className="text-[13px] text-white/60">
+<p style={{ fontSize: 14, fontWeight: 600 }}>
+<span className="text-sm font-medium text-gray-500">
+
+// ✅ ALWAYS
+<Typography variant="label" color="secondary">
+<Typography variant="body-sm" weight="semibold">
+```
+
+Every visible string of text goes through the design system's `Typography`
+component with a **named** variant. No raw `<h1>`–`<h6>`, `<p>`, `<span>` or
+`<div>` carrying font styling. If the size you need has no name, that is a
+signal the scale is wrong — raise it, don't hardcode past it.
+
+**Why this is Rule Zero.** yardzen-for-pros accumulated **375** hand-typed text
+sizes across ~90 files; design-delivery had 61. Undoing that is hours of
+error-prone, file-by-file rewriting — and until it's undone those apps get no
+dark mode, no partner theming and no consistency, because none of that can reach
+a number typed into a className. Writing `text-[13px]` takes two seconds and
+costs an afternoon. **Do not start the debt.**
+
+The same applies to colour (`color` prop, never a hex), weight (`weight` prop,
+never `fontWeight`) and family (`font` prop, never `fontFamily`).
+
+If you inherit a file that already breaks this rule, fix the lines you touch.
+Don't add to it.
+
+---
+
 ## Setup & Staying Current — READ THIS FIRST
 
 ### For the AI agent loading this skill
@@ -186,6 +222,8 @@ A task isn't done when it's merged. Done = tested, documented, deployed to stagi
 ---
 
 ## Before You Start Any Task
+
+**Account check (hard rule):** The Yardzen Claude account must NEVER be used for Finsera work. Check the Claude account email for the session (shown as `userEmail` in session context). If it's a Yardzen account (e.g., `@yardzen.com`) and the task touches anything Finsera — STOP immediately and warn Dan before doing any work. Dan's personal account is `hola@casasoda.com`.
 
 Ask yourself — or ask Dan — these four things:
 
