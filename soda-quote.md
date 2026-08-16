@@ -519,3 +519,35 @@ Use this section to quickly price a build based on the chosen platform before ap
 There's a live site-quiz at `/Users/casasoda/projects/soda/site-quiz` connected to Netlify. It collects: project type, website type, main goal, ideal user, primary CTA, site size, visual style, additional services, content readiness, and timeline — then sends everything to Google Sheets and routes to Calendly.
 
 Check `site-quiz/DEPLOY.md` for the live URL. That link can be sent to any client as a pre-discovery intake before quoting.
+
+---
+
+## Pricing philosophy — Mexican market & the AI factor
+
+Non-negotiable when pricing anything:
+
+- **Quote by value and market, never by hours.** The number is what the work is worth in the Mexican professional/agency market — not how long it takes Dan.
+- **AI speed is Soda's margin, not a client discount.** If AI lets Dan do in a few hours what used to take two weeks, that's Soda's edge to keep. A "few hours with AI" can still be a real MXN deliverable priced at market. Never let AI's speed deflate the price.
+- **Agency clients get agency pricing.** An agency reselling to their own client carries margin and expects professional numbers. Quoting agency work at freelancer rates reads as junior and leaves money on the table.
+- **Consider real MX rates.** Senior freelance/studio day rates run ~$6–10k MXN/day; a real 2-week build is easily $80–150k MXN. Store publication (Apple review, provisioning, dual-platform) alone eats days.
+- **Discovery-first collapses uncertainty into a firm number.** When Dan can't see the codebase / full scope, quote a wide honest range pre-discovery, sell a paid discovery, then lock the firm price. The range is the pitch, not a weakness. Discovery can be sold standalone, no commitment to the build.
+
+## One-pager quote — THE official format
+
+**Canonical template: `quotes/_template/index.html`.** Copy that folder for every new quote — it is the approved format (all-black Dutch one-pager, DM Sans, per-phase price + time, working footer links). Real worked example: `quotes/notificaciones-brandeadas/`. Do NOT use the older `landing-registro-motos` template.
+
+**New quote in 3 steps:**
+1. `cp -r quotes/_template quotes/<client-slug>`
+2. Fill the `{{PLACEHOLDERS}}` in `index.html` (title, eyebrow, info, lead, phases w/ price + tiempos, process, requisitos, extras, notes).
+3. Export: `chrome --headless=new --print-to-pdf="Cotizacion-<slug>.pdf" file://.../index.html`.
+
+Footer is locked: **Daniel Pliego · Casa Soda**, +52 55 1026 5196, hola@casasoda.com, and "Visita **Casa Soda** para ver nuestro portafolio" (link → casasoda.com). All three are live clickable links in the PDF.
+
+Rules (Dan's taste, learned the hard way):
+
+- **All black. Zero gray copy.** No muted/secondary gray text anywhere — ever. Hierarchy comes from **weight and size**, both in solid black (#0A0A0A). Dan hates gray copy; it gets rejected on sight.
+- **One typeface, period.** DM Sans only. No serif display font, no second family, no "20 typography styles." Big bold title, bold small tracked labels, plain body — all one family.
+- **Modern, Netherlands/Swiss-inspired, simple.** Cream paper (#F0EDE4), black ink, 1px black hairline rules, generous whitespace, strong grid, big bold headline. Monochrome — no lime/accent colors when Dan asks for "all black."
+- **Cut the text ~50%.** Advertising/non-technical audience → plain language, no dev jargon (no "provisioning", "stack", "QA", "infraestructura"). Short lines. Say it once.
+- **Export:** Chrome headless `--headless=new --print-to-pdf` on the HTML → A4 PDF. Two pages is fine. QA by rendering to PNG and eyeballing before handing it over.
+- **Don't fine-tune-by-committee.** Dan expects Soda's accumulated taste (this file, soda-front) applied up front, not 10 rounds of corrections. Build it right, screenshot it, then show him.
