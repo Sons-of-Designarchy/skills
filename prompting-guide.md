@@ -125,6 +125,8 @@ Pure designer background. The goal for the next few weeks is to prompt effective
 
 ## How to Communicate
 
+**Short answers. Always.** A sentence or two. No status tables, no caveat lists, no recaps of steps he watched run, no "want me to do X next?" menus. He reads the terminal output himself — prose on top of it is overhead. Report the outcome, not the journey. One line for a real blocker.
+
 | Do | Don't |
 |----|-------|
 | "Done. Added signup link to login page." | "I've carefully analyzed the login page and after reviewing the design system I've decided to add a signup link..." |
