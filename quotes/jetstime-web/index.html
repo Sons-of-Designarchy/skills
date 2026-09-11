@@ -19,7 +19,7 @@
 
   .sheet {
     width:210mm; min-height:297mm; margin:24px auto; background:var(--paper);
-    padding:26mm 26mm 22mm; display:flex; flex-direction:column;
+    padding:16mm 20mm 14mm; display:flex; flex-direction:column;
     box-shadow:0 12px 48px rgba(0,0,0,0.22);
   }
 
@@ -27,14 +27,14 @@
   .line.thick { height:3px; }
 
   /* Header */
-  .head { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:14px; }
+  .head { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:10px; }
   .head .wm { font-size:24px; font-weight:700; letter-spacing:-0.03em; }
   .head .doc { font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; }
 
   /* Title */
-  .title { padding:26px 0 24px; }
+  .title { padding:18px 0 16px; }
   .eyebrow { font-size:12px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; }
-  .title h1 { font-size:74px; font-weight:700; letter-spacing:-0.03em; line-height:0.92; margin-top:14px; }
+  .title h1 { font-size:60px; font-weight:700; letter-spacing:-0.03em; line-height:0.92; margin-top:14px; }
 
   /* Info */
   .info { display:grid; grid-template-columns:1fr 1fr; }
@@ -44,27 +44,31 @@
   .info .v { font-size:17px; font-weight:500; margin-top:5px; }
 
   /* Lead */
-  .lead { font-size:19px; font-weight:500; line-height:1.4; letter-spacing:-0.01em; padding:22px 0; max-width:34ch; }
+  .lead { font-size:17px; font-weight:500; line-height:1.4; letter-spacing:-0.01em; padding:14px 0 16px; max-width:40ch; }
 
   /* Section label */
-  .sec { font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; padding-top:22px; padding-bottom:4px; }
+  .sec { font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; padding-top:14px; padding-bottom:4px; }
 
   /* Price rows */
-  .prow { padding:16px 0; border-top:1px solid var(--ink); }
+  .prow { padding:10px 0; border-top:1px solid var(--ink); }
   .prow:first-of-type { border-top:none; }
   .prow-top { display:flex; justify-content:space-between; align-items:baseline; gap:24px; }
-  .prow .name { font-size:19px; font-weight:700; }
+  .prow .name { font-size:17px; font-weight:700; }
   .prow .name b { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; margin-left:12px; padding:2px 8px; border:1px solid var(--ink); border-radius:3px; }
-  .prow .price { font-size:30px; font-weight:700; letter-spacing:-0.02em; white-space:nowrap; }
+  .prow .price { font-size:26px; font-weight:700; letter-spacing:-0.02em; white-space:nowrap; }
   .prow .price small { font-size:14px; font-weight:500; margin-left:2px; }
   .prow .price s { font-size:16px; font-weight:500; margin-right:10px; }
-  .prow .time { font-size:14px; font-weight:700; margin-top:8px; }
+  .prow .time { font-size:13px; font-weight:700; margin-top:4px; }
   .prow .time span { font-weight:500; }
-  .prow .desc { font-size:14px; font-weight:400; line-height:1.45; max-width:56ch; margin-top:5px; }
+  .prow .desc { font-size:13px; font-weight:400; line-height:1.4; max-width:62ch; margin-top:3px; }
+
+  .bl { display:grid; grid-template-columns:1fr 1fr; gap:0 32px; margin-top:4px; max-width:64ch; }
+  .bl div { font-size:13px; font-weight:400; line-height:1.4; padding-left:14px; position:relative; }
+  .bl div::before { content:'·'; position:absolute; left:0; font-weight:700; }
 
   /* Two-column lists */
-  .cols { display:grid; grid-template-columns:1fr 1fr; gap:2px 40px; }
-  .li { display:flex; gap:12px; padding:8px 0; font-size:15px; font-weight:400; line-height:1.4; }
+  .cols { display:grid; grid-template-columns:1fr 1fr; gap:0 32px; }
+  .li { display:flex; gap:10px; padding:4px 0; font-size:13.5px; font-weight:400; line-height:1.4; }
   .li .n { font-weight:700; min-width:14px; }
   .li b { font-weight:700; }
 
@@ -76,25 +80,27 @@
   .ex b { font-weight:700; }
 
   /* Notes */
-  .notes { padding-top:18px; }
-  .notes div { font-size:14px; font-weight:400; line-height:1.55; }
+  .notes { padding-top:12px; }
+  .notes div { font-size:13px; font-weight:400; line-height:1.55; }
   .notes b { font-weight:700; }
 
   /* Footer */
-  .foot { margin-top:auto; padding-top:26px; }
+  .foot { margin-top:auto; padding-top:14px; }
   .foot .sal { font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; }
-  .foot .name { font-size:19px; font-weight:700; margin-top:6px; }
+  .foot .name { font-size:17px; font-weight:700; margin-top:4px; }
   .foot .name span { font-weight:500; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; margin-left:12px; }
-  .foot .contact { font-size:14px; font-weight:500; margin-top:12px; letter-spacing:0.01em; }
+  .foot .contact { font-size:13px; font-weight:500; margin-top:8px; letter-spacing:0.01em; }
   .foot .contact span + span::before { content:'·'; margin:0 10px; }
   .foot a { color:var(--ink); text-decoration:none; }
-  .foot .visit { font-size:15px; font-weight:500; margin-top:10px; }
+  .foot .visit { font-size:13px; font-weight:500; margin-top:6px; }
   .foot .visit a { font-weight:700; text-decoration:underline; text-underline-offset:2px; }
 
   @media print {
     @page { size:A4; margin:0; }
     html, body { background:#fff; }
-    .sheet { margin:0; box-shadow:none; width:210mm; min-height:297mm; }
+    .sheet { margin:0; box-shadow:none; width:210mm; height:290mm; min-height:0; overflow:hidden; break-after:page; }
+    .sheet:last-of-type { break-after:auto; }
+    .prow, .li, .foot, .cols { break-inside:avoid; }
   }
   @media (max-width:760px) {
     .sheet { width:100%; min-height:auto; margin:0; padding:26px 20px; box-shadow:none; }
@@ -110,7 +116,7 @@
 
     <div class="head">
       <div class="wm">Casa Soda</div>
-      <div class="doc">Cotización · 6 Ago 2026</div>
+      <div class="doc">Cotización · 11 Sep 2026</div>
     </div>
     <div class="line thick"></div>
 
@@ -125,27 +131,55 @@
     <div class="prow">
       <div class="prow-top"><span class="name">1. Diseño y contenido</span><span class="price">$31,000</span></div>
       <div class="time">2 semanas</div>
-      <div class="desc">Diseñamos todas las páginas con la nueva marca, en español e ingles. Primero el recorrido — por dónde entra el visitante y qué lo lleva a cotizar — y luego cada pantalla informativa necesaria. 2 rondas de cambios antes de construir.</div>
+      <div class="desc">Diseñamos todas las páginas con la nueva marca, en español e inglés. Primero el recorrido — por dónde entra el visitante y qué lo lleva a cotizar — y luego cada pantalla informativa necesaria. 2 rondas de cambios antes de construir.</div>
     </div>
     <div class="prow">
       <div class="prow-top"><span class="name">2. Desarrollo</span><span class="price">$39,000</span></div>
       <div class="time">1 semana <span>· tras aprobar el diseño</span></div>
-      <div class="desc">Construimos el sitio, conectamos el formulario de contacto, todo el cátalogo de productos, lo dejamos funcionando a la perfección en celulares y computadoras.</div>
+      <div class="desc">Construimos el sitio, conectamos el formulario de contacto, todo el catálogo de productos, lo dejamos funcionando a la perfección en celulares y computadoras.</div>
     </div>
     <div class="prow">
-      <div class="prow-top"><span class="name">3. Migración de sitio, migración de correos, hospedaje y lanzamiento</span><span class="price">9,000</span></div>
+      <div class="prow-top"><span class="name">3. Migración de sitio, migración de correos, hospedaje y lanzamiento</span><span class="price">$9,000</span></div>
       <div class="time">1 semana</div>
       <div class="desc">Nos encargamos de todo el proceso de migración del sitio, dominio y correos electrónicos.</div>
+    </div>
+    <div class="prow">
+      <div class="prow-top"><span class="name">4. SEO básico</span><span class="price" style="font-size:19px;">Incluido</span></div>
+      <div class="time">Junto con el lanzamiento</div>
+      <div class="desc">El sitio sale optimizado para Google desde el día uno: títulos y descripciones en los dos idiomas, estructura correcta, velocidad de carga, mapa del sitio y conexión con Google Search Console.</div>
     </div>
     <div class="prow">
       <div class="prow-top"><span class="name">Total del proyecto</span><span class="price">$79,000 <small>MXN</small></span></div>
       <div class="desc">Estimamos lanzar en 4 semanas a partir de la fecha del primer anticipo.</div>
     </div>
+  </div>
+  <div class="sheet">
+    <div class="head"><div class="wm">Casa Soda</div><div class="doc">Sitio web Jetstime · 2/2</div></div>
+    <div class="line thick"></div>
+
+    <div class="sec">Después del lanzamiento · optimización del sitio para conversiones</div>
+    <div class="prow">
+      <div class="prow-top"><span class="name">Plan Small</span><span class="price">$8,000 <small>MXN / mes</small></span></div>
+      <div class="time">Mes a mes <span>· cancelable en cualquier momento</span></div>
+      <div class="bl">
+        <div>Mejora continua de SEO</div>
+        <div>Ajustes de textos y páginas</div>
+        <div>Soporte, hospedaje y dominio</div>
+        <div>Reporte mensual</div>
+      </div>
+    </div>
+    <div class="prow">
+      <div class="prow-top"><span class="name">Plan Mid</span><span class="price">$15,000 <small>MXN / mes</small></span></div>
+      <div class="time">Mes a mes <span>· cancelable en cualquier momento</span></div>
+      <div class="bl">
+        <div>Todo lo del plan Small</div>
+        <div>Landings nuevas: campañas, rutas, temporadas</div>
+        <div>Pruebas de conversión</div>
+        <div>Correos y materiales con su marca</div>
+        <div>Llamada mensual de planeación</div>
+      </div>
+    </div>
     <div class="line"></div>
-    <div class="line"></div>
-    <br />
-    <br />
-    <br />
 
     <div class="sec">Qué secciones incluye sitio web:</div>
     <div class="cols">
@@ -154,10 +188,11 @@
       <div class="li"><span class="n">·</span><span><b>Nosotros.</b> La historia, los números y por qué volar con Jetstime.</span></div>
       <div class="li"><span class="n">·</span><span><b>Cotiza tu vuelo.</b> Formulario simple: ruta, fechas, pasajeros y contacto.</span></div>
       <div class="li"><span class="n">·</span><span><b>Correo de cotización.</b> Cada solicitud les llega con la marca Jetstime y todos los datos listos para cotizar.</span></div>
-      <div class="li"><span class="n">·</span><span><b>WhatsApp directo.</b>Para el cliente que prefiere escribir en vez de llenar un formulario.</span></div>
-      <div class="li"><span class="n">·</span><span><b>WhatsApp directo.</b>Para el cliente que prefiere escribir en vez de llenar un formulario.</span></div>
+      <div class="li"><span class="n">·</span><span><b>WhatsApp directo.</b> Para el cliente que prefiere escribir en vez de llenar un formulario.</span></div>
     </div>
     <div class="line" style="margin-top:16px;"></div>
+
+
 
     <div class="sec">Cómo trabajamos</div>
     <div class="cols">
@@ -167,7 +202,7 @@
       <div class="li"><span class="n">4</span><span><b>Desarrollo.</b> Construimos el sitio tal como se aprobó.</span></div>
       <div class="li"><span class="n">5</span><span><b>Pruebas.</b> Formulario, correo y WhatsApp funcionando, en celular y computadora.</span></div>
       <div class="li"><span class="n">6</span><span><b>Lanzamiento.</b> Publicamos en jetstime.com y les entregamos todos los accesos.</span></div>
-      <div class="li"><span class="n">6</span><span><b>Hospedaje, soporte y dominio.</b> Damos soporte sobre cambios chicos sobre las paginas existentes, y pagamos el dominio .com por un año.</span></div>
+      <div class="li"><span class="n">7</span><span><b>Hospedaje, soporte y dominio.</b> Damos soporte sobre cambios chicos sobre las páginas existentes, y pagamos el dominio .com por un año.</span></div>
     </div>
     <div class="notes">
       <div>Ustedes ponen <b>accesos, fotos y aprobaciones.</b></div>
@@ -175,7 +210,7 @@
     </div>
 
     <div class="foot">
-      <div class="line" style="margin-bottom:16px;"></div>
+      <div class="line" style="margin-bottom:10px;"></div>
       <div class="sal">Saludos,</div>
       <div class="name">Daniel Pliego <span>Casa Soda</span></div>
       <div class="contact"><span>Ciudad de México</span><span><a href="tel:+525510265196">+52 55 1026 5196</a></span><span><a href="mailto:hola@casasoda.com">hola@casasoda.com</a></span></div>
