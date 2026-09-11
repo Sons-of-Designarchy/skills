@@ -80,3 +80,37 @@ to a procurement committee who do not know Dan, it needs one.
 3. **Soda sends proposals as live URLs**, not PDFs, per the playbook. This folder
    is A4/PDF. Both are built; the deck is the format the playbook actually
    prescribes.
+
+---
+
+## Pass 6 · Against Yardzen's own Tone and Voice Guide
+
+Dan shared it on 11 Sep. It is the Brand Foundation half of the book, it already
+exists, and it is genuinely good. Saved here as `yardzen-tone-and-voice.md`.
+
+Audited the proposal against its rules:
+
+| Their rule | Before | After |
+|---|---|---|
+| **Contractions always** | **0 in the whole document**, 45+ uncontracted forms | 38 |
+| Numbers over adjectives | Already holds: 197 call sites, 8 surfaces, 15 slides | unchanged |
+| Aspirational words once per piece, with a concrete data point | 2, both quoting Brian's own objectives | unchanged |
+| Exclamation points earned | 1 | unchanged |
+| Declaratives, "we say what's true" | Headers are already claims, not labels | unchanged |
+| No hard sell, no manufactured urgency, no brag | Holds | unchanged |
+| End with a clear next step, owned, with a date | **Missing.** It ended on Q1. | Added: who does what, by when |
+
+The contractions line is the one that matters, and it is not a style preference.
+Their guide says writing without them **"reads like a terms-of-service page"** —
+and Dan's verdict on the previous draft was that it *"reads like a contract."*
+Same diagnosis, arrived at twice independently. Fixed.
+
+Also changed on the strength of the guide: Phase 2 now says outright that half
+of it already exists. The voice guide does not get rewritten, it gets a face,
+and the visual rules get written to sit beside it at the same standard. That is
+true, it de-risks the phase, and it shows we read what they sent.
+
+**One judgment call for Dan:** this applies Yardzen's voice rules to a Casa Soda
+document. It reads native to them and proves we absorbed the guide. If you would
+rather the proposal sound like Soda than like Yardzen, the contractions are the
+thing to reverse.

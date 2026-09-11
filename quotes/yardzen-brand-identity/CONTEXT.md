@@ -69,10 +69,17 @@ Settled with Dan and against the FigJam board
    current Y-in-circle evaluated), lockups, colour, type, graphic elements,
    iconography, art direction, compositional system. Resolved and specified
    through October.
-2. **Phase 2 — Copy · "the rules"** — ⚠ STILL OPEN. Dan: *"its another doc i can
-   share."* Current content is the best available reading: visual principles
-   (photography, AI artwork, humanity, video, cropping), dos and don'ts,
-   sub-brand derivation rule, co-branding rules. **Replace once the doc lands.**
+2. **Phase 2 — Copy · "the rules"** — RESOLVED 11 Sep. The doc Dan meant is the
+   **Yardzen Tone and Voice Guide**, saved here as `yardzen-tone-and-voice.md`.
+   It already exists and it is good: brand voice against human voice, split
+   again by whether the reader has paid, with worked before/after examples.
+   So Copy is **not** writing voice from scratch. It is the visual rules
+   (photography, AI artwork, the role of humanity, video, angles and cropping),
+   the dos and don'ts, the sub-brand derivation rule and the co-branding rules,
+   written to sit beside that guide at the same standard. The proposal says this
+   outright, which de-risks the phase and shows we read what they sent.
+   Confirms the ownership table: tone of voice is Yardzen's half, and they have
+   already delivered it.
 3. **Phase 3 — Adaptations · "the templates"** — the 8 templates, then the compiled
    guidelines, source files and asset packs. Product adoption stays in Q1.
 
