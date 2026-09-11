@@ -1,140 +1,32 @@
-<!DOCTYPE html>
-<!--
-  CASA SODA — Yardzen Brand Book 2026 proposal
-  Design rules (do not break):
-  - All black. Zero grey copy. Hierarchy by weight and size.
-  - One typeface: DM Sans.
-  - White paper so page breaks don't show. 1px black rules.
-  - English, USD (US client).
-  Export to PDF:
-    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-      --headless=new --disable-gpu --no-pdf-header-footer \
-      --print-to-pdf="Yardzen-Brand-Book-2026.pdf" "file://$PWD/index.html"
--->
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Casa Soda — Yardzen Brand Book 2026</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+#!/usr/bin/env python3
+"""
+Builds the three Yardzen Brand Book proposal variants from one content source.
 
-  :root {
-    --paper: #FFFFFF;
-    --ink:   #0A0A0A;
-  }
+  python3 build.py          -> index.html (A), b-showcase.html, c-business-case.html
 
-  html, body { background:#cfccc4; font-family:'DM Sans', system-ui, sans-serif; color:var(--ink); -webkit-font-smoothing:antialiased; }
+House rules: all black, zero grey copy, DM Sans only, 1px rules, A4 sheets.
+Export:  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+           --headless=new --disable-gpu --no-pdf-header-footer \
+           --print-to-pdf=NAME.pdf "file://$PWD/NAME.html"
+"""
 
-  .sheet {
-    width:210mm; min-height:297mm; margin:24px auto; background:var(--paper);
-    padding:22mm 24mm 18mm; display:flex; flex-direction:column;
-    box-shadow:0 12px 48px rgba(0,0,0,0.22);
-    page-break-after:always; break-after:page;
-  }
-  .sheet:last-child { page-break-after:auto; break-after:auto; }
+CSS = open("_css.html").read()
 
-  .line { height:1px; background:var(--ink); }
-  .line.thick { height:3px; }
+def doc(title, pages):
+    head = CSS.replace("{{TITLE}}", title)
+    return head + "\n<body>\n\n" + "".join(pages) + "</body>\n</html>\n"
 
-  /* Header */
-  .head { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:12px; }
-  .head .wm { font-size:20px; font-weight:700; letter-spacing:-0.03em; }
-  .head .doc { font-size:10px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; }
+def sheet(inner, n=None, doc_label="Yardzen · Brand Book 2026"):
+    p = f'\n  <div class="pnum">{n}</div>' if n else ""
+    return (f'<div class="sheet">\n  <div class="head">\n    <div class="wm">Casa Soda</div>\n'
+            f'    <div class="doc">{doc_label}</div>\n  </div>\n  <div class="line thick"></div>\n'
+            f'{inner}{p}\n</div>\n\n')
 
-  /* Cover */
-  .title { padding:24px 0 22px; }
-  .eyebrow { font-size:11px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; }
-  .title h1 { font-size:72px; font-weight:700; letter-spacing:-0.035em; line-height:0.92; margin-top:14px; }
-  .cover-lead { font-size:19px; font-weight:500; line-height:1.42; letter-spacing:-0.01em; padding:22px 0; max-width:34ch; }
+# ══════════════════════════════════════════════════════════════════
+# SHARED BLOCKS
+# ══════════════════════════════════════════════════════════════════
 
-  .info { display:grid; grid-template-columns:1fr 1fr; }
-  .info .cell { padding:14px 0; }
-  .info .cell + .cell { padding-left:24px; }
-  .info .k { font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; }
-  .info .v { font-size:16px; font-weight:500; margin-top:5px; }
-
-  /* Section heads */
-  .sec { font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; padding-top:20px; padding-bottom:6px; }
-  h2.big { font-size:40px; font-weight:700; letter-spacing:-0.03em; line-height:1.0; padding:6px 0 14px; }
-  h3 { font-size:19px; font-weight:700; letter-spacing:-0.01em; padding-top:16px; padding-bottom:4px; }
-
-  p { font-size:14px; font-weight:400; line-height:1.55; max-width:62ch; padding-bottom:9px; }
-  p.big { font-size:17px; font-weight:500; line-height:1.45; max-width:46ch; }
-  p b, li b, td b { font-weight:700; }
-  .quote { font-size:15px; font-weight:500; line-height:1.5; max-width:56ch; padding:4px 0 10px 16px; border-left:3px solid var(--ink); margin:6px 0 12px; }
-
-  /* Table */
-  table { width:100%; border-collapse:collapse; margin:8px 0 4px; }
-  th, td { text-align:right; padding:9px 8px; font-size:14px; font-weight:500; border-bottom:1px solid var(--ink); }
-  th:first-child, td:first-child { text-align:left; padding-left:0; font-weight:500; }
-  th { font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; border-bottom:2px solid var(--ink); }
-  tr.total td { font-weight:700; font-size:16px; border-bottom:none; border-top:2px solid var(--ink); padding-top:11px; }
-  tr.goal td { font-size:11px; font-weight:500; font-style:italic; padding-top:2px; padding-bottom:9px; border-bottom:1px solid var(--ink); }
-  td.brand, th.brand { font-weight:700; }
-  .tnote { font-size:12px; font-weight:400; line-height:1.5; padding-top:8px; max-width:64ch; }
-
-  table.deliv td { font-size:12.5px; font-weight:400; padding:7px 8px; vertical-align:top; }
-  table.deliv td:first-child { font-weight:700; white-space:nowrap; }
-  table.deliv td:last-child { white-space:nowrap; font-weight:700; font-size:12px; }
-  table.deliv th { font-size:9.5px; }
-
-  /* Lists */
-  ul { list-style:none; padding-bottom:6px; }
-  li { font-size:14px; font-weight:400; line-height:1.45; padding:5px 0 5px 18px; position:relative; max-width:62ch; }
-  li::before { content:''; position:absolute; left:0; top:11px; width:7px; height:7px; background:var(--ink); }
-  ul.tight li { padding:3px 0 3px 18px; }
-  ul.tight li::before { top:9px; }
-
-  .cols2 { display:grid; grid-template-columns:1fr 1fr; gap:0 36px; }
-
-  .numrow { display:flex; gap:14px; padding:9px 0; border-top:1px solid var(--ink); font-size:14px; line-height:1.45; }
-  .numrow:first-of-type { border-top:none; }
-  .numrow .n { font-weight:700; min-width:56px; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; padding-top:2px; }
-  .numrow .t { flex:1; }
-  .numrow .t b { display:block; font-weight:700; padding-bottom:2px; }
-
-  .kv { display:flex; justify-content:space-between; gap:20px; padding:9px 0; border-top:1px solid var(--ink); font-size:14px; }
-  .kv:first-of-type { border-top:none; }
-  .kv .kk { font-weight:700; }
-  .kv .vv { text-align:right; font-weight:500; }
-
-  /* Footer */
-  .foot { margin-top:auto; padding-top:24px; }
-  .foot .sal { font-size:10px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; }
-  .foot .name { font-size:18px; font-weight:700; margin-top:6px; }
-  .foot .name span { font-weight:500; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; margin-left:12px; }
-  .foot .contact { font-size:13px; font-weight:500; margin-top:11px; }
-  .foot .contact span + span::before { content:'·'; margin:0 9px; }
-  .foot a { color:var(--ink); text-decoration:none; }
-  .foot .visit { font-size:14px; font-weight:500; margin-top:9px; }
-  .foot .visit a { font-weight:700; text-decoration:underline; text-underline-offset:2px; }
-
-  .pnum { margin-top:auto; padding-top:18px; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; }
-
-  @media print {
-    @page { size:A4; margin:0; }
-    html, body { background:#fff; }
-    .sheet { margin:0; box-shadow:none; width:210mm; min-height:297mm; }
-  }
-  @media (max-width:760px) {
-    .sheet { width:100%; min-height:auto; margin:0; padding:26px 20px; box-shadow:none; }
-    .title h1 { font-size:46px; }
-    h2.big { font-size:30px; }
-    .info, .cols2 { grid-template-columns:1fr; }
-    .info .cell + .cell { padding-left:0; }
-    table { font-size:12px; }
-    th, td { padding:7px 4px; font-size:12px; }
-  }
-</style>
-</head>
-
-<body>
-
-<div class="sheet">
+COVER = '''<div class="sheet">
   <div class="head">
     <div class="wm">Casa Soda</div>
     <div class="doc">Proposal · 11 Sep 2026</div>
@@ -145,7 +37,7 @@
     <h1>Brand<br>Book<br>2026</h1>
   </div>
   <div class="line"></div>
-  <p class="cover-lead">A visual identity for Yardzen, designed, written down, and applied, so every team can use it without asking anyone's permission.</p>
+  <p class="cover-lead">{{LEAD}}</p>
   <div class="line"></div>
   <div class="info">
     <div class="cell"><div class="k">Prepared for</div><div class="v">Brian Radics · Yardzen</div></div>
@@ -163,13 +55,9 @@
   </div>
 </div>
 
-<div class="sheet">
-  <div class="head">
-    <div class="wm">Casa Soda</div>
-    <div class="doc">Yardzen · Brand Book 2026</div>
-  </div>
-  <div class="line thick"></div>
-  <div class="sec">Why now</div>
+'''
+
+PROBLEM = sheet('''  <div class="sec">Why now</div>
   <h2 class="big">The brand is not held to the standard the work is.</h2>
   <p>Your brief says it plainly:</p>
   <div class="quote">"Erosion of the brand equity due to a lack of adherence to standards: inconsistent font usage, varying tones of voice, lack of brand breakthrough, and brand visuals that lack the quality standards expected."</div>
@@ -178,16 +66,9 @@
   <h3>Nobody is ignoring the brand. There is nothing to follow.</h3>
   <p>Every marketing request today is answered from scratch. Someone picks a typeface, chooses a crop, guesses a colour. Some of it lands on brand. Some of it does not. All of it costs a designer.</p>
   <p class="big"><b>The standards slip because doing it right is slower than doing it wrong.</b></p>
-  <p>That is a system problem, not a discipline problem, and it does not improve on its own.</p>
-</div>
+  <p>That is a system problem, not a discipline problem, and it does not improve on its own.</p>''')
 
-<div class="sheet">
-  <div class="head">
-    <div class="wm">Casa Soda</div>
-    <div class="doc">Yardzen · Brand Book 2026</div>
-  </div>
-  <div class="line thick"></div>
-  <div class="sec">What changes</div>
+TODAY_AFTER = '''  <div class="sec">What changes</div>
   <table>
     <tr><th>Today</th><th class="brand" style="text-align:left">After</th></tr>
     <tr><td>Every request starts from zero</td><td style="text-align:left"><b>The right answer is the fastest one</b></td></tr>
@@ -195,43 +76,16 @@
     <tr><td>A new partner or segment is a new design project</td><td style="text-align:left"><b>A new partner is a rule already written down</b></td></tr>
     <tr><td>"Is this on brand?" is a matter of opinion</td><td style="text-align:left"><b>It is a matter of checking</b></td></tr>
     <tr><td>Quality depends on who picked up the ticket</td><td style="text-align:left"><b>Quality is the floor, not the ceiling</b></td></tr>
-  </table>
-  <div class="line"></div>
-  <h3>What we are actually building</h3>
-  <p>Not a logo. Not a PDF that gets saved and never opened.</p>
-  <p class="big"><b>A system that makes the on-brand version the easy version</b>, so the people asking for work stop needing us in the room to get it right.</p>
-</div>
+  </table>'''
 
-<div class="sheet">
-  <div class="head">
-    <div class="wm">Casa Soda</div>
-    <div class="doc">Yardzen · Brand Book 2026</div>
-  </div>
-  <div class="line thick"></div>
-  <div class="sec">The work</div>
-  <h2 class="big">Three phases</h2>
-  <p>We run this in phases rather than calendar months. Each is approved before the next begins.</p>
-  <table>
+PHASES_TABLE = '''  <table>
     <tr><th>Phase</th><th style="text-align:left">What it answers</th><th>Lands</th></tr>
     <tr><td><b>1 · Foundations</b></td><td style="text-align:left"><b>The brand.</b> What Yardzen looks like, printed</td><td><b>Sep 29</b></td></tr>
     <tr><td><b>2 · Copy</b></td><td style="text-align:left"><b>The rules.</b> How anyone else uses it</td><td>End of Nov</td></tr>
     <tr><td><b>3 · Adaptations</b></td><td style="text-align:left"><b>The templates.</b> It applied to real surfaces</td><td>December</td></tr>
-  </table>
-  <div class="line"></div>
-  <h3>The brand. The rules. The templates.</h3>
-  <p><b>Foundations</b> settles what Yardzen looks like, and proves it by printing the brand guide in the new identity itself.</p>
-  <p><b>Copy</b> turns that into rules somebody who was not in the room can follow.</p>
-  <p><b>Adaptations</b> shows it working on the eight surfaces marketing actually uses, then hands everything over.</p>
-  <p class="tnote"><b>Why the last two are not one phase.</b> September shows you the brand. It does not yet tell a stranger how to apply it, and it does not yet exist on a single real surface. Those are separate jobs and they are where the work actually is.</p>
-</div>
+  </table>'''
 
-<div class="sheet">
-  <div class="head">
-    <div class="wm">Casa Soda</div>
-    <div class="doc">Yardzen · Brand Book 2026</div>
-  </div>
-  <div class="line thick"></div>
-  <div class="sec">Phase 1 · Foundations</div>
+SEP29 = sheet('''  <div class="sec">Phase 1 · Foundations</div>
   <h2 class="big">September 29:<br>the brand,<br>printed.</h2>
   <p class="big">We do not present a logo on a white page.</p>
   <p>The first deliverable is <b>a 15-slide brand guide, designed in the new identity and printed</b>. It is the guide and the proof at the same time: the identity doing its actual job, in your hands, not an artifact in isolation.</p>
@@ -245,34 +99,9 @@
   <p class="tnote">Minimum text per slide, by design. A guide nobody reads is a guide nobody follows. It gets presented September 29, then resolved and specified through October.</p>
   <div class="line"></div>
   <p class="big"><b>This shows you the brand. It does not yet tell a stranger how to use it.</b></p>
-  <p>That is the difference between Phase 1 and Phase 2, and it is worth being exact about. September hands you the identity, made real. November hands your teams, your contractors and your partners the rules that let them apply it without a designer in the room. They are two different documents doing two different jobs.</p>
-</div>
+  <p>That is the difference between Phase 1 and Phase 2, and it is worth being exact about. September hands you the identity, made real. November hands your teams, your contractors and your partners the rules that let them apply it without a designer in the room. They are two different documents doing two different jobs.</p>''')
 
-<div class="sheet">
-  <div class="head">
-    <div class="wm">Casa Soda</div>
-    <div class="doc">Yardzen · Brand Book 2026</div>
-  </div>
-  <div class="line thick"></div>
-  <div class="sec">Your brief</div>
-  <h2 class="big">Five objectives,<br>five answers</h2>
-  <p>You set these. Here is what in this proposal answers each one.</p>
-  <div class="numrow"><div class="n">01</div><div class="t"><b>Consistency at scale</b>A flexible system that adapts across Clients, Contractors and Partners without fragmenting. Answered by the compositional system and the co-branding rules.</div></div>
-  <div class="numrow"><div class="n">02</div><div class="t"><b>Distinctiveness</b>Proprietary, recognisable assets. Answered by the graphic elements and the symbol, not by a logo on a page.</div></div>
-  <div class="numrow"><div class="n">03</div><div class="t"><b>Elevated perception</b>A premium, design-led identity that makes the promise of a premium landscape credible before anyone reads a word. Answered by the art direction and the visual principles.</div></div>
-  <div class="numrow"><div class="n">04</div><div class="t"><b>Instill intent</b>An art direction that associates Yardzen with aspiration, outdoor living and transformation. Answered by the photography and imagery principles.</div></div>
-  <div class="numrow"><div class="n">05</div><div class="t"><b>Lifestyle brand community</b>A mark with enough character that people will wear it and identify with it. Answered by the symbol, designed to work on a hat as well as a header.</div></div>
-  <div class="line"></div>
-  <p class="tnote"><b>On depth.</b> Your quality reference is the Topgolf book, which specifies roughly 24 artifacts across 8 formats. This engagement delivers <b>one complete template for each of 8 surfaces</b>, plus the system and rules to produce the rest. Additional templates are $2,500 each.</p>
-</div>
-
-<div class="sheet">
-  <div class="head">
-    <div class="wm">Casa Soda</div>
-    <div class="doc">Yardzen · Brand Book 2026</div>
-  </div>
-  <div class="line thick"></div>
-  <div class="sec">Deliverables · Phase 1</div>
+DELIVERABLES_1 = sheet('''  <div class="sec">Deliverables · Phase 1</div>
   <h2 class="big">Foundations</h2>
   <p class="tnote" style="padding-bottom:10px">Everything named here is included in the $24,000. Anything not named here is a change order.</p>
   <table class="deliv">
@@ -289,16 +118,9 @@
     <tr><td><b>Art direction</b></td><td style="text-align:left">How the parts compose into a consistent world</td><td>1 system</td></tr>
     <tr><td><b>Compositional system</b></td><td style="text-align:left">The grid, headline zones, CTA placement, contextual type usage</td><td>1 system</td></tr>
   </table>
-  <p class="tnote"><b>The compositional system is the one to watch.</b> It is what makes the identity a system rather than a style sheet, and it is the reason marketing can eventually self-serve.</p>
-</div>
+  <p class="tnote"><b>The compositional system is the one to watch.</b> It is what makes the identity a system rather than a style sheet, and it is the reason marketing can eventually self-serve.</p>''')
 
-<div class="sheet">
-  <div class="head">
-    <div class="wm">Casa Soda</div>
-    <div class="doc">Yardzen · Brand Book 2026</div>
-  </div>
-  <div class="line thick"></div>
-  <div class="sec">Deliverables · Phase 2</div>
+DELIVERABLES_2 = sheet('''  <div class="sec">Deliverables · Phase 2</div>
   <h2 class="big">Copy</h2>
   <p class="big">What are the rules, in writing.</p>
   <p>A system nobody can read is a system nobody can follow. This phase is the written document, made so it can be handed to someone and used without a briefing.</p>
@@ -310,16 +132,9 @@
     <tr><td><b>Co-branding rules</b></td><td style="text-align:left">How Yardzen sits beside a partner's mark, so partner work stops being negotiated case by case</td><td>1 rule</td></tr>
   </table>
   <div class="line"></div>
-  <p><b>The book ships the rule, not the sub-brands.</b> Resolving named sub-brands into finished identities is separate work, and it is the natural first job of Q1. The rule has to exist before anything can be derived from it.</p>
-</div>
+  <p><b>The book ships the rule, not the sub-brands.</b> Resolving named sub-brands into finished identities is separate work, and it is the natural first job of Q1. The rule has to exist before anything can be derived from it.</p>''')
 
-<div class="sheet">
-  <div class="head">
-    <div class="wm">Casa Soda</div>
-    <div class="doc">Yardzen · Brand Book 2026</div>
-  </div>
-  <div class="line thick"></div>
-  <div class="sec">Deliverables · Phase 3</div>
+DELIVERABLES_3 = sheet('''  <div class="sec">Deliverables · Phase 3</div>
   <h2 class="big">Adaptations</h2>
   <p class="big">What does it look like applied.</p>
   <p>One complete, editable, specified template for each named surface. <b>Eight in total.</b></p>
@@ -337,16 +152,20 @@
     <tr><td><b>Brand Guidelines</b></td><td style="text-align:left">The complete document, compiled</td><td>PDF</td></tr>
     <tr><td><b>Source files</b></td><td style="text-align:left">Editable, organised, yours</td><td>Figma</td></tr>
     <tr><td><b>Asset packs</b></td><td style="text-align:left">Logo and elements exported in the formats each surface needs</td><td>SVG · PNG · EPS</td></tr>
-  </table>
-</div>
+  </table>''')
 
-<div class="sheet">
-  <div class="head">
-    <div class="wm">Casa Soda</div>
-    <div class="doc">Yardzen · Brand Book 2026</div>
-  </div>
-  <div class="line thick"></div>
-  <div class="sec">Investment</div>
+OBJECTIVES = sheet('''  <div class="sec">Your brief</div>
+  <h2 class="big">Five objectives,<br>five answers</h2>
+  <p>You set these. Here is what in this proposal answers each one.</p>
+  <div class="numrow"><div class="n">01</div><div class="t"><b>Consistency at scale</b>A flexible system that adapts across Clients, Contractors and Partners without fragmenting. Answered by the compositional system and the co-branding rules.</div></div>
+  <div class="numrow"><div class="n">02</div><div class="t"><b>Distinctiveness</b>Proprietary, recognisable assets. Answered by the graphic elements and the symbol, not by a logo on a page.</div></div>
+  <div class="numrow"><div class="n">03</div><div class="t"><b>Elevated perception</b>A premium, design-led identity that makes the promise of a premium landscape credible before anyone reads a word. Answered by the art direction and the visual principles.</div></div>
+  <div class="numrow"><div class="n">04</div><div class="t"><b>Instill intent</b>An art direction that associates Yardzen with aspiration, outdoor living and transformation. Answered by the photography and imagery principles.</div></div>
+  <div class="numrow"><div class="n">05</div><div class="t"><b>Lifestyle brand community</b>A mark with enough character that people will wear it and identify with it. Answered by the symbol, designed to work on a hat as well as a header.</div></div>
+  <div class="line"></div>
+  <p class="tnote"><b>On depth.</b> Your quality reference is the Topgolf book, which specifies roughly 24 artifacts across 8 formats. This engagement delivers <b>one complete template for each of 8 surfaces</b>, plus the system and rules to produce the rest. Additional templates are $2,500 each.</p>''')
+
+MONEY = sheet('''  <div class="sec">Investment</div>
   <h2 class="big">$24,000 USD<br>Fixed scope.</h2>
   <p class="big"><b>Most of it is not new spend.</b></p>
   <p>Yardzen already funds design system and marketing work every month. That work is brand work with no brand behind it. During the build, it points at the book instead.</p>
@@ -361,16 +180,9 @@
   <p class="tnote"><b>The incremental ask is the difference between those bottom numbers, not $24,000 of new spend.</b> Q1 is shown as direction, not commitment. It gets scoped once the book exists.</p>
   <div class="line"></div>
   <h3>Product does not pay for this</h3>
-  <p><b>Product holds at $9k in every period.</b> It never drops to fund the brand work. A dedicated brand designer joins the team for this engagement and Said leads brand execution. Casa Soda is adding capacity, not moving your product hours onto a brand book.</p>
-</div>
+  <p><b>Product holds at $9k in every period.</b> It never drops to fund the brand work. A dedicated brand designer joins the team for this engagement and Said leads brand execution. Casa Soda is adding capacity, not moving your product hours onto a brand book.</p>''')
 
-<div class="sheet">
-  <div class="head">
-    <div class="wm">Casa Soda</div>
-    <div class="doc">Yardzen · Brand Book 2026</div>
-  </div>
-  <div class="line thick"></div>
-  <div class="sec">How it fits</div>
+FITS = sheet('''  <div class="sec">How it fits</div>
   <h2 class="big">Two decisions that save money</h2>
   <h3>We deliberately do not repaint the product yet</h3>
   <p>An unreleased brand should not be applied to live product UI.</p>
@@ -379,16 +191,9 @@
   <div class="line"></div>
   <h3>No custom typefaces</h3>
   <p>Arsenal is already your display face. Geist already runs in the product. The book disciplines what exists rather than replacing it, and one further open-licence face gets selected in September.</p>
-  <p class="big"><b>$0 in licensing.</b></p>
-</div>
+  <p class="big"><b>$0 in licensing.</b></p>''')
 
-<div class="sheet">
-  <div class="head">
-    <div class="wm">Casa Soda</div>
-    <div class="doc">Yardzen · Brand Book 2026</div>
-  </div>
-  <div class="line thick"></div>
-  <div class="sec">Ownership</div>
+OWNERSHIP = sheet('''  <div class="sec">Ownership</div>
   <h2 class="big">Two halves,<br>two owners</h2>
   <table>
     <tr><th>Yardzen owns · Brand Foundation</th><th style="text-align:left">Casa Soda owns · Visual Identity</th></tr>
@@ -405,16 +210,9 @@
   <div class="kv"><div class="kk">Accountable</div><div class="vv"><b>Brian Radics</b></div></div>
   <div class="kv"><div class="kk">Consulted</div><div class="vv">Allison, Alicia, Adam</div></div>
   <div class="kv"><div class="kk">Informed</div><div class="vv">Alison, Marketing</div></div>
-  <p class="tnote" style="padding-top:12px"><b>A visual identity reviewed by committee converges on the least objectionable option</b>, which is the opposite of the distinctiveness the brief asks for. Consultation at every stage. The decision sits in one place.</p>
-</div>
+  <p class="tnote" style="padding-top:12px"><b>A visual identity reviewed by committee converges on the least objectionable option</b>, which is the opposite of the distinctiveness the brief asks for. Consultation at every stage. The decision sits in one place.</p>''')
 
-<div class="sheet">
-  <div class="head">
-    <div class="wm">Casa Soda</div>
-    <div class="doc">Yardzen · Brand Book 2026</div>
-  </div>
-  <div class="line thick"></div>
-  <div class="sec">Working together</div>
+WORKING = sheet('''  <div class="sec">Working together</div>
   <h2 class="big">How we work</h2>
   <div class="numrow"><div class="n">01</div><div class="t"><b>A weekly brand review, separate from the product meeting.</b>Brand decisions need brand deciders in the room, and a review sharing product's agenda is a review that gets postponed. On a fixed schedule that turns into a missed date.</div></div>
   <div class="numrow"><div class="n">02</div><div class="t"><b>If product scope grows during the build, it carries to Q1.</b>It does not get absorbed alongside a fixed-date deliverable.</div></div>
@@ -429,10 +227,10 @@
   <div class="kv"><div class="kk">Intellectual property</div><div class="vv">Transfers to Yardzen on final payment</div></div>
   <div class="kv"><div class="kk">Product retainer</div><div class="vv">Separate line, unaffected</div></div>
   <div class="kv"><div class="kk">If either side stops</div><div class="vv">30 days' notice · completed phases settled, nothing further owed</div></div>
-  <p class="tnote" style="padding-top:12px"><b>What we need from you:</b> Brand Foundation by end of September · one approver · consolidated feedback within five working days · access to the photography library · attendance at the weekly review.</p>
-</div>
+  <p class="tnote" style="padding-top:12px"><b>What we need from you:</b> Brand Foundation by end of September · one approver · consolidated feedback within five working days · access to the photography library · attendance at the weekly review.</p>''')
 
-<div class="sheet">
+def CLOSE(final_line):
+    return f'''<div class="sheet">
   <div class="head">
     <div class="wm">Casa Soda</div>
     <div class="doc">Yardzen · Brand Book 2026</div>
@@ -449,8 +247,7 @@
     <div class="cell"><div class="k">First presentation</div><div class="v">September 29, 2026</div></div>
   </div>
   <div class="line"></div>
-  <p>The brief asks for a distinctive, design-led brand worthy of the landscape work behind it. That ambition is reachable, because the raw material already exists in the projects Yardzen delivers every week.</p>
-  <p class="big"><b>What is missing is the system that presents them to one standard.</b></p>
+  {final_line}
   <div class="foot">
     <div class="line thick" style="margin-bottom:18px"></div>
     <div class="sal">Thank you</div>
@@ -460,5 +257,111 @@
   </div>
 </div>
 
-</body>
-</html>
+'''
+
+# ══════════════════════════════════════════════════════════════════
+# VARIANT A — THE SYSTEM.  Leads with why the standards slip.
+# ══════════════════════════════════════════════════════════════════
+A = [
+  COVER.replace("{{LEAD}}", "A visual identity for Yardzen, designed, written down, and applied, so every team can use it without asking anyone's permission."),
+  PROBLEM,
+  sheet(TODAY_AFTER + '''
+  <div class="line"></div>
+  <h3>What we are actually building</h3>
+  <p>Not a logo. Not a PDF that gets saved and never opened.</p>
+  <p class="big"><b>A system that makes the on-brand version the easy version</b>, so the people asking for work stop needing us in the room to get it right.</p>'''),
+  sheet('''  <div class="sec">The work</div>
+  <h2 class="big">Three phases</h2>
+  <p>We run this in phases rather than calendar months. Each is approved before the next begins.</p>
+''' + PHASES_TABLE + '''
+  <div class="line"></div>
+  <h3>The brand. The rules. The templates.</h3>
+  <p><b>Foundations</b> settles what Yardzen looks like, and proves it by printing the brand guide in the new identity itself.</p>
+  <p><b>Copy</b> turns that into rules somebody who was not in the room can follow.</p>
+  <p><b>Adaptations</b> shows it working on the eight surfaces marketing actually uses, then hands everything over.</p>
+  <p class="tnote"><b>Why the last two are not one phase.</b> September shows you the brand. It does not yet tell a stranger how to apply it, and it does not yet exist on a single real surface. Those are separate jobs and they are where the work actually is.</p>'''),
+  SEP29, OBJECTIVES, DELIVERABLES_1, DELIVERABLES_2, DELIVERABLES_3,
+  MONEY, FITS, OWNERSHIP, WORKING,
+  CLOSE('''<p>The brief asks for a distinctive, design-led brand worthy of the landscape work behind it. That ambition is reachable, because the raw material already exists in the projects Yardzen delivers every week.</p>
+  <p class="big"><b>What is missing is the system that presents them to one standard.</b></p>'''),
+]
+
+# ══════════════════════════════════════════════════════════════════
+# VARIANT B — THE SHOWCASE.  Leads with Sep 29. Shortest.
+# ══════════════════════════════════════════════════════════════════
+B = [
+  COVER.replace("{{LEAD}}", "On September 29 you are holding the Yardzen brand guide, printed in the new identity. Everything after that is making it usable by everyone else."),
+  SEP29,
+  sheet('''  <div class="sec">Why this first</div>
+  <h2 class="big">Judge it doing its job, not on a white page.</h2>
+  <p>A logo presented in isolation tells you almost nothing about whether the brand works. A printed guide, set in the new type, on the new colour, laying out Yardzen's own mission and manifesto, tells you everything.</p>
+  <p class="big"><b>It is the fastest way to find what does not work, while it is still cheap to change.</b></p>
+  <div class="line"></div>
+''' + TODAY_AFTER),
+  sheet('''  <div class="sec">The work</div>
+  <h2 class="big">Then two more phases</h2>
+''' + PHASES_TABLE + '''
+  <div class="line"></div>
+  <p><b>Copy</b> turns the identity into rules somebody who was not in the room can follow: visual principles, dos and don'ts, and the rules for sub-brands and partners.</p>
+  <p><b>Adaptations</b> builds one complete template for each of the eight surfaces marketing actually uses, then hands over the compiled guidelines, the source files and the asset packs.</p>
+  <div class="line"></div>
+  <h3>Nobody is ignoring the brand. There is nothing to follow.</h3>
+  <p>Every marketing request today is answered from scratch, which is why the standards slip. <b>Doing it right is currently slower than doing it wrong.</b> That is a system problem, and it does not improve on its own.</p>'''),
+  OBJECTIVES, DELIVERABLES_1, DELIVERABLES_2, DELIVERABLES_3,
+  MONEY, OWNERSHIP, WORKING,
+  CLOSE('''<p class="big"><b>The raw material already exists in the projects Yardzen delivers every week. What is missing is the system that presents them to one standard.</b></p>'''),
+]
+
+# ══════════════════════════════════════════════════════════════════
+# VARIANT C — THE BUSINESS CASE.  Leads with the money shape.
+# ══════════════════════════════════════════════════════════════════
+C = [
+  COVER.replace("{{LEAD}}", "A complete visual identity for Yardzen. Most of it is funded by redirecting spend that already goes out every month."),
+  sheet('''  <div class="sec">The ask</div>
+  <h2 class="big">$24,000, and most of it is not new spend.</h2>
+  <p>Yardzen already pays for a code design system and ad-hoc marketing work every month. <b>That is brand work with no brand behind it.</b> During the build it points at the book instead.</p>
+  <table>
+    <tr><th>Line</th><th>August</th><th>September</th><th>Oct–Dec <i>each</i></th><th>Q1</th></tr>
+    <tr><td>Product</td><td>$9k</td><td>$9k</td><td>$9k</td><td>$9k</td></tr>
+    <tr><td>Code Design System</td><td>$3k</td><td>$3k</td><td>$1k</td><td>$1k</td></tr>
+    <tr><td>Marketing asks</td><td>$1k</td><td>—</td><td>$1k</td><td>$1k</td></tr>
+    <tr><td class="brand">Brand</td><td class="brand">—</td><td class="brand">$3k</td><td class="brand">$7k</td><td class="brand">$4k</td></tr>
+    <tr class="total"><td>Yardzen pays</td><td>$13k</td><td>$15k</td><td>$18k</td><td>$15k</td></tr>
+  </table>
+  <p class="tnote"><b>The incremental ask is the difference between those bottom numbers.</b> Peak is $18k a month for three months, against $13k today. Q1 is direction, not commitment.</p>
+  <div class="line"></div>
+  <h3>Product does not pay for this</h3>
+  <p><b>Product holds at $9k in every period.</b> A dedicated brand designer joins for this engagement and Said leads brand execution. Casa Soda is adding capacity, not moving your product hours onto a brand book.</p>'''),
+  PROBLEM,
+  sheet(TODAY_AFTER + '''
+  <div class="line"></div>
+  <h3>Where the return is</h3>
+  <p>You have already made the revenue argument yourself: <b>better brand design means more client leads and more design purchases.</b></p>
+  <p>The operating saving is separate and more immediate. Every marketing request currently consumes design time because there is no template to reach for. The eight application templates in Phase 3 are the permanent answer to work that is re-invented every time it is asked for.</p>'''),
+  sheet('''  <div class="sec">The work</div>
+  <h2 class="big">Three phases</h2>
+  <p>Phases rather than calendar months, each approved before the next begins.</p>
+''' + PHASES_TABLE + '''
+  <div class="line"></div>
+  <h3>You see it working on September 29</h3>
+  <p>The first deliverable is <b>a 15-slide brand guide, designed in the new identity and printed</b>. Not a logo on a white page. The identity doing its job, in your hands, three weeks from signature.</p>'''),
+  SEP29, OBJECTIVES, DELIVERABLES_1, DELIVERABLES_2, DELIVERABLES_3,
+  FITS, OWNERSHIP, WORKING,
+  CLOSE('''<p>The brief asks for a distinctive, design-led brand worthy of the landscape work behind it. That ambition is reachable, because the raw material already exists in the projects Yardzen delivers every week.</p>
+  <p class="big"><b>What is missing is the system that presents them to one standard.</b></p>'''),
+]
+
+def number(pages):
+    out = [pages[0]]
+    for i, p in enumerate(pages[1:], start=1):
+        out.append(p.replace("</div>\n\n", f'  <div class="pnum">{i:02d}</div>\n</div>\n\n', 1)
+                   if False else p)
+    return pages
+
+for name, pages, title in [
+    ("index.html", A, "Casa Soda — Yardzen Brand Book 2026"),
+    ("b-showcase.html", B, "Casa Soda — Yardzen Brand Book 2026 (B)"),
+    ("c-business-case.html", C, "Casa Soda — Yardzen Brand Book 2026 (C)"),
+]:
+    open(name, "w").write(doc(title, pages))
+    print(f"{name}: {len(pages)} pages")

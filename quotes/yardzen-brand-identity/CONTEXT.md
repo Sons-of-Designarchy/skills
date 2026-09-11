@@ -56,19 +56,40 @@ Brian's own situation section is the narrative spine — brand equity erosion, i
 Responsible: Casa Soda · Accountable: **Brian Radics** · Consulted: **Allison, Alicia, Adam** · Informed: **Alison**, Marketing team.
 Note: Allison and Alison are two different people.
 
-## OPEN — the blocker
+## Phases — RESOLVED 11 Sep, except Copy
 
-Dan agreed **three phases** with Brian and they are not yet reflected anywhere:
+Settled with Dan and against the FigJam board
+(https://www.figma.com/file/oJ7qzUikg6yB6zFnr5zYhm, whiteboard):
 
-1. **Phase 1 — Foundations** (ready by **Sep 29**)
-2. **Phase 2 — Copy**
-3. **Phase 3 — Adaptations**
+1. **Phase 1 — Foundations · "the brand"** (presented **Sep 29**)
+   Not logo directions. A **15-slide brand guide, designed in the new identity and
+   printed**: Mission · Manifesto · How we speak · How we look · How it looks for
+   agencies/partners. Minimum text per slide, per the board. Plus the full identity
+   underneath it: moodboards, logo architecture, symbol (YZ directions + the
+   current Y-in-circle evaluated), lockups, colour, type, graphic elements,
+   iconography, art direction, compositional system. Resolved and specified
+   through October.
+2. **Phase 2 — Copy · "the rules"** — ⚠ STILL OPEN. Dan: *"its another doc i can
+   share."* Current content is the best available reading: visual principles
+   (photography, AI artwork, humanity, video, cropping), dos and don'ts,
+   sub-brand derivation rule, co-branding rules. **Replace once the doc lands.**
+3. **Phase 3 — Adaptations · "the templates"** — the 8 templates, then the compiled
+   guidelines, source files and asset packs. Product adoption stays in Q1.
 
-Unresolved, and needed before the document can be rewritten:
-- What exactly is in **Foundations**, and what is "ready" on Sep 29 — logo directions only, or logo + colour + type?
-- What **"Copy"** means. Candidates: writing the guidelines text itself; brand voice/messaging (but Brian's brief puts tone of voice under Yardzen's Brand Foundation); or sample copy for the application templates.
-- Where **Adaptations** stops — the 8 templates, or also product adoption and audience/co-brand variants.
-- How the three phases map onto the agreed money ($3k Sep, $7k × 3).
+**The distinction that makes the money make sense:** September shows you the brand.
+It does not yet tell a stranger how to use it, and it does not yet exist on a single
+real surface. Without saying that outright, Phase 1 and Phase 2 read as the same
+deliverable sold twice, which was the biggest hole the review found.
+
+Money maps as: Foundations $3k Sep + $7k Oct · Copy $7k Nov · Adaptations $7k Dec.
+
+## Board signal worth keeping
+
+Direction stickies from the FigJam, in Dan's words: *color por tipo de plan, sobre
+todo en premium* · *people living alive high design and tech* · *YZ as lens* ·
+*phones in backyards* · *colorful backgrounds: paintings, photos, grass, nature,
+garden elements zoomed in, materiales de jardin de Oldcastle* · *aspirational in a
+modern way* · *get Allison tone and voice*. Reference studio: Mouthwash (Seed, Casa).
 
 ## Proposed document shape (not yet approved)
 
@@ -85,10 +106,33 @@ Format still undecided: deck-style HTML→PDF, restructured Google Doc, or both.
 
 ## Files here
 
-- `proposal.md` — long-form draft, month-structured. Superseded once phases land.
-- `index.html` — 10-page A4 HTML of the same content. Export: `chrome --headless=new --disable-gpu --no-pdf-header-footer --print-to-pdf=... file://$PWD/index.html`
-- `Cotizacion-Yardzen-Brand-Book-2026.pdf` — current export
-- `icon-black.png` — Casa Soda mark
+Three variants, all built from one source. `python3 build.py` regenerates all of
+them; edit `build.py`, never the HTML.
+
+- **`build.py`** — the single content source. Shared blocks at the top, then the
+  three variants as page lists.
+- **`_css.html`** — shared head + house styles.
+- **`index.html` → A · The System.** 14pp. Leads with why the standards slip:
+  *doing it right is slower than doing it wrong.* Best for Brian as an operator.
+- **`b-showcase.html` → B · The Showcase.** 12pp, shortest. Leads with Sep 29 and
+  the printed guide. Best for momentum, and built to be presented rather than read.
+- **`c-business-case.html` → C · The Business Case.** 14pp. Leads with the money
+  shape: most of the $24k is redirected spend, not new spend. Best if the number
+  has to survive somebody above Brian.
+- `REVIEW.md` — the five review passes and what each one changed.
+- `qa.mjs` — page-overflow and grey-copy check. `node qa.mjs *.html`.
+- `shot.mjs` — screenshot single pages. `node shot.mjs index.html A 1 5 6`.
+- `proposal.md`, `proposal-v2.md` — superseded drafts, kept for the wording.
+- `icon-black.png` — Casa Soda mark.
+
+## Two things to fix elsewhere
+
+1. **`soda-quote.md`'s branding anchors are stale.** They top out at $5,500 for a
+   full brand system. This engagement is $24,000. The next brand lead gets
+   mispriced badly unless that table is redone.
+2. **The playbook says Soda sends proposals as live URLs**, not PDFs. This folder
+   is A4/PDF because that is what the engagement started as. Worth deciding which
+   one Yardzen gets.
 
 ## House rules that apply
 

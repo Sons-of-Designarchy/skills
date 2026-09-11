@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!--
+  CASA SODA — Yardzen Brand Book 2026 proposal
+  Design rules (do not break):
+  - All black. Zero grey copy. Hierarchy by weight and size.
+  - One typeface: DM Sans.
+  - White paper so page breaks don't show. 1px black rules.
+  - English, USD (US client).
+  Export to PDF:
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+      --headless=new --disable-gpu --no-pdf-header-footer \
+      --print-to-pdf="Yardzen-Brand-Book-2026.pdf" "file://$PWD/index.html"
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --paper: #FFFFFF;
+    --ink:   #0A0A0A;
+  }
+
+  html, body { background:#cfccc4; font-family:'DM Sans', system-ui, sans-serif; color:var(--ink); -webkit-font-smoothing:antialiased; }
+
+  .sheet {
+    width:210mm; min-height:297mm; margin:24px auto; background:var(--paper);
+    padding:22mm 24mm 18mm; display:flex; flex-direction:column;
+    box-shadow:0 12px 48px rgba(0,0,0,0.22);
+    page-break-after:always; break-after:page;
+  }
+  .sheet:last-child { page-break-after:auto; break-after:auto; }
+
+  .line { height:1px; background:var(--ink); }
+  .line.thick { height:3px; }
+
+  /* Header */
+  .head { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:12px; }
+  .head .wm { font-size:20px; font-weight:700; letter-spacing:-0.03em; }
+  .head .doc { font-size:10px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; }
+
+  /* Cover */
+  .title { padding:24px 0 22px; }
+  .eyebrow { font-size:11px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; }
+  .title h1 { font-size:72px; font-weight:700; letter-spacing:-0.035em; line-height:0.92; margin-top:14px; }
+  .cover-lead { font-size:19px; font-weight:500; line-height:1.42; letter-spacing:-0.01em; padding:22px 0; max-width:34ch; }
+
+  .info { display:grid; grid-template-columns:1fr 1fr; }
+  .info .cell { padding:14px 0; }
+  .info .cell + .cell { padding-left:24px; }
+  .info .k { font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; }
+  .info .v { font-size:16px; font-weight:500; margin-top:5px; }
+
+  /* Section heads */
+  .sec { font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; padding-top:20px; padding-bottom:6px; }
+  h2.big { font-size:40px; font-weight:700; letter-spacing:-0.03em; line-height:1.0; padding:6px 0 14px; }
+  h3 { font-size:19px; font-weight:700; letter-spacing:-0.01em; padding-top:16px; padding-bottom:4px; }
+
+  p { font-size:14px; font-weight:400; line-height:1.55; max-width:62ch; padding-bottom:9px; }
+  p.big { font-size:17px; font-weight:500; line-height:1.45; max-width:46ch; }
+  p b, li b, td b { font-weight:700; }
+  .quote { font-size:15px; font-weight:500; line-height:1.5; max-width:56ch; padding:4px 0 10px 16px; border-left:3px solid var(--ink); margin:6px 0 12px; }
+
+  /* Table */
+  table { width:100%; border-collapse:collapse; margin:8px 0 4px; }
+  th, td { text-align:right; padding:9px 8px; font-size:14px; font-weight:500; border-bottom:1px solid var(--ink); }
+  th:first-child, td:first-child { text-align:left; padding-left:0; font-weight:500; }
+  th { font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; border-bottom:2px solid var(--ink); }
+  tr.total td { font-weight:700; font-size:16px; border-bottom:none; border-top:2px solid var(--ink); padding-top:11px; }
+  tr.goal td { font-size:11px; font-weight:500; font-style:italic; padding-top:2px; padding-bottom:9px; border-bottom:1px solid var(--ink); }
+  td.brand, th.brand { font-weight:700; }
+  .tnote { font-size:12px; font-weight:400; line-height:1.5; padding-top:8px; max-width:64ch; }
+
+  table.deliv td { font-size:12.5px; font-weight:400; padding:7px 8px; vertical-align:top; }
+  table.deliv td:first-child { font-weight:700; white-space:nowrap; }
+  table.deliv td:last-child { white-space:nowrap; font-weight:700; font-size:12px; }
+  table.deliv th { font-size:9.5px; }
+
+  /* Lists */
+  ul { list-style:none; padding-bottom:6px; }
+  li { font-size:14px; font-weight:400; line-height:1.45; padding:5px 0 5px 18px; position:relative; max-width:62ch; }
+  li::before { content:''; position:absolute; left:0; top:11px; width:7px; height:7px; background:var(--ink); }
+  ul.tight li { padding:3px 0 3px 18px; }
+  ul.tight li::before { top:9px; }
+
+  .cols2 { display:grid; grid-template-columns:1fr 1fr; gap:0 36px; }
+
+  .numrow { display:flex; gap:14px; padding:9px 0; border-top:1px solid var(--ink); font-size:14px; line-height:1.45; }
+  .numrow:first-of-type { border-top:none; }
+  .numrow .n { font-weight:700; min-width:56px; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; padding-top:2px; }
+  .numrow .t { flex:1; }
+  .numrow .t b { display:block; font-weight:700; padding-bottom:2px; }
+
+  .kv { display:flex; justify-content:space-between; gap:20px; padding:9px 0; border-top:1px solid var(--ink); font-size:14px; }
+  .kv:first-of-type { border-top:none; }
+  .kv .kk { font-weight:700; }
+  .kv .vv { text-align:right; font-weight:500; }
+
+  /* Footer */
+  .foot { margin-top:auto; padding-top:24px; }
+  .foot .sal { font-size:10px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; }
+  .foot .name { font-size:18px; font-weight:700; margin-top:6px; }
+  .foot .name span { font-weight:500; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; margin-left:12px; }
+  .foot .contact { font-size:13px; font-weight:500; margin-top:11px; }
+  .foot .contact span + span::before { content:'·'; margin:0 9px; }
+  .foot a { color:var(--ink); text-decoration:none; }
+  .foot .visit { font-size:14px; font-weight:500; margin-top:9px; }
+  .foot .visit a { font-weight:700; text-decoration:underline; text-underline-offset:2px; }
+
+  .pnum { margin-top:auto; padding-top:18px; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; }
+
+  @media print {
+    @page { size:A4; margin:0; }
+    html, body { background:#fff; }
+    .sheet { margin:0; box-shadow:none; width:210mm; min-height:297mm; }
+  }
+  @media (max-width:760px) {
+    .sheet { width:100%; min-height:auto; margin:0; padding:26px 20px; box-shadow:none; }
+    .title h1 { font-size:46px; }
+    h2.big { font-size:30px; }
+    .info, .cols2 { grid-template-columns:1fr; }
+    .info .cell + .cell { padding-left:0; }
+    table { font-size:12px; }
+    th, td { padding:7px 4px; font-size:12px; }
+  }
+</style>
+</head>
