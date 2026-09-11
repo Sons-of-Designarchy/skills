@@ -1,0 +1,187 @@
+ ̰<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Soda — Cotización · Sitio web Jetstime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --paper: #FFFFFF;
+    --ink:   #0A0A0A;
+  }
+
+  html, body { background:#cfccc4; font-family:'DM Sans', system-ui, sans-serif; color:var(--ink); -webkit-font-smoothing:antialiased; }
+
+  .sheet {
+    width:210mm; min-height:297mm; margin:24px auto; background:var(--paper);
+    padding:26mm 26mm 22mm; display:flex; flex-direction:column;
+    box-shadow:0 12px 48px rgba(0,0,0,0.22);
+  }
+
+  .line { height:1px; background:var(--ink); }
+  .line.thick { height:3px; }
+
+  /* Header */
+  .head { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:14px; }
+  .head .wm { font-size:24px; font-weight:700; letter-spacing:-0.03em; }
+  .head .doc { font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; }
+
+  /* Title */
+  .title { padding:26px 0 24px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; }
+  .title h1 { font-size:74px; font-weight:700; letter-spacing:-0.03em; line-height:0.92; margin-top:14px; }
+
+  /* Info */
+  .info { display:grid; grid-template-columns:1fr 1fr; }
+  .info .cell { padding:15px 0; }
+  .info .cell + .cell { padding-left:24px; }
+  .info .k { font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; }
+  .info .v { font-size:17px; font-weight:500; margin-top:5px; }
+
+  /* Lead */
+  .lead { font-size:19px; font-weight:500; line-height:1.4; letter-spacing:-0.01em; padding:22px 0; max-width:34ch; }
+
+  /* Section label */
+  .sec { font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; padding-top:22px; padding-bottom:4px; }
+
+  /* Price rows */
+  .prow { padding:16px 0; border-top:1px solid var(--ink); }
+  .prow:first-of-type { border-top:none; }
+  .prow-top { display:flex; justify-content:space-between; align-items:baseline; gap:24px; }
+  .prow .name { font-size:19px; font-weight:700; }
+  .prow .name b { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; margin-left:12px; padding:2px 8px; border:1px solid var(--ink); border-radius:3px; }
+  .prow .price { font-size:30px; font-weight:700; letter-spacing:-0.02em; white-space:nowrap; }
+  .prow .price small { font-size:14px; font-weight:500; margin-left:2px; }
+  .prow .price s { font-size:16px; font-weight:500; margin-right:10px; }
+  .prow .time { font-size:14px; font-weight:700; margin-top:8px; }
+  .prow .time span { font-weight:500; }
+  .prow .desc { font-size:14px; font-weight:400; line-height:1.45; max-width:56ch; margin-top:5px; }
+
+  /* Two-column lists */
+  .cols { display:grid; grid-template-columns:1fr 1fr; gap:2px 40px; }
+  .li { display:flex; gap:12px; padding:8px 0; font-size:15px; font-weight:400; line-height:1.4; }
+  .li .n { font-weight:700; min-width:14px; }
+  .li b { font-weight:700; }
+
+  .need { display:flex; gap:12px; padding:8px 0; font-size:16px; font-weight:500; }
+  .need::before { content:''; flex:0 0 8px; height:8px; margin-top:8px; background:var(--ink); }
+
+  .ex { padding:8px 0; font-size:15px; font-weight:400; border-top:1px solid rgba(10,10,10,0.18); }
+  .ex:first-of-type { border-top:none; }
+  .ex b { font-weight:700; }
+
+  /* Notes */
+  .notes { padding-top:18px; }
+  .notes div { font-size:14px; font-weight:400; line-height:1.55; }
+  .notes b { font-weight:700; }
+
+  /* Footer */
+  .foot { margin-top:auto; padding-top:26px; }
+  .foot .sal { font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; }
+  .foot .name { font-size:19px; font-weight:700; margin-top:6px; }
+  .foot .name span { font-weight:500; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; margin-left:12px; }
+  .foot .contact { font-size:14px; font-weight:500; margin-top:12px; letter-spacing:0.01em; }
+  .foot .contact span + span::before { content:'·'; margin:0 10px; }
+  .foot a { color:var(--ink); text-decoration:none; }
+  .foot .visit { font-size:15px; font-weight:500; margin-top:10px; }
+  .foot .visit a { font-weight:700; text-decoration:underline; text-underline-offset:2px; }
+
+  @media print {
+    @page { size:A4; margin:0; }
+    html, body { background:#fff; }
+    .sheet { margin:0; box-shadow:none; width:210mm; min-height:297mm; }
+  }
+  @media (max-width:760px) {
+    .sheet { width:100%; min-height:auto; margin:0; padding:26px 20px; box-shadow:none; }
+    .title h1 { font-size:48px; }
+    .info, .cols { grid-template-columns:1fr; }
+    .info .cell + .cell { padding-left:0; }
+    .prow .price { font-size:24px; }
+  }
+</style>
+</head>
+<body>
+  <div class="sheet">
+
+    <div class="head">
+      <div class="wm">Casa Soda</div>
+      <div class="doc">Cotización · 6 Ago 2026</div>
+    </div>
+    <div class="line thick"></div>
+
+    <div class="title">
+      <div class="eyebrow">Renovación completa de jetstime.com</div>
+      <h1>Sitio web<br>Jetstime</h1>
+    </div>
+    <div class="lead">La marca ya está. Ahora el sitio que la hace vender: diseño premium, un recorrido que lleva a cada visitante a confiar en la marca y entender la calidad y seguridad de los servicios y lo invita a contactarnos para una cotización.</div>
+    <div class="line"></div>
+
+    <div class="sec">El proceso</div>
+    <div class="prow">
+      <div class="prow-top"><span class="name">1. Diseño y contenido</span><span class="price">$31,000</span></div>
+      <div class="time">2 semanas</div>
+      <div class="desc">Diseñamos todas las páginas con la nueva marca, en español e ingles. Primero el recorrido — por dónde entra el visitante y qué lo lleva a cotizar — y luego cada pantalla informativa necesaria. 2 rondas de cambios antes de construir.</div>
+    </div>
+    <div class="prow">
+      <div class="prow-top"><span class="name">2. Desarrollo</span><span class="price">$39,000</span></div>
+      <div class="time">1 semana <span>· tras aprobar el diseño</span></div>
+      <div class="desc">Construimos el sitio, conectamos el formulario de contacto, todo el cátalogo de productos, lo dejamos funcionando a la perfección en celulares y computadoras.</div>
+    </div>
+    <div class="prow">
+      <div class="prow-top"><span class="name">3. Migración de sitio, migración de correos, hospedaje y lanzamiento</span><span class="price">9,000</span></div>
+      <div class="time">1 semana</div>
+      <div class="desc">Nos encargamos de todo el proceso de migración del sitio, dominio y correos electrónicos.</div>
+    </div>
+    <div class="prow">
+      <div class="prow-top"><span class="name">Total del proyecto</span><span class="price">$79,000 <small>MXN</small></span></div>
+      <div class="desc">Estimamos lanzar en 4 semanas a partir de la fecha del primer anticipo.</div>
+    </div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <br />
+    <br />
+    <br />
+
+    <div class="sec">Qué secciones incluye sitio web:</div>
+    <div class="cols">
+      <div class="li"><span class="n">·</span><span><b>Inicio.</b> La primera impresión: flota, destinos, certificaciones y un solo llamado — cotiza tu vuelo.</span></div>
+      <div class="li"><span class="n">·</span><span><b>Flota.</b> Cada avión con sus fotos, capacidad y alcance.</span></div>
+      <div class="li"><span class="n">·</span><span><b>Nosotros.</b> La historia, los números y por qué volar con Jetstime.</span></div>
+      <div class="li"><span class="n">·</span><span><b>Cotiza tu vuelo.</b> Formulario simple: ruta, fechas, pasajeros y contacto.</span></div>
+      <div class="li"><span class="n">·</span><span><b>Correo de cotización.</b> Cada solicitud les llega con la marca Jetstime y todos los datos listos para cotizar.</span></div>
+      <div class="li"><span class="n">·</span><span><b>WhatsApp directo.</b>Para el cliente que prefiere escribir en vez de llenar un formulario.</span></div>
+      <div class="li"><span class="n">·</span><span><b>WhatsApp directo.</b>Para el cliente que prefiere escribir en vez de llenar un formulario.</span></div>
+    </div>
+    <div class="line" style="margin-top:16px;"></div>
+
+    <div class="sec">Cómo trabajamos</div>
+    <div class="cols">
+      <div class="li"><span class="n">1</span><span><b>Arranque.</b> Junta de inicio: definimos el recorrido del sitio y qué va en cada página.</span></div>
+      <div class="li"><span class="n">2</span><span><b>Diseño.</b> Les presentamos las páginas diseñadas con su marca, en los dos idiomas.</span></div>
+      <div class="li"><span class="n">3</span><span><b>Revisión.</b> Dos rondas de ajustes con sus comentarios, hasta aprobar.</span></div>
+      <div class="li"><span class="n">4</span><span><b>Desarrollo.</b> Construimos el sitio tal como se aprobó.</span></div>
+      <div class="li"><span class="n">5</span><span><b>Pruebas.</b> Formulario, correo y WhatsApp funcionando, en celular y computadora.</span></div>
+      <div class="li"><span class="n">6</span><span><b>Lanzamiento.</b> Publicamos en jetstime.com y les entregamos todos los accesos.</span></div>
+      <div class="li"><span class="n">6</span><span><b>Hospedaje, soporte y dominio.</b> Damos soporte sobre cambios chicos sobre las paginas existentes, y pagamos el dominio .com por un año.</span></div>
+    </div>
+    <div class="notes">
+      <div>Ustedes ponen <b>accesos, fotos y aprobaciones.</b></div>
+      <div>Pago: <b>50% al inicio · 50% al lanzamiento.</b> MXN + IVA.</div>
+    </div>
+
+    <div class="foot">
+      <div class="line" style="margin-bottom:16px;"></div>
+      <div class="sal">Saludos,</div>
+      <div class="name">Daniel Pliego <span>Casa Soda</span></div>
+      <div class="contact"><span>Ciudad de México</span><span><a href="tel:+525510265196">+52 55 1026 5196</a></span><span><a href="mailto:hola@casasoda.com">hola@casasoda.com</a></span></div>
+      <div class="visit">Visita <a href="https://casasoda.com">Casa Soda</a> para ver nuestro portafolio.</div>
+    </div>
+
+  </div>
+</body>
+</html>

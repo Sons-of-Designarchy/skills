@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Soda — Cotización · Prudence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F0EDE4;
+    --paper: #F7F5EF;
+    --black: #0A0A0A;
+    --ink:   #14140F;
+    --lime:  #C8FF00;
+    --line:  rgba(10,10,10,0.14);
+    --muted: rgba(10,10,10,0.52);
+  }
+
+  html, body { background: #d9d6cc; font-family: 'DM Sans', system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+  .sheet {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 24px auto;
+    background: var(--cream);
+    padding: 16mm 18mm 14mm;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.22);
+  }
+
+  /* ---- Header ---- */
+  .head { display:flex; justify-content:space-between; align-items:flex-start; }
+  .head .brand { display:flex; align-items:center; gap:12px; }
+  .head .brand img { height: 32px; width:auto; }
+  .head .brand .wm { font-weight:700; font-size:25px; letter-spacing:-0.02em; }
+  .head .doc { text-align:right; }
+  .head .doc .k { font-size:10px; letter-spacing:0.28em; font-weight:600; color:var(--muted); }
+  .head .doc .v { font-size:14px; letter-spacing:0.18em; font-weight:700; margin-top:4px; }
+
+  .rule { height:2px; background:var(--black); margin:16px 0 0; }
+  .rule.thin { height:1px; background:var(--line); }
+
+  /* ---- Title block ---- */
+  .titleblock { padding: 14px 0 13px; border-bottom: 1px solid var(--line); }
+  .titleblock .cat { font-size:11px; letter-spacing:0.34em; font-weight:600; color:var(--muted); text-transform:uppercase; }
+  .titleblock h1 { font-family:'Fraunces', serif; font-weight:400; font-size:54px; line-height:0.98; letter-spacing:-0.01em; margin-top:8px; }
+
+  /* ---- Info row ---- */
+  .inforow { display:grid; grid-template-columns: repeat(3,1fr); border-bottom:1px solid var(--line); }
+  .inforow .cell { padding: 10px 18px 10px 0; }
+  .inforow .cell + .cell { padding-left:18px; border-left:1px solid var(--line); }
+  .inforow .k { font-size:10px; letter-spacing:0.24em; font-weight:600; color:var(--muted); }
+  .inforow .v { font-size:15px; font-weight:600; margin-top:6px; }
+
+  /* ---- Section headers ---- */
+  .sec { font-size:19px; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; margin:16px 0 8px; }
+  .desc { font-size:13.5px; line-height:1.55; color:var(--ink); max-width:62ch; }
+
+  /* ---- Price table ---- */
+  table { width:100%; border-collapse:collapse; margin-top:6px; }
+  thead th { font-size:10px; letter-spacing:0.2em; font-weight:600; color:var(--muted); text-transform:uppercase; text-align:left; padding:0 8px 10px 0; }
+  thead th.num { text-align:right; }
+  tbody td { padding:9px 8px 9px 0; border-top:1px solid var(--line); vertical-align:middle; }
+  tbody .item { font-size:15.5px; font-weight:600; }
+  tbody .item ul { list-style:none; margin-top:6px; }
+  tbody .item li { font-weight:400; color:var(--muted); font-size:12.5px; line-height:1.5; padding-left:14px; position:relative; margin-top:4px; }
+  tbody .item li::before { content:''; position:absolute; left:0; top:7px; width:5px; height:5px; background:var(--lime); border:1px solid var(--black); }
+  tbody .item li b { color:var(--ink); font-weight:600; }
+  tbody .sub { text-align:right; font-size:23px; font-weight:700; letter-spacing:-0.01em; white-space:nowrap; }
+  tbody .sub .time { display:block; font-size:10.5px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:4px; }
+
+  .totalrow td { border-top:2px solid var(--black); padding-top:16px; }
+  .totalrow .tl { font-size:25px; font-weight:700; text-transform:uppercase; letter-spacing:0.01em; }
+  .totalrow .tv { text-align:right; font-size:32px; font-weight:700; letter-spacing:-0.01em; white-space:nowrap; }
+  .totalrow .tv b { background: var(--lime); padding:2px 10px; border-radius:4px; }
+
+  .optional { margin-top:12px; }
+  .optional .oh { font-size:10px; letter-spacing:0.22em; font-weight:600; color:var(--muted); text-transform:uppercase; margin-bottom:8px; }
+  .optional .orow { display:flex; justify-content:space-between; gap:16px; font-size:13px; padding:6px 0; border-bottom:1px dashed var(--line); }
+  .optional .orow span:first-child { color:var(--ink); }
+  .optional .orow span:last-child { font-weight:600; white-space:nowrap; }
+
+  .pagenote { margin-top:auto; padding-top:10px; font-size:11px; color:var(--muted); display:flex; justify-content:space-between; letter-spacing:0.06em; }
+
+  /* ---- FAQs ---- */
+  .faq { display:flex; flex-direction:column; }
+  .faq .qa { padding:9px 0; border-bottom:1px solid var(--line); }
+  .faq .q { font-size:14.5px; font-weight:700; }
+  .faq .a { font-size:13px; line-height:1.5; color:var(--muted); margin-top:6px; max-width:72ch; }
+  .faq .a b { color:var(--ink); font-weight:600; }
+
+  /* ---- Proceso ---- */
+  .proc { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  .proc .p { border-top:2px solid var(--black); padding-top:10px; position:relative; }
+  .proc .p::before { content:''; position:absolute; left:0; top:-4px; width:6px; height:6px; background:var(--lime); border:1px solid var(--black); }
+  .proc .pk { font-size:10px; letter-spacing:0.18em; font-weight:700; text-transform:uppercase; }
+  .proc .pv { font-size:12px; line-height:1.5; color:var(--muted); margin-top:6px; }
+
+  /* ---- Footer ---- */
+  .foot { margin-top:auto; padding-top:10px; }
+  .foot .sal { font-size:10px; letter-spacing:0.24em; font-weight:600; color:var(--muted); }
+  .foot .name { font-size:17px; font-weight:700; margin-top:6px; }
+  .foot .name span { font-weight:400; color:var(--muted); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; margin-left:10px; }
+  .foot .contact { display:flex; flex-wrap:wrap; gap:8px 22px; font-size:12.5px; color:var(--muted); margin-top:10px; letter-spacing:0.02em; }
+  .foot .contact a { white-space:nowrap; }
+  .foot .contact span { white-space:nowrap; }
+
+  @media print {
+    @page { size: A4; margin: 0; }
+    html, body { background:#fff; }
+    .sheet { margin:0; box-shadow:none; width:210mm; height:296mm; min-height:0; overflow:hidden; }
+    .sheet + .sheet { page-break-before: always; }
+  }
+  @media screen and (max-width: 760px) {
+    .sheet { width:100%; min-height:auto; margin:0; padding:28px 18px 24px; box-shadow:none; }
+    .sheet + .sheet { border-top:1px solid var(--line); }
+    .titleblock h1 { font-size:44px; }
+    .inforow { grid-template-columns:1fr; }
+    .inforow .cell + .cell { border-left:none; padding-left:0; }
+    tbody .sub { font-size:20px; }
+    .totalrow .tv { font-size:26px; }
+    .proc { grid-template-columns:1fr 1fr; }
+    .pagenote { display:none; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ═══════════ PÁGINA 1 · COTIZACIÓN ═══════════ -->
+  <div class="sheet">
+
+    <!-- HEADER -->
+    <div class="head">
+      <div class="brand">
+        <img src="../icon-black.png" alt="Casa Soda">
+        <span class="wm">Soda</span>
+      </div>
+      <div class="doc">
+        <div class="k">COTIZACIÓN</div>
+        <div class="v">07 DE JULIO, 2026</div>
+      </div>
+    </div>
+    <div class="rule"></div>
+
+    <!-- TITLE -->
+    <div class="titleblock">
+      <div class="cat">Sitio Web Informativo</div>
+      <h1>Prudence</h1>
+      <p class="desc" style="margin-top:12px;">Un sitio seguro, inclusivo, moderno y altamente visual: todo el catálogo, educación sin tabúes y la personalidad Prudence.</p>
+    </div>
+
+    <!-- INFO ROW -->
+    <div class="inforow">
+      <div class="cell"><div class="k">ENTREGA</div><div class="v">2–3 meses · live en Q4</div></div>
+      <div class="cell"><div class="k">CATÁLOGO</div><div class="v">50–100 productos</div></div>
+      <div class="cell"><div class="k">ENFOQUE</div><div class="v">Muy ligero · 100% móvil</div></div>
+    </div>
+
+    <!-- DESGLOSE DE PRECIOS -->
+    <div class="sec">Desglose de precios</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Descripción</th>
+          <th class="num">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="item">Diseño UX/UI
+            <ul>
+              <li>Arquitectura de la información y mapa del sitio</li>
+              <li>Wireframes y mockups en Figma, enfocados 100% en móvil</li>
+              <li>Home con banners de campañas, Catálogo, Blog / Sección Educativa, ¿Dónde comprar? y Contacto / FAQ</li>
+              <li>Handoff a tu equipo de diseño: Figma editable con guías, medidas y specs para que creen assets y llenen contenido</li>
+            </ul>
+          </td>
+          <td class="sub">$32,000<span class="time">3–4 semanas</span></td>
+        </tr>
+        <tr>
+          <td class="item">Desarrollo del sitio · Framer
+            <ul>
+              <li>Sitio autoadministrable, muy ligero y veloz en móvil</li>
+              <li>Catálogo de 50–100 productos con filtros por categorías (Clásicos, Sabores, Texturas, Geles…)</li>
+              <li>Cada página de producto se personaliza con su propio banner, color de fondo y ficha técnica — alineada a la identidad de cada línea</li>
+              <li>Videos, gifs y movimiento en todo el sitio</li>
+            </ul>
+          </td>
+          <td class="sub">$42,000<span class="time">3–4 semanas</span></td>
+        </tr>
+        <tr>
+          <td class="item">Contenido, QA + capacitación
+            <ul>
+              <li>Carga de materiales y productos al CMS</li>
+              <li>SEO básico, QA y montaje en producción</li>
+              <li>Capacitación al equipo para carga de productos y edición de contenido</li>
+            </ul>
+          </td>
+          <td class="sub">$15,000<span class="time">3–4 semanas</span></td>
+        </tr>
+        <tr class="totalrow">
+          <td class="tl">Total <em style="font-style:normal;font-weight:400;font-size:13px;color:var(--muted);letter-spacing:0.14em;">MXN</em></td>
+          <td class="tv"><b>$89,000</b> <em style="font-style:normal;font-weight:400;font-size:14px;color:var(--muted);">+ IVA</em></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- OPTIONAL ADD-ONS -->
+    <div class="optional">
+      <div class="oh">Gastos mensuales — aplican una vez lanzado el sitio</div>
+      <div class="orow"><span>Suscripción Framer (hosting) — contrato directo con la plataforma, según plan</span><span>$150–500 / mes</span></div>
+      <div class="orow"><span>Soporte y cambios chicos (Soda)</span><span>$2,500 / mes</span></div>
+      <div style="margin-top:8px; font-size:11.5px; color:var(--muted); line-height:1.5;">Durante el desarrollo y los <b style="color:var(--ink);">primeros 3 meses tras el lanzamiento</b>, estos costos van por nuestra cuenta. Cotización válida por 30 días.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PÁGINA 2 · PROCESO + FAQS ═══════════ -->
+  <div class="sheet">
+
+    <!-- HEADER -->
+    <div class="head">
+      <div class="brand">
+        <img src="../icon-black.png" alt="Casa Soda">
+        <span class="wm">Soda</span>
+      </div>
+      <div class="doc">
+        <div class="k">COTIZACIÓN</div>
+        <div class="v">07 DE JULIO, 2026</div>
+      </div>
+    </div>
+    <div class="rule"></div>
+
+    <!-- PROCESO -->
+    <div class="sec" style="margin-top:18px;">Proceso</div>
+    <div class="proc">
+      <div class="p"><div class="pk">Sem 1–2</div><div class="pv">Recopilación de materiales, arquitectura de la información y mapa del sitio.</div></div>
+      <div class="p"><div class="pk">Sem 2–5</div><div class="pv">Wireframes y mockups en Figma, en colaboración con tu equipo de diseño.</div></div>
+      <div class="p"><div class="pk">Sem 5–10</div><div class="pv">Desarrollo en Framer: catálogo, interacción y carga de contenido.</div></div>
+      <div class="p"><div class="pk">Sem 10–12</div><div class="pv">QA, capacitación y lanzamiento.</div></div>
+    </div>
+
+    <!-- FAQS -->
+    <div class="sec" style="margin-top:20px;">FAQs</div>
+    <div class="faq">
+      <div class="qa">
+        <div class="q">¿Cómo se paga?</div>
+        <div class="a"><b>50% de anticipo</b> para arrancar y <b>50% al lanzamiento</b>. Precios en MXN + IVA. Cada etapa incluye <b>2 rondas de revisión</b>.</div>
+      </div>
+      <div class="qa">
+        <div class="q">¿Por qué Framer y no WordPress?</div>
+        <div class="a">Es <b>autoadministrable</b> como piden en el brief, pero más ligero, veloz y seguro que WordPress — sin plugins ni mantenimiento técnico. Y está hecho para sitios altamente visuales: video, animación y movimiento sin sacrificar velocidad en móvil.</div>
+      </div>
+      <div class="qa">
+        <div class="q">¿Qué cuesta mantener el sitio vivo?</div>
+        <div class="a">Muy poco — y al inicio, nada: durante el desarrollo y los primeros 3 meses tras el lanzamiento, <b>absorbemos la suscripción de Framer y el soporte</b>. A partir de ahí, el hosting se contrata directo con la plataforma — <b>sin intermediarios ni sobreprecio de nuestra parte</b> — desde <b>~$150/mes</b> y hasta <b>~$500/mes</b> según el plan que el sitio realmente necesite (lo definimos juntos), y el <b>soporte y cambios chicos</b> con Soda queda en <b>$2,500/mes</b>.</div>
+      </div>
+      <div class="qa">
+        <div class="q">¿Qué necesitamos de Prudence?</div>
+        <div class="a">Los <b>materiales y assets</b> (videos, gifs, fotos, fichas técnicas) los aporta tu equipo de diseño; nosotros los integramos. Si algo falta, lo resolvemos juntos en la etapa de recopilación. Para sostener la meta de lanzar en Q4, el calendario de cada etapa corre a partir de recibir los materiales completos.</div>
+      </div>
+      <div class="qa">
+        <div class="q">¿Quién puede actualizar el sitio después?</div>
+        <div class="a">Tu equipo. El sitio queda <b>100% autoadministrable</b>: subir productos, cambiar banners de campaña o publicar artículos del blog no requiere código. Además dejamos <b>templates de página listos para editar y activar</b> (campañas, lanzamientos, artículos), y la capacitación está incluida. Para cambios mayores, sugerimos seguir colaborando con nosotros: podemos <b>cotizar por proyecto</b> o con una <b>tarifa mensual con cambios incluidos</b>.</div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="foot">
+      <div class="rule thin" style="margin-bottom:16px;"></div>
+      <div class="sal">SALUDOS,</div>
+      <div class="name">Daniel <span>Casa Soda</span></div>
+      <div class="contact">
+        <span>Ciudad de México</span>
+        <a href="mailto:hola@casasoda.com" style="color:inherit;text-decoration:none;">hola@casasoda.com</a>
+        <a href="https://casasoda.com" target="_blank" rel="noopener" style="color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--lime);text-decoration-thickness:2px;text-underline-offset:3px;">casasoda.com ↗</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

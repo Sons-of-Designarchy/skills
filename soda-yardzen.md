@@ -165,6 +165,46 @@ cd yardzen-app/mobile-apps/yardzen-capture
 | `@yardzen/next-client-util` | `GQLClient()`, GTM events, analytics helpers |
 | `@yardzen/splitio` | Feature flags — `SplitTreatmentName` enum, server/client wrappers |
 | `@yardzen/auth` | `validateV2Token()`, `validateLegacyToken()`, `exchangeV1ForV2Token()` |
+| `@yardzen/ui` | Trellis itself (`libs/ui`) — the shipped design system, 160 components |
+| `@yz-ds` | `libs/ui-v2` — the waiting room, 198 components not yet in Trellis. Sandbox-only alias, set per app in `vite.config.ts` |
+
+## Trellis Catalog & Shipping
+
+The catalog at **https://yz-trellis-v2.vercel.app** (`apps/design-sandbox/trellis-v2`, port 3001) is the one true list of what exists. It reads a generated manifest, so it cannot drift from the code.
+
+**The two row files.** Every component file needs a row, or the build fails:
+
+| File | Holds | Row shape |
+|---|---|---|
+| `libs/ui/catalog/taxonomy.ts` | Trellis (`libs/ui`) — what shipped | `file`, `type`, `id`, `name` |
+| `libs/ui-v2/catalog/purgatory.ts` | ui-v2 (`@yz-ds`) — what is waiting to graduate | + `graduation`, `target?`, `concern?` |
+
+`graduation` is `add` (net-new, straight promotion), `merge` (a Trellis twin exists — needs a merge + impact audit) or `archive` (stays on purpose). `concern` is the expensive half of duplicate detection: two rows with the same concern are two implementations of one idea, which no name-keyed inventory can see.
+
+**Regenerate after any component change:**
+
+```bash
+node libs/ui/catalog/build.mjs --with-purgatory          # writes components.json + duplicates.md
+node libs/ui/catalog/build.mjs --with-purgatory --strict # same, but exits 1 on any gate failure
+```
+
+Gates that fail the build: a component file with no taxonomy row, a row naming a file that no longer exists, a duplicate anchor id, and a Storybook title that disagrees with the taxonomy. The manifest is deterministic — no timestamps — so re-running produces no diff and a real change is legible in review.
+
+**Filing a new row:** put it in its existing `// ── <type> — N` block and bump the count in that header. Never append to the end of the file. **New types need Dan's approval** — the type vocabulary is shared between both files, so a new one has to be added in both.
+
+**Shipping — one command, never `vercel deploy` by hand:**
+
+```bash
+cd apps/design-sandbox/trellis-v2
+npm run check    # regenerate → typecheck → build → route-check, no deploy
+npm run ship     # the same, then deploy, re-alias and verify the alias serves this build
+```
+
+`ship.mjs` route-checks 15 routes at 1440px and 390px against the *built* bundle (blank renders, page errors, horizontal overflow, tap targets under 24px), then re-points `yz-trellis-v2.vercel.app` — `vercel deploy --prod` only moves the project's generated domain, which is how the site once sat six days behind the branch while every deploy reported success.
+
+**Routes:** `/intro` (front door), `/all` (full catalog), `/f/:family`, `/t/:type`, `/foundations`, `/spacing`, `/icons`, `/practice` (the laws, with `#rules`), `/shipping`, `/dev-tools`.
+
+The do/don't rules live once, as data, in `src/content/rules.ts` — a rule earns its place by having cost us something. Pull one by id rather than restating it.
 
 ## Auth
 
@@ -214,12 +254,61 @@ cd yardzen-app/mobile-apps/yardzen-capture
 - Custom tokens: `action-main` (#1B6245), `typo-primary` (#323232), `texture-primary` (#F6F5F4)
 - Run Prettier before pushing — formatting failures are the most common CI break
 
+**Color roles and schemes (`libs/ui/src/tokens/`).** Four files stack in this order, emitted by `tailwind.config.js`: legacy primitives (`tokens.js` → `--yz-brand-*`, `--yz-c-*`), the v2 seedground set (`tokens-v2.js` → `--yz-color-*` role vocabulary: surface / text / action / border), the default scheme, then one `[data-scheme="…"]` block per curated scheme (`green-accent`, `dark-green`, `toll-brothers`, `dark`).
+
+- **One axis.** A scheme that happens to be dark is just a scheme — there is no separate light/dark theme axis. To combine looks, add a named scheme; finite curated names protect brand and contrast, and it is exactly what a Contentful editor picks from one dropdown.
+- Colour comes from a token: `bg-[var(--yz-color-action)]`, never `bg-[#626e58]`. Same pixels today; the difference is what happens when the brand green moves.
+- Overrides belong inside a scheme, never at bare `:root` — an app-level `:root` override outranks every scheme, so the canvas stays put while text flips. That is what washes headings out in dark mode.
+- Borders are always 1px. Radii and spacing come off the scale (`var(--yz-radius-lg)`) — an unscaled `7px` is a value nobody chose on purpose.
+
+**Typography — every visible text node, no exceptions.** In any sandbox app on `@yz-ds`, use `<Typography>`. No raw `<h1>`–`<h6>`, `<p>` or `<span>` with inline font styles.
+
+- Font → `font="display"` (Arsenal) or `font="body"` (Geist). Never `fontFamily` in a `style` prop.
+- Size → `variant` preset or `size`. Only use `fontSize` in `style` for clamp/fluid values with no preset.
+- Colour → `color` prop only (`"primary"`, `"secondary"`, `"muted"`, `"inherit"`). **Never a hex, rgba or CSS var on a Typography element.** No `const C = "..."` colour constants, ever.
+- Links with hover colour changes: set `color` on the `<Link>`, `color="inherit"` on the `<Typography>` inside.
+- Weight → `weight` prop. Never `fontWeight` in a `style` prop.
+
+```tsx
+// ❌ raw element with inline styles
+<h2 style={{ fontFamily: "var(--yz-font-display)", fontSize: 40, color: "#212121" }}>
+// ❌ colour constant anywhere in the file
+const C = "#212121";
+// ✅ correct
+<Typography font="display" weight="normal" as="h2" style={{ fontSize: "clamp(40px, 5vw, 64px)", lineHeight: 1.08 }}>
+<Typography color="secondary" variant="body-sm">
+// ✅ correct hover pattern
+<Link style={{ color: "var(--yz-color-text-secondary)" }} onMouseEnter={...}>
+  <Typography color="inherit" variant="body-sm">link text</Typography>
+</Link>
+```
+
 ## Conventions
 
 - No `@/` alias — use relative paths within the app; monorepo libs via `@yardzen/<lib>`
 - Server components: async functions, no directive. Client components: `"use client"` as first line.
 - Pattern: server component fetches → passes serializable props to client leaf
 - Co-located: `queries.ts` (GQL), `actions.ts` (server actions), `classes.ts` (Tailwind strings)
+
+**Self-verify with a headless browser before saying it's done.** Dan reviews visual work live himself and does not want screenshots handed to him — that is about not slowing *him* down, not permission to skip verifying your own. Every time you touch CSS, layout or interaction in a sandbox app, measure the real thing:
+
+```js
+const { chromium } = require("/Users/casasoda/projects/yardzen/yardzen/node_modules/.pnpm/playwright@1.55.1/node_modules/playwright");
+// pin the version actually installed — check node_modules/.pnpm/ if this path 404s
+```
+
+If the browser binary is not cached (`browserType.launch: Executable doesn't exist`), download it once — this only writes to `~/Library/Caches/ms-playwright`, never the repo:
+
+```bash
+PLAYWRIGHT_BROWSERS_PATH="$HOME/Library/Caches/ms-playwright" \
+  node node_modules/.pnpm/playwright@1.55.1/node_modules/playwright/cli.js install chromium
+```
+
+Use it to measure real `getBoundingClientRect()` and computed styles rather than eyeballing a fix from the diff, to drive an app's own dev-panel stage jumps instead of clicking through a whole funnel, and to simulate flows end to end — pin-drops, form fills, even camera recorders via `chromium.launch({ args: ["--use-fake-device-for-media-stream", "--use-fake-ui-for-media-stream"] })`. Also the fastest way to tell a blank page from a slow one: a crashed component blanks the whole route while the dev server still reports success.
+
+Bugs a code read alone missed:
+- A pill/badge shape that only reads correctly for short text — a full sentence in `rounded-full` clips against the container edge. Fine for a 2–3 word value, broken for a clause; check the rendered width.
+- A native `<img>` is draggable by default, so a click-drag near an annotation pin kicks off the browser's own image-drag and its edge-auto-scroll. Looks like a scroll bug, isn't one — `draggable={false}` on the image.
 
 ## Scope Discipline
 
@@ -245,62 +334,6 @@ cd yardzen-app/mobile-apps/yardzen-capture
 
 ---
 
-## Self-verify with a headless browser before saying it's done
-
-Dan reviews visual/layout work live himself and doesn't want screenshots handed to him — but that's about not slowing *him* down, not permission to skip verifying your own work. `playwright` is already in the monorepo's pnpm store (a transitive dep) even when it's not a direct dependency of the app you're touching — use it to check real computed layout instead of guessing from a code read, every time you touch CSS/layout/interaction in any design-sandbox app.
-
-```js
-const { chromium } = require('/Users/Said/projects/yardzen/node_modules/.pnpm/playwright@1.55.1/node_modules/playwright');
-// pin the exact version installed — check node_modules/.pnpm/ if this path 404s
-```
-
-If the matching browser binary isn't cached yet (`browserType.launch: Executable doesn't exist`), download it once — this only writes to `~/Library/Caches/ms-playwright`, never the repo:
-```bash
-PLAYWRIGHT_BROWSERS_PATH="$HOME/Library/Caches/ms-playwright" \
-  node_modules/.pnpm/playwright@1.55.1/node_modules/playwright/cli.js install chromium
-```
-
-Use it to measure real `getBoundingClientRect()` / computed styles (don't eyeball a fix from the diff), drive an app's own demo/stage-jump controls to reach any state instantly instead of clicking through the whole funnel, and simulate full interaction flows (pin-drops, form fills, even camera-based recorders via `chromium.launch({ args: ['--use-fake-device-for-media-stream', '--use-fake-ui-for-media-stream'] })`).
-
-This has caught real bugs a code read alone missed — two examples from design-delivery:
-- A pill/badge shape that only reads correctly for short text — wrapping a full sentence in `rounded-full` makes it clip against the container edge instead of looking like a badge. Fine for a 2-3 word value (a Brief field's answer), broken for a full clause (a suggested next step) — check the actual rendered width, don't assume the same treatment scales.
-- A native `<img>` is draggable by default; a click-drag near an element sitting on top of it (like an annotation pin) can kick off the browser's own native image-drag, which triggers edge-auto-scroll as a side effect. Looks like a scroll bug, isn't one — the fix is `draggable={false}` on the image, not touching any scroll code.
-
----
-
-## Typography for ALL text — no exceptions (yardzen-shop)
-
-Every visible text node in `apps/design-sandbox/yardzen-shop` must use `<Typography>` from `@yz-ds`. No raw `<h1>`–`<h6>`, `<p>`, or `<span>` with inline font styles.
-
-**Rules:**
-- Font → `font="display"` (Arsenal) or `font="body"` (Geist). Never `fontFamily` in a `style` prop on Typography.
-- Size → `variant` preset or `size` prop. Only use `fontSize` in `style` for clamp/fluid values with no preset equivalent.
-- Color → `color` prop only (`"primary"`, `"secondary"`, `"muted"`, `"inherit"`, etc.). **Never a hardcoded hex, rgba, or CSS var on a Typography element.** No `const C = "..."` color constants — ever.
-- For links with hover color changes: set `color` on the `<Link>` element, use `color="inherit"` on the `<Typography>` inside.
-- Weight → `weight` prop. Never `fontWeight` in a `style` prop on Typography.
-
-**Violations that get immediately rejected:**
-```tsx
-// ❌ raw element with inline styles
-<h2 style={{ fontFamily: "var(--yz-font-display)", fontSize: 40, color: "#212121" }}>
-
-// ❌ color constant anywhere in the file
-const C = "#212121";
-
-// ❌ fontFamily or color on a Typography style prop
-<Typography style={{ fontFamily: "var(--yz-font-display)", color: "#212121" }}>
-
-// ✅ correct
-<Typography font="display" weight="normal" as="h2" style={{ fontSize: "clamp(40px, 5vw, 64px)", lineHeight: 1.08 }}>
-<Typography color="secondary" variant="body-sm">
-// ✅ correct hover pattern
-<Link style={{ color: "var(--yz-color-text-secondary)" }} onMouseEnter={...}>
-  <Typography color="inherit" variant="body-sm">link text</Typography>
-</Link>
-```
-
----
-
 ## Design Sandbox Deployments
 
 Design sandbox apps live in `apps/design-sandbox/` inside the NX monorepo. They are standalone Vite SPAs — each has its own `package.json`, `vite.config.ts`, and `vercel.json`.
@@ -319,14 +352,30 @@ That's it. No environment variables, no secrets, no special flags.
 
 ### All deployed apps
 
-| App | Vercel project name | Primary URL | Local path |
-|-----|---------------------|-------------|------------|
-| lean-onboarding-v2 | `lean-onboarding-v2` | https://lean-onboarding-v2.vercel.app | `apps/design-sandbox/lean-onboarding-v2/` |
-| yardzen-shop | `yardzen-shop` | https://yardzen-shop.vercel.app | `apps/design-sandbox/yardzen-shop/` |
-| pros-landing | `yz-for-pros-landing` | https://yz-for-pros-landing.vercel.app | `apps/design-sandbox/pros-landing/` |
-| toll-brothers-onboarding | `yz-toll-brothers` | https://yz-toll-brothers.vercel.app | `apps/design-sandbox/toll-brothers-onboarding/` |
-| trend-report | `yz-trend-report-26` | https://yz-trend-report-26.vercel.app | `apps/design-sandbox/trend-report/` |
-| trellis-v2 | (not yet linked) | — | `apps/design-sandbox/trellis-v2/` |
+Audited 2026-09-04. Ports come from each app's `vite.config.ts`; project names from its `.vercel/project.json`.
+
+| App | Vercel project | Live URL | Port |
+|---|---|---|---|
+| `trellis-v2` | `trellis-v2` | https://yz-trellis-v2.vercel.app | 3001 |
+| `unified-funnel` | `unified-funnel` | https://unified-funnel.vercel.app | 4202 |
+| `client-account` | `design-delivery` | https://design-delivery.vercel.app | 4211 |
+| `lowes-yardai` | `lowes-yardai` | https://lowes-yardai.vercel.app | 4214 |
+| `yardzen-for-pros-july` | `yardzen-for-pros-july` | https://yardzen-for-pros-july.vercel.app | 4212 |
+| `toll-brothers-onboarding` | `yz-toll-brothers` | https://yz-toll-brothers.vercel.app | 4213 |
+| `shop-full` | `shop-full` | https://shop-full-sigma.vercel.app | 3001 |
+| `pros-landing` | `yz-for-pros-landing` | https://yz-for-pros-landing.vercel.app | 3002 |
+| `new-yardzen` | `new-yardzen` | https://new-yardzen.vercel.app | 3000 |
+| `yardzen-for-pros-pilot` | not linked | — | 4213 |
+| `back-office` (Next) | `yz-back-office` | https://yz-back-office.vercel.app | 4210 |
+| `pro-portal` (Next) | `pro-portal` | https://pro-portal-chi.vercel.app | 4212 |
+
+Not deployable as they stand: `color-schemes` and `toll-brothers-landing` (no `package.json`), `archive/shop-mvp`.
+
+**Ports collide** — `trellis-v2`/`shop-full` on 3001, `toll-brothers-onboarding`/`yardzen-for-pros-pilot` on 4213, `yardzen-for-pros-july`/`pro-portal` on 4212. Only one of each pair runs at a time; `lsof -ti :<port> | xargs kill -9`.
+
+**`client-account` was `design-delivery`** — renamed in `c1609d9d9`, but the Vercel project and its URL still say design-delivery. An untracked `apps/design-sandbox/design-delivery/` (367MB of `build/` and `node_modules/`) is left behind from before the rename; it is not the app.
+
+**`trellis-v2` never deploys with a bare `vercel --yes --prod`** — use `npm run ship`. See the Trellis Catalog & Shipping section: the deploy is gated on the manifest, a typecheck, a build and 30 route checks, and the canonical alias has to be re-pointed afterwards.
 
 All projects are under the `danielpliego-4456s-projects` Vercel scope.
 
@@ -358,129 +407,41 @@ After the first link, subsequent deploys just need `npm run build && vercel --ye
 
 ---
 
-## Back Office (Next.js sandbox)
+### The two Next.js sandboxes — back-office and pro-portal
 
-The back-office prototype is different from the other design sandbox apps: it's a **Next.js App Router** app inside the NX monorepo (mirrors eden's structure), uses **`@yardzen/ui` (Trellis from `libs/ui`)** for components, and is the proving ground for both Trellis components AND reusable page layouts (workstation shell, sidebar, role tabs, dashboards).
-
-**Why it's not a Vite SPA like the others:** the goal is that pages built here can be copy-pasted directly back into eden with zero rewrite. Same framework, same imports, same conventions.
-
-**Live:** https://yz-back-office.vercel.app
-**Local path:** `apps/design-sandbox/back-office/`
-**Dev port:** `4210`
-
-### Run locally
+Not Vite SPAs. Both are **Next.js App Router** apps wired into Nx (they mirror eden's structure) and both use **`@yardzen/ui` (Trellis)**, never `@yz-ds`. The point is that a page built here can be copy-pasted into eden with zero rewrite — same framework, same imports, same conventions. Run them with Nx, not npm:
 
 ```bash
 nvm use 24
-npx nx serve back-office
-# → http://localhost:4210 (redirects to /back-office/design-studio)
+npx nx serve back-office      # http://localhost:4210 → redirects to /wireframe/
+npx nx serve pro-portal       # http://localhost:4212
 ```
 
-If port 4210 is in use: `lsof -ti :4210 | xargs kill -9`.
+**back-office** (`apps/design-sandbox/back-office`, live at https://yz-back-office.vercel.app) is the wireframe for the new **Yardzen Design Studio** — the back-office tool that replaces Liisa for designers. Everything lives under `app/wireframe/` (`_components/`, `_data/`, `project/`). Wireframe mode: mock data only, no backend, no auth, fast iteration. `CONTEXT.md` in that folder is its source of truth — read it end to end before touching the app.
 
-### App structure
+**Trellis discipline — the whole point of these two.** Import from `@yardzen/ui/components/<name>`, the exact path eden uses. When you hit a gap — a missing variant, a missing token, an inline hex — file it against `libs/ui` rather than working around it. These apps exist to surface those gaps. Reusable layouts are first-class: if you build the same shell twice, extract it.
 
-```
-apps/design-sandbox/back-office/
-├── app/
-│   ├── layout.tsx             # root layout (fonts, no auth)
-│   ├── ClientsideLayout.tsx   # YzThemeProvider + ToastProvider only
-│   ├── global.css
-│   ├── page.tsx               # → redirects to /back-office/design-studio
-│   └── back-office/
-│       ├── layout.tsx         # top bar + IconRail + RoleTabs + Sidebar
-│       ├── page.tsx           # → redirects to design-studio dashboard
-│       ├── _components/       # Chip, ScoreBar, KanbanBoard, DropZone,
-│       │                      # RoleTabs, BackOfficeSidebar, IconRail,
-│       │                      # Dashboard (shared dashboard layout)
-│       ├── design-studio/     # dashboard + 5 leaf pages
-│       ├── design-ops/        # dashboard + 5 leaf pages
-│       ├── build-studio/      # dashboard + 4 leaf pages
-│       └── build-ops/         # dashboard + 5 leaf pages
-```
-
-### Trellis discipline (the whole point of this app)
-
-- **Always import from `@yardzen/ui`** (Trellis / `libs/ui`) — never `@yz-ds` / `libs/ui-v2` here.
-- Same import path eden uses: `import { Button } from "@yardzen/ui/components/button"` etc.
-- When you hit a Trellis gap (missing variant, missing token, inline hex like `#6E56CF`) — file a ticket against `libs/ui` rather than work around it. This app exists to surface those gaps.
-- **Reusable layouts are first-class.** The `Dashboard` component in `_components/Dashboard.tsx` is the prototype for what eventually becomes a Trellis layout primitive. Same for `IconRail`, `RoleTabs`, `BackOfficeSidebar`. If you find yourself building the same shell twice, extract it.
-
-### Deploy workflow
-
-The back-office is a Next.js app, so deploys work differently from the Vite sandbox apps. We deploy a **static export** because all pages are SSG.
+**Deploying a Next.js sandbox** is a static export, because Nx generates a bloated `package.json` and a lockfile referencing private Yardzen FontAwesome packages, so Vercel's `pnpm install` always fails. Static export skips install entirely:
 
 ```bash
-# 1. Build (Nx will produce dist/apps/design-sandbox/back-office/dist/.next/ as static HTML)
 nvm use 24
 npx nx build back-office --configuration=production
-
-# 2. From the dist output, flatten and deploy
 cd dist/apps/design-sandbox/back-office
 mv dist/.next/* . && rm -rf dist
-# Write vercel.json (see below) then:
 vercel --yes --prod --scope danielpliego-4456s-projects
 ```
 
-`vercel.json` in the dist folder:
-```json
-{
-  "buildCommand": "",
-  "installCommand": "",
-  "outputDirectory": ".",
-  "framework": null,
-  "cleanUrls": true,
-  "trailingSlash": true
-}
-```
+`vercel.json` in that dist folder: `{"buildCommand": "", "installCommand": "", "outputDirectory": ".", "framework": null, "cleanUrls": true, "trailingSlash": true}`.
 
-Why this dance: Nx generates a bloated `package.json` (every monorepo dep) and a `pnpm-lock.yaml` that references private Yardzen FontAwesome packages — Vercel's `pnpm install` always fails on those. Static export bypasses install entirely.
+What makes it work in `next.config.js`: `output: "export"` (required — produces static HTML), `distDir: "dist/.next"`, `trailingSlash: true`, `images: { unoptimized: true }`.
 
-### `next.config.js` settings that make this work
-
-```js
-const nextConfig = {
-  nx: { svgr: false },
-  distDir: "dist/.next",
-  output: "export",        // required — produces static HTML
-  trailingSlash: true,     // matches Vercel routing
-  images: { unoptimized: true },  // required for static export
-};
-```
-
-### Important: `redirect()` is NOT allowed in static export
-
-Server-side `redirect()` from `next/navigation` throws at build time. Use client-side redirects instead:
+**`redirect()` from `next/navigation` throws at build time under static export.** Redirect on the client instead:
 
 ```tsx
 "use client";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-
-export default function BackOfficePage() {
-  const router = useRouter();
-  useEffect(() => {
-    router.replace("/back-office/design-studio/");
-  }, [router]);
-  return null;
-}
+useEffect(() => { router.replace("/wireframe/"); }, [router]);
+return null;
 ```
-
-### Routes
-
-| Route | What |
-|---|---|
-| `/back-office/design-studio` | Designer dashboard |
-| `/back-office/design-ops` | Delivery cockpit (Trello replacement) |
-| `/back-office/build-studio` | Homeowner Rep workstation |
-| `/back-office/build-ops` | Build operations cockpit |
-| `/back-office/<workstation>/<page>` | Leaf pages (co-design, pipeline, etc.) |
-
-### Source of truth
-
-The back-office prototype follows the **New Back Office System Requirements** spec by Alicia Kim (June 15, 2026). 4 workstations, one project record, AI/manual mode toggle per deliverable, tier-based default mode set at assignment, CRH pull-through end-to-end. When in doubt about behavior, the spec wins.
-
----
 
 ## Shared Image Assets (`libs/ui-v2`)
 

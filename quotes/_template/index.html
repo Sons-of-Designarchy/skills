@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!--
+  CASA SODA — PLANTILLA OFICIAL DE COTIZACIÓN (one-pager)
+  Reglas de diseño (no romper):
+  - Todo NEGRO. Cero copy gris. Jerarquía por peso y tamaño, no por color.
+  - Una sola tipografía: DM Sans. Nada de serif ni segunda fuente.
+  - Fondo blanco (así el corte a 2a página no se nota). Reglas 1px negras.
+  - Español mexicano natural, sin jerga técnica. Texto corto — dilo una vez.
+  - Precios en MXN + IVA. Siempre incluir ESTIMADO DE TIEMPOS por fase.
+  - Footer: Daniel Pliego · Casa Soda, tel, mail y link a Casa Soda (portafolio).
+  Exportar a PDF:
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+      --headless=new --disable-gpu --no-pdf-header-footer \
+      --print-to-pdf="Cotizacion-{slug}.pdf" "file://$PWD/index.html"
+  Reemplaza los {{PLACEHOLDERS}}.
+-->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Soda — Cotización · {{TITULO}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --paper: #FFFFFF;
+    --ink:   #0A0A0A;
+  }
+
+  html, body { background:#cfccc4; font-family:'DM Sans', system-ui, sans-serif; color:var(--ink); -webkit-font-smoothing:antialiased; }
+
+  .sheet {
+    width:210mm; min-height:297mm; margin:24px auto; background:var(--paper);
+    padding:26mm 26mm 22mm; display:flex; flex-direction:column;
+    box-shadow:0 12px 48px rgba(0,0,0,0.22);
+  }
+
+  .line { height:1px; background:var(--ink); }
+  .line.thick { height:3px; }
+
+  /* Header */
+  .head { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:14px; }
+  .head .wm { font-size:24px; font-weight:700; letter-spacing:-0.03em; }
+  .head .doc { font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; }
+
+  /* Title */
+  .title { padding:26px 0 24px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; }
+  .title h1 { font-size:74px; font-weight:700; letter-spacing:-0.03em; line-height:0.92; margin-top:14px; }
+
+  /* Info */
+  .info { display:grid; grid-template-columns:1fr 1fr; }
+  .info .cell { padding:15px 0; }
+  .info .cell + .cell { padding-left:24px; }
+  .info .k { font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; }
+  .info .v { font-size:17px; font-weight:500; margin-top:5px; }
+
+  /* Lead */
+  .lead { font-size:19px; font-weight:500; line-height:1.4; letter-spacing:-0.01em; padding:22px 0; max-width:30ch; }
+
+  /* Section label */
+  .sec { font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; padding-top:22px; padding-bottom:4px; }
+
+  /* Price rows */
+  .prow { padding:16px 0; border-top:1px solid var(--ink); }
+  .prow:first-of-type { border-top:none; }
+  .prow-top { display:flex; justify-content:space-between; align-items:baseline; gap:24px; }
+  .prow .name { font-size:19px; font-weight:700; }
+  .prow .name b { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; margin-left:12px; padding:2px 8px; border:1px solid var(--ink); border-radius:3px; }
+  .prow .price { font-size:30px; font-weight:700; letter-spacing:-0.02em; white-space:nowrap; }
+  .prow .price small { font-size:14px; font-weight:500; margin-left:2px; }
+  .prow .time { font-size:14px; font-weight:700; margin-top:8px; }
+  .prow .time span { font-weight:500; }
+  .prow .desc { font-size:14px; font-weight:400; line-height:1.45; max-width:56ch; margin-top:5px; }
+
+  /* Two-column lists */
+  .cols { display:grid; grid-template-columns:1fr 1fr; gap:2px 40px; }
+  .li { display:flex; gap:12px; padding:8px 0; font-size:15px; font-weight:400; line-height:1.4; }
+  .li .n { font-weight:700; min-width:14px; }
+  .li b { font-weight:700; }
+
+  .need { display:flex; gap:12px; padding:8px 0; font-size:16px; font-weight:500; }
+  .need::before { content:''; flex:0 0 8px; height:8px; margin-top:8px; background:var(--ink); }
+
+  .ex { padding:8px 0; font-size:15px; font-weight:400; border-top:1px solid rgba(10,10,10,0.18); }
+  .ex:first-of-type { border-top:none; }
+  .ex b { font-weight:700; }
+
+  /* Notes */
+  .notes { padding-top:18px; }
+  .notes div { font-size:14px; font-weight:400; line-height:1.55; }
+  .notes b { font-weight:700; }
+
+  /* Footer */
+  .foot { margin-top:auto; padding-top:26px; }
+  .foot .sal { font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; }
+  .foot .name { font-size:19px; font-weight:700; margin-top:6px; }
+  .foot .name span { font-weight:500; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; margin-left:12px; }
+  .foot .contact { font-size:14px; font-weight:500; margin-top:12px; letter-spacing:0.01em; }
+  .foot .contact span + span::before { content:'·'; margin:0 10px; }
+  .foot a { color:var(--ink); text-decoration:none; }
+  .foot .visit { font-size:15px; font-weight:500; margin-top:10px; }
+  .foot .visit a { font-weight:700; text-decoration:underline; text-underline-offset:2px; }
+
+  @media print {
+    @page { size:A4; margin:0; }
+    html, body { background:#fff; }
+    .sheet { margin:0; box-shadow:none; width:210mm; min-height:297mm; }
+  }
+  @media (max-width:760px) {
+    .sheet { width:100%; min-height:auto; margin:0; padding:26px 20px; box-shadow:none; }
+    .title h1 { font-size:48px; }
+    .info, .cols { grid-template-columns:1fr; }
+    .info .cell + .cell { padding-left:0; }
+    .prow .price { font-size:24px; }
+  }
+</style>
+</head>
+<body>
+  <div class="sheet">
+
+    <div class="head">
+      <div class="wm">Casa Soda</div>
+      <div class="doc">Cotización · {{FECHA}}</div>
+    </div>
+    <div class="line thick"></div>
+
+    <div class="title">
+      <div class="eyebrow">{{EYEBROW — contexto corto, ej. "App JetSMART · Desarrollo sobre app existente"}}</div>
+      <h1>{{TITULO<br>en dos líneas}}</h1>
+    </div>
+    <div class="line"></div>
+
+    <div class="info">
+      <div class="cell"><div class="k">{{LABEL 1}}</div><div class="v">{{VALOR 1}}</div></div>
+      <div class="cell"><div class="k">{{LABEL 2}}</div><div class="v">{{VALOR 2}}</div></div>
+    </div>
+    <div class="line"></div>
+
+    <div class="lead">{{Una frase: qué es y qué gana el cliente. Sin jerga.}}</div>
+    <div class="line"></div>
+
+    <!-- COTIZACIÓN — cada fase lleva SIEMPRE precio + estimado de tiempos -->
+    <div class="sec">Cotización</div>
+    <div class="prow">
+      <div class="prow-top"><span class="name">{{Fase A}} <b>Firme</b></span><span class="price">${{monto}}</span></div>
+      <div class="time">{{ej. 3–5 días hábiles}}</div>
+      <div class="desc">{{Qué incluye esta fase, corto.}}</div>
+    </div>
+    <div class="prow">
+      <div class="prow-top"><span class="name">{{Fase B}} <b>Estimado</b></span><span class="price">${{rango}} <small>MXN</small></span></div>
+      <div class="time">{{ej. 2–4 semanas}} <span>· {{condición, ej. tras el discovery}}</span></div>
+      <div class="desc">{{Qué incluye. Si es estimado, di que se cierra tras la fase previa.}}</div>
+    </div>
+    <div class="line"></div>
+
+    <div class="sec">Cómo trabajamos</div>
+    <div class="cols">
+      <div class="li"><span class="n">1</span><span><b>{{Paso}}.</b> {{una línea}}</span></div>
+      <div class="li"><span class="n">2</span><span><b>{{Paso}}.</b> {{una línea}}</span></div>
+      <div class="li"><span class="n">3</span><span><b>{{Paso}}.</b> {{una línea}}</span></div>
+      <div class="li"><span class="n">4</span><span><b>{{Paso}}.</b> {{una línea}}</span></div>
+    </div>
+
+    <div class="sec">Qué necesitamos de ustedes</div>
+    <div class="need">{{Requisito 1}}</div>
+    <div class="need">{{Requisito 2}}</div>
+
+    <div class="sec">Extras <span style="font-weight:500;letter-spacing:0;text-transform:none;">— aparte, tras el discovery</span></div>
+    <div class="ex"><b>{{Extra}}</b> {{detalle corto}}.</div>
+    <div class="ex"><b>{{Extra}}</b> {{detalle corto}}.</div>
+    <div class="ex"><b>{{Extra}}</b> {{detalle corto}}.</div>
+    <div class="ex"><b>Soporte</b> mensual.</div>
+
+    <div class="notes">
+      <div>{{Reparto: qué pone el cliente, qué pone Casa Soda.}}</div>
+      <div>Pago: {{condiciones}}. MXN + IVA.</div>
+    </div>
+
+    <div class="foot">
+      <div class="line" style="margin-bottom:16px;"></div>
+      <div class="sal">Saludos,</div>
+      <div class="name">Daniel Pliego <span>Casa Soda</span></div>
+      <div class="contact"><span>Ciudad de México</span><span><a href="tel:+525510265196">+52 55 1026 5196</a></span><span><a href="mailto:hola@casasoda.com">hola@casasoda.com</a></span></div>
+      <div class="visit">Visita <a href="https://casasoda.com">Casa Soda</a> para ver nuestro portafolio.</div>
+    </div>
+
+  </div>
+</body>
+</html>

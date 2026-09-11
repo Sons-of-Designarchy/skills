@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<!--
+  CASA SODA — Yardzen Brand Book 2026 proposal
+  Design rules (do not break):
+  - All black. Zero grey copy. Hierarchy by weight and size.
+  - One typeface: DM Sans.
+  - White paper so page breaks don't show. 1px black rules.
+  - English, USD (US client).
+  Export to PDF:
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+      --headless=new --disable-gpu --no-pdf-header-footer \
+      --print-to-pdf="Yardzen-Brand-Book-2026.pdf" "file://$PWD/index.html"
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Soda — Yardzen Brand Book 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --paper: #FFFFFF;
+    --ink:   #0A0A0A;
+  }
+
+  html, body { background:#cfccc4; font-family:'DM Sans', system-ui, sans-serif; color:var(--ink); -webkit-font-smoothing:antialiased; }
+
+  .sheet {
+    width:210mm; min-height:297mm; margin:24px auto; background:var(--paper);
+    padding:22mm 24mm 18mm; display:flex; flex-direction:column;
+    box-shadow:0 12px 48px rgba(0,0,0,0.22);
+    page-break-after:always; break-after:page;
+  }
+  .sheet:last-child { page-break-after:auto; break-after:auto; }
+
+  .line { height:1px; background:var(--ink); }
+  .line.thick { height:3px; }
+
+  /* Header */
+  .head { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:12px; }
+  .head .wm { font-size:20px; font-weight:700; letter-spacing:-0.03em; }
+  .head .doc { font-size:10px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; }
+
+  /* Cover */
+  .title { padding:24px 0 22px; }
+  .eyebrow { font-size:11px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; }
+  .title h1 { font-size:72px; font-weight:700; letter-spacing:-0.035em; line-height:0.92; margin-top:14px; }
+  .cover-lead { font-size:19px; font-weight:500; line-height:1.42; letter-spacing:-0.01em; padding:22px 0; max-width:34ch; }
+
+  .info { display:grid; grid-template-columns:1fr 1fr; }
+  .info .cell { padding:14px 0; }
+  .info .cell + .cell { padding-left:24px; }
+  .info .k { font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; }
+  .info .v { font-size:16px; font-weight:500; margin-top:5px; }
+
+  /* Section heads */
+  .sec { font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; padding-top:20px; padding-bottom:6px; }
+  h2.big { font-size:40px; font-weight:700; letter-spacing:-0.03em; line-height:1.0; padding:6px 0 14px; }
+  h3 { font-size:19px; font-weight:700; letter-spacing:-0.01em; padding-top:16px; padding-bottom:4px; }
+
+  p { font-size:14px; font-weight:400; line-height:1.55; max-width:62ch; padding-bottom:9px; }
+  p.big { font-size:17px; font-weight:500; line-height:1.45; max-width:46ch; }
+  p b, li b, td b { font-weight:700; }
+  .quote { font-size:15px; font-weight:500; line-height:1.5; max-width:56ch; padding:4px 0 10px 16px; border-left:3px solid var(--ink); margin:6px 0 12px; }
+
+  /* Table */
+  table { width:100%; border-collapse:collapse; margin:8px 0 4px; }
+  th, td { text-align:right; padding:9px 8px; font-size:14px; font-weight:500; border-bottom:1px solid var(--ink); }
+  th:first-child, td:first-child { text-align:left; padding-left:0; font-weight:500; }
+  th { font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; border-bottom:2px solid var(--ink); }
+  tr.total td { font-weight:700; font-size:16px; border-bottom:none; border-top:2px solid var(--ink); padding-top:11px; }
+  tr.goal td { font-size:11px; font-weight:500; font-style:italic; padding-top:2px; padding-bottom:9px; border-bottom:1px solid var(--ink); }
+  td.brand, th.brand { font-weight:700; }
+  .tnote { font-size:12px; font-weight:400; line-height:1.5; padding-top:8px; max-width:64ch; }
+
+  /* Lists */
+  ul { list-style:none; padding-bottom:6px; }
+  li { font-size:14px; font-weight:400; line-height:1.45; padding:5px 0 5px 18px; position:relative; max-width:62ch; }
+  li::before { content:''; position:absolute; left:0; top:11px; width:7px; height:7px; background:var(--ink); }
+  ul.tight li { padding:3px 0 3px 18px; }
+  ul.tight li::before { top:9px; }
+
+  .cols2 { display:grid; grid-template-columns:1fr 1fr; gap:0 36px; }
+
+  .numrow { display:flex; gap:14px; padding:9px 0; border-top:1px solid var(--ink); font-size:14px; line-height:1.45; }
+  .numrow:first-of-type { border-top:none; }
+  .numrow .n { font-weight:700; min-width:56px; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; padding-top:2px; }
+  .numrow .t { flex:1; }
+  .numrow .t b { display:block; font-weight:700; padding-bottom:2px; }
+
+  .kv { display:flex; justify-content:space-between; gap:20px; padding:9px 0; border-top:1px solid var(--ink); font-size:14px; }
+  .kv:first-of-type { border-top:none; }
+  .kv .kk { font-weight:700; }
+  .kv .vv { text-align:right; font-weight:500; }
+
+  /* Footer */
+  .foot { margin-top:auto; padding-top:24px; }
+  .foot .sal { font-size:10px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; }
+  .foot .name { font-size:18px; font-weight:700; margin-top:6px; }
+  .foot .name span { font-weight:500; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; margin-left:12px; }
+  .foot .contact { font-size:13px; font-weight:500; margin-top:11px; }
+  .foot .contact span + span::before { content:'·'; margin:0 9px; }
+  .foot a { color:var(--ink); text-decoration:none; }
+  .foot .visit { font-size:14px; font-weight:500; margin-top:9px; }
+  .foot .visit a { font-weight:700; text-decoration:underline; text-underline-offset:2px; }
+
+  .pnum { margin-top:auto; padding-top:18px; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; }
+
+  @media print {
+    @page { size:A4; margin:0; }
+    html, body { background:#fff; }
+    .sheet { margin:0; box-shadow:none; width:210mm; min-height:297mm; }
+  }
+  @media (max-width:760px) {
+    .sheet { width:100%; min-height:auto; margin:0; padding:26px 20px; box-shadow:none; }
+    .title h1 { font-size:46px; }
+    h2.big { font-size:30px; }
+    .info, .cols2 { grid-template-columns:1fr; }
+    .info .cell + .cell { padding-left:0; }
+    table { font-size:12px; }
+    th, td { padding:7px 4px; font-size:12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ PAGE 1 — COVER ══════════════ -->
+<div class="sheet">
+  <div class="head">
+    <div class="wm">Casa Soda</div>
+    <div class="doc">Proposal · 10 Sep 2026</div>
+  </div>
+  <div class="line thick"></div>
+
+  <div class="title">
+    <div class="eyebrow">Yardzen · Visual Identity System</div>
+    <h1>Brand Book<br>2026</h1>
+  </div>
+  <div class="line"></div>
+
+  <div class="cover-lead">A complete visual identity for Yardzen — designed, documented, and built so every team can use it without asking anyone's permission.</div>
+  <div class="line"></div>
+
+  <div class="info">
+    <div class="cell"><div class="k">Engagement</div><div class="v">Fixed scope · September – December 2026</div></div>
+    <div class="cell"><div class="k">Investment</div><div class="v">$24,000 USD</div></div>
+  </div>
+  <div class="line"></div>
+  <div class="info">
+    <div class="cell"><div class="k">Prepared for</div><div class="v">Brian Radics, Yardzen</div></div>
+    <div class="cell"><div class="k">Prepared by</div><div class="v">Daniel Pliego, Casa Soda</div></div>
+  </div>
+  <div class="line"></div>
+
+  <div class="sec">Contents</div>
+  <ul class="tight">
+    <li>Why now — and what it costs today</li>
+    <li>Investment, and how it fits what Yardzen already spends</li>
+    <li>Who owns what</li>
+    <li>What's in the book</li>
+    <li>Timeline and team</li>
+    <li>How we work together</li>
+    <li>Terms</li>
+  </ul>
+
+  <div class="foot">
+    <div class="line" style="margin-bottom:14px;"></div>
+    <div class="contact" style="font-size:13px;font-weight:500;">
+      <span>Casa Soda</span><span><a href="mailto:hola@casasoda.com">hola@casasoda.com</a></span><span><a href="https://casasoda.com">casasoda.com</a></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PAGE 2 — WHY NOW ══════════════ -->
+<div class="sheet">
+  <div class="head">
+    <div class="wm">Casa Soda</div>
+    <div class="doc">Yardzen · Brand Book 2026</div>
+  </div>
+  <div class="line thick"></div>
+
+  <div class="sec">01</div>
+  <h2 class="big">Why now</h2>
+
+  <p>Yardzen's landscape design work is held to a standard the brand around it is not. Your brief names the gap plainly:</p>
+
+  <div class="quote">"Erosion of the brand equity due to a lack of adherence to standards and less oversight into how Yardzen shows up across omnichannel touchpoints: inconsistent font usage, varying tones of voice, lack of brand breakthrough, and brand visuals that lack the quality standards expected."</div>
+
+  <p>That erosion has a cost, and you've already connected it to revenue — stronger brand design means <b>more client leads and more design purchases</b>. This proposal treats it that way. Not a brand book as an artifact, but the thing that stops the leak while the business is working to grow.</p>
+
+  <h3>What inconsistency costs today</h3>
+  <p>Every marketing request is currently answered from scratch. Someone picks a typeface, chooses a crop, guesses at a colour, and a portion of the output lands off-brand. That work is slow, it's expensive, and it's the reason the standards slip — not because anyone ignores the brand, but because there is no system that makes doing it right faster than doing it wrong.</p>
+
+  <p>A working identity system inverts that. The right answer becomes the quickest one. Requests that used to be bespoke design jobs become template fills, and the teams asking stop needing a designer in the loop to stay on brand.</p>
+
+  <h3>What this is aiming at</h3>
+  <p>Your five objectives frame the work, and each one has a concrete answer in the deliverables:</p>
+
+  <div class="numrow"><div class="n">01</div><div class="t"><b>Consistency at scale</b>A flexible visual system that adapts across Clients, Contractors and Partners without fragmenting.</div></div>
+  <div class="numrow"><div class="n">02</div><div class="t"><b>Distinctiveness</b>Proprietary, recognisable assets — a compositional system, not a logo on a page.</div></div>
+  <div class="numrow"><div class="n">03</div><div class="t"><b>Elevated perception</b>A premium, design-led identity that makes the promise of a premium landscape credible before anyone reads a word.</div></div>
+  <div class="numrow"><div class="n">04</div><div class="t"><b>Instill intent</b>An art direction that associates Yardzen with aspiration, outdoor living and transformation.</div></div>
+  <div class="numrow"><div class="n">05</div><div class="t"><b>Lifestyle brand community</b>A mark with enough character that people are willing to wear it, display it and identify with it.</div></div>
+
+  <div class="pnum">2</div>
+</div>
+
+<!-- ══════════════ PAGE 3 — INVESTMENT ══════════════ -->
+<div class="sheet">
+  <div class="head">
+    <div class="wm">Casa Soda</div>
+    <div class="doc">Yardzen · Brand Book 2026</div>
+  </div>
+  <div class="line thick"></div>
+
+  <div class="sec">02</div>
+  <h2 class="big">Investment</h2>
+
+  <p class="big">The Brand Book is a fixed-scope project of <b>$24,000 USD</b>, delivered September through December.</p>
+
+  <p>Most of that is not new spend. Yardzen already funds design system and marketing work every month — it simply runs without a brand behind it. During the build, that budget points at the book instead. The table shows the whole picture, including what Yardzen pays today.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Line</th>
+        <th>August</th>
+        <th>September</th>
+        <th>Oct–Dec <span style="font-weight:500;text-transform:none;letter-spacing:0;">each</span></th>
+        <th>Q1</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Product</td><td>$9k</td><td>$9k</td><td>$9k</td><td>$9k</td></tr>
+      <tr><td>Code Design System</td><td>$3k</td><td>$3k</td><td>$1k</td><td>$1k</td></tr>
+      <tr><td>Marketing asks</td><td>$1k</td><td>—</td><td>$1k</td><td>$1k</td></tr>
+      <tr><td class="brand">Brand</td><td class="brand">—</td><td class="brand">$3k</td><td class="brand">$7k</td><td class="brand">$4k</td></tr>
+      <tr class="goal"><td></td><td></td><td>logo directions</td><td>build the book</td><td>adoption + expansion</td></tr>
+      <tr class="total"><td>Yardzen pays</td><td>$13k</td><td>$15k</td><td>$18k</td><td>$15k</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tnote"><b>Brand Book project — $24,000.</b> September $3k, plus $7k in each of October, November and December. Fixed scope with a defined end. This is the only figure being quoted. Q1 is shown as direction, not commitment — it gets scoped once the book exists.</div>
+
+  <h3>What each period buys</h3>
+
+  <div class="numrow"><div class="n">Sep</div><div class="t"><b>$3k · Direction and first logo routes</b>Territories, the strategic frame for the identity, and initial logo directions in front of you by <b>September 29</b>. A short, high-intensity sprint against your date.</div></div>
+  <div class="numrow"><div class="n">Oct</div><div class="t"><b>$7k · The chosen mark, colour and type</b>Logo architecture resolved. Colour system and typography system built out.</div></div>
+  <div class="numrow"><div class="n">Nov</div><div class="t"><b>$7k · Complete visual identity</b>Graphic elements, iconography, art direction, and the visual principles governing photography, AI artwork, video and cropping.</div></div>
+  <div class="numrow"><div class="n">Dec</div><div class="t"><b>$7k · Applications and the book</b>Eight application templates, then the full Brand Guidelines compiled and handed over.</div></div>
+
+  <h3>Payment</h3>
+  <p>Billed monthly: 50% at the start of each month, 50% on that month's approval. Invoiced separately from the product retainer. Intellectual property in all delivered work transfers to Yardzen on final payment.</p>
+
+  <div class="pnum">3</div>
+</div>
+
+<!-- ══════════════ PAGE 4 — HOW IT FITS ══════════════ -->
+<div class="sheet">
+  <div class="head">
+    <div class="wm">Casa Soda</div>
+    <div class="doc">Yardzen · Brand Book 2026</div>
+  </div>
+  <div class="line thick"></div>
+
+  <div class="sec">03</div>
+  <h2 class="big">How it fits<br>current scope</h2>
+
+  <p>Yardzen and Casa Soda already work together every month. This project is designed to sit inside that relationship rather than beside it.</p>
+
+  <h3>Product is protected</h3>
+  <p>Product holds at <b>$9k in every period</b>, unchanged from today. It does not drop to fund the brand work, and brand deadlines never compete with product delivery for the same hours. A dedicated brand designer joins the team for this engagement, and Said leads brand execution — the brand work is staffed separately by design.</p>
+
+  <h3>Design system and marketing work fold in</h3>
+  <p>Today $3k a month goes to the code design system and roughly $1k to ad-hoc marketing requests. Both are brand work already; they just have no brand to work from. During the build they reduce rather than disappear — enough to keep the lights on, with the balance redirected into producing the system they've been improvising around.</p>
+  <p>The marketing requests are the clearest case. The eight application templates in this book are the permanent answer to work that is currently re-invented every time it's asked for.</p>
+
+  <h3>We deliberately do not repaint the product yet</h3>
+  <p>An unreleased brand should not be applied to live product UI. Through October to December we align the <b>structure</b> of the design tokens to the incoming brand and flag conflicts, but we do not restyle the product against a system still under review. Applying it early means doing it twice.</p>
+  <p>That implementation is what Q1 is for. The book lands in the product once it is approved, not while it is being decided.</p>
+
+  <h3>Typefaces stay as they are</h3>
+  <p>The type system is built from <b>Arsenal</b>, <b>Geist</b> and one further open-licence face selected in September. No custom typeface is commissioned and no licensing cost is introduced. Arsenal is already Yardzen's display face and Geist already runs in the product, so the book documents and disciplines what exists rather than replacing it — which means the design tokens change roles, not families.</p>
+
+  <div class="pnum">4</div>
+</div>
+
+<!-- ══════════════ PAGE 5 — OWNERSHIP ══════════════ -->
+<div class="sheet">
+  <div class="head">
+    <div class="wm">Casa Soda</div>
+    <div class="doc">Yardzen · Brand Book 2026</div>
+  </div>
+  <div class="line thick"></div>
+
+  <div class="sec">04</div>
+  <h2 class="big">Who owns what</h2>
+
+  <p>The Brand Book has two halves and they are built by different teams. This proposal covers the visual half only.</p>
+
+  <div class="cols2">
+    <div>
+      <h3>Yardzen owns</h3>
+      <p style="font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;padding-bottom:6px;">Brand Foundation</p>
+      <ul class="tight">
+        <li>Vision and mission</li>
+        <li>Target audience profile</li>
+        <li>Positioning statement and communications platform</li>
+        <li>Copywriting tone of voice</li>
+        <li>Out-of-category reference brands</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Casa Soda owns</h3>
+      <p style="font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;padding-bottom:6px;">Visual Identity</p>
+      <ul class="tight">
+        <li>Core visual identity</li>
+        <li>Visual principles</li>
+        <li>Applications</li>
+        <li>Guidance and governance</li>
+        <li>Compilation of the complete book</li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="padding-top:14px;">Brand Foundation is needed by the <b>end of September</b>. Logo and identity directions can begin without it, but colour, type and art direction all resolve against positioning and audience — if Foundation arrives late, the October work compresses.</p>
+
+  <div class="sec">Decision-making</div>
+  <div class="kv"><span class="kk">Responsible</span><span class="vv">Casa Soda</span></div>
+  <div class="kv"><span class="kk">Accountable</span><span class="vv">Brian Radics — single approver</span></div>
+  <div class="kv"><span class="kk">Consulted</span><span class="vv">Allison, Alicia, Adam</span></div>
+  <div class="kv"><span class="kk">Informed</span><span class="vv">Alison, Marketing team</span></div>
+
+  <p style="padding-top:14px;">One accountable approver matters more on this project than most. A visual identity reviewed by committee converges on the least objectionable option, which is the opposite of the distinctiveness the brief asks for. Consultation is welcome at every stage; the decision sits in one place.</p>
+
+  <div class="pnum">5</div>
+</div>
+
+<!-- ══════════════ PAGE 6 — WHAT'S IN THE BOOK (A + B) ══════════════ -->
+<div class="sheet">
+  <div class="head">
+    <div class="wm">Casa Soda</div>
+    <div class="doc">Yardzen · Brand Book 2026</div>
+  </div>
+  <div class="line thick"></div>
+
+  <div class="sec">05</div>
+  <h2 class="big">What's in the book</h2>
+
+  <p>The complete list of what Casa Soda delivers. Everything named here is included in the $24,000. Anything not named here is a change order.</p>
+
+  <div class="line" style="margin:10px 0 0;"></div>
+  <h3>A · Core Visual Identity</h3>
+  <ul class="tight">
+    <li><b>Logo architecture</b> — the full system of marks and how they relate</li>
+    <li><b>Symbol / short-form logo and derivatives.</b> We explore <b>"YZ"</b> in multiple iterations, and evaluate the current <b>"Y" in the circle</b> both standalone and accompanied by the Yardzen wordmark. The symbol is designed to carry the lifestyle-brand ambition — a mark that works on a hat as well as a header</li>
+    <li><b>Lockups</b> — primary, secondary and vertical; safe areas; minimum sizes; placement rules; dos and don'ts</li>
+    <li><b>Colour system</b> — core palette with HEX, RGB, CMYK and Pantone values; usage ratios; and the rule for deriving new accent colours so the palette can extend without drifting</li>
+    <li><b>Typography system</b> — Arsenal, Geist and one further open-licence face; type scale; type lockups; casing and usage rules</li>
+    <li><b>Graphic elements</b> — the proprietary devices that make a layout recognisably Yardzen at a glance</li>
+    <li><b>Iconography</b> — style definition and a core set</li>
+    <li><b>Art direction</b> — how the parts compose into a consistent world</li>
+  </ul>
+
+  <div class="line" style="margin:12px 0 0;"></div>
+  <h3>B · Visual Principles</h3>
+  <ul class="tight">
+    <li><b>Photography</b> — principles, style and treatment, so real Yardzen project work is presented to a single standard</li>
+    <li><b>AI-generated artwork</b> — where it is appropriate, where it is not, and how it must be treated to stay credible</li>
+    <li><b>The role of humanity</b> — when people appear, how, and why</li>
+    <li><b>Video</b> — direction and treatment guidance</li>
+    <li><b>Angles and cropping</b> — the rules that keep composition consistent across everyone who touches an image</li>
+  </ul>
+
+  <div class="pnum">6</div>
+</div>
+
+<!-- ══════════════ PAGE 7 — WHAT'S IN THE BOOK (C + D) ══════════════ -->
+<div class="sheet">
+  <div class="head">
+    <div class="wm">Casa Soda</div>
+    <div class="doc">Yardzen · Brand Book 2026</div>
+  </div>
+  <div class="line thick"></div>
+
+  <div class="line" style="margin:6px 0 0;"></div>
+  <h3>C · Applications</h3>
+  <p>One representative, fully designed template for each named surface — eight in total:</p>
+  <div class="cols2">
+    <ul class="tight">
+      <li>Website</li>
+      <li>Advertising</li>
+      <li>Social media</li>
+      <li>Paid digital media</li>
+    </ul>
+    <ul class="tight">
+      <li>Mailers</li>
+      <li>Partner decks</li>
+      <li>Signage</li>
+      <li>Apparel and swag</li>
+    </ul>
+  </div>
+  <p><b>What "one template per surface" means.</b> Each template is a complete, specified, editable design — the pattern that every future piece on that surface is built from. It is not every size, format or variant a surface will eventually need. Additional templates, sizes and variants are available as a change order at <b>$2,500 each</b>, and are the natural first work of Q1.</p>
+
+  <div class="line" style="margin:12px 0 0;"></div>
+  <h3>D · Guidance</h3>
+  <ul class="tight">
+    <li><b>Rules for internal and external teams</b> — written so a contractor, a partner or a new marketing hire can apply the brand correctly without a briefing</li>
+    <li><b>The compositional system</b> — the grid, headline zones, call-to-action placement and contextual type usage. This is the part that makes the identity a system rather than a style sheet, and the reason marketing can self-serve</li>
+    <li><b>Sub-brand derivation rule</b> — how any future sub-brand takes its colour and lockup from the master brand without a new design project each time</li>
+    <li><b>Co-branding rules</b> — how Yardzen sits alongside a partner's mark, so partner work stops being negotiated case by case</li>
+  </ul>
+
+  <p style="padding-top:8px;"><b>On sub-brands.</b> The book delivers the rule, not the sub-brands. Resolving named sub-brands as finished identities is separate work, and it is the right candidate for Q1 — the rule has to exist before they can be derived from it.</p>
+
+  <div class="line" style="margin:12px 0 0;"></div>
+  <h3>Format</h3>
+  <p>Delivered as a complete <b>Brand Guidelines PDF</b>, plus the editable source files and exported logo and asset packs in the formats each surface needs.</p>
+
+  <div class="pnum">7</div>
+</div>
+
+<!-- ══════════════ PAGE 8 — TIMELINE + TEAM ══════════════ -->
+<div class="sheet">
+  <div class="head">
+    <div class="wm">Casa Soda</div>
+    <div class="doc">Yardzen · Brand Book 2026</div>
+  </div>
+  <div class="line thick"></div>
+
+  <div class="sec">06</div>
+  <h2 class="big">Timeline</h2>
+
+  <p>Four months, starting immediately. The schedule is built around your <b>September 29</b> date for first logo directions.</p>
+
+  <div class="numrow"><div class="n">Sep</div><div class="t"><b>Direction</b>Territories and strategic frame. Third typeface selected. <b>First logo directions presented by September 29.</b> Brand Foundation received from Yardzen by month end.</div></div>
+  <div class="numrow"><div class="n">Oct</div><div class="t"><b>The mark</b>Logo direction chosen and resolved into the full architecture — symbol, wordmark, lockups, safe areas. Colour system and typography system built.</div></div>
+  <div class="numrow"><div class="n">Nov</div><div class="t"><b>The system</b>Graphic elements, iconography, art direction. Visual principles for photography, AI artwork, humanity, video, angles and cropping. The compositional system defined.</div></div>
+  <div class="numrow"><div class="n">Dec</div><div class="t"><b>Applications and handoff</b>Eight application templates designed and specified. Guidance and governance written. Complete Brand Guidelines compiled, source files packaged, handed over.</div></div>
+
+  <div class="sec">Team</div>
+  <div class="kv"><span class="kk">Daniel Pliego</span><span class="vv">Direction, strategy, client, final review</span></div>
+  <div class="kv"><span class="kk">Said</span><span class="vv">Branding execution lead</span></div>
+  <div class="kv"><span class="kk">Brand designer</span><span class="vv">Dedicated to this engagement</span></div>
+  <div class="kv"><span class="kk">Quetzalli</span><span class="vv">Production support</span></div>
+
+  <p style="padding-top:14px;">A dedicated brand designer joins the team for this engagement. Casa Soda is adding capacity for this work specifically — the brand book is not being absorbed into the existing product team's week.</p>
+
+  <div class="pnum">8</div>
+</div>
+
+<!-- ══════════════ PAGE 9 — WORKING TOGETHER + TERMS ══════════════ -->
+<div class="sheet">
+  <div class="head">
+    <div class="wm">Casa Soda</div>
+    <div class="doc">Yardzen · Brand Book 2026</div>
+  </div>
+  <div class="line thick"></div>
+
+  <div class="sec">07</div>
+  <h2 class="big">How we work<br>together</h2>
+
+  <h3>A weekly branding review</h3>
+  <p>Brand progress gets its own standing weekly review, <b>separate from the product meeting</b>. Two reasons. Brand decisions need the people who decide brand in the room, which is not the same group as product. And on a four-month fixed schedule, a review that shares an agenda with product is a review that gets postponed — which turns into a missed approval, which turns into a missed deadline.</p>
+
+  <h3>Product changes carry to Q1</h3>
+  <p>Product holds its agreed shape from October through December. If product scope expands during those months, <b>the additional work is carried into Q1</b> rather than absorbed alongside the brand build.</p>
+  <p>This protects both sides of the engagement. It keeps the December handoff real, and it means new product priorities are scheduled honestly instead of quietly competing with a fixed-date deliverable.</p>
+
+  <h3>Revisions</h3>
+  <p><b>Two revision rounds per stage</b>, included. A round is one consolidated set of feedback from the approver — not sequential opinions arriving separately. Further rounds are available at $1,500 each.</p>
+
+  <div class="line" style="margin:14px 0 0;"></div>
+  <div class="sec">08</div>
+  <h2 class="big" style="font-size:32px;">Terms</h2>
+
+  <div class="kv"><span class="kk">Fee</span><span class="vv">$24,000 USD, fixed scope</span></div>
+  <div class="kv"><span class="kk">Schedule</span><span class="vv">$3k September · $7k October, November, December</span></div>
+  <div class="kv"><span class="kk">Billing</span><span class="vv">50% at start of month, 50% on that month's approval</span></div>
+  <div class="kv"><span class="kk">Revisions</span><span class="vv">2 rounds per stage · additional $1,500 each</span></div>
+  <div class="kv"><span class="kk">Extra templates</span><span class="vv">$2,500 each</span></div>
+  <div class="kv"><span class="kk">Intellectual property</span><span class="vv">Transfers to Yardzen on final payment</span></div>
+  <div class="kv"><span class="kk">Product retainer</span><span class="vv">Separate line, unaffected, invoiced separately</span></div>
+
+  <div class="sec">What we need from Yardzen</div>
+  <ul class="tight">
+    <li>Brand Foundation delivered by end of September</li>
+    <li>A single approver — Brian Radics</li>
+    <li>Consolidated feedback within five working days of each presentation</li>
+    <li>Access to the photography library and existing brand assets</li>
+    <li>Attendance at the weekly branding review</li>
+  </ul>
+
+  <div class="pnum">9</div>
+</div>
+
+<!-- ══════════════ PAGE 10 — Q1 + CLOSE ══════════════ -->
+<div class="sheet">
+  <div class="head">
+    <div class="wm">Casa Soda</div>
+    <div class="doc">Yardzen · Brand Book 2026</div>
+  </div>
+  <div class="line thick"></div>
+
+  <div class="sec">09</div>
+  <h2 class="big">After the book</h2>
+
+  <p class="big">A brand book that is delivered and not adopted has changed nothing.</p>
+
+  <p>Q1 is where the system stops being a document. It is shown in the table as direction rather than commitment — the scope gets defined once the book exists and we can both see what it actually needs. Two things are already clear:</p>
+
+  <h3>Adoption</h3>
+  <p>The identity implemented in the product. Design tokens updated from structure to values, components restyled, the code design system brought onto the approved brand. This is the work deliberately held back during the build, and it is why the code design system line returns in Q1.</p>
+
+  <h3>Expansion</h3>
+  <p>Sub-brands derived through the rule the book establishes. Additional application templates, sizes and variants for the surfaces marketing uses most. Anything the December handoff identified as next.</p>
+
+  <div class="line" style="margin:16px 0 0;"></div>
+
+  <div class="sec">In summary</div>
+  <div class="kv"><span class="kk">Brand Book 2026</span><span class="vv">$24,000 USD · September – December</span></div>
+  <div class="kv"><span class="kk">First logo directions</span><span class="vv">September 29, 2026</span></div>
+  <div class="kv"><span class="kk">Handoff</span><span class="vv">December 2026</span></div>
+  <div class="kv"><span class="kk">Peak monthly spend</span><span class="vv">$18,000 · October to December</span></div>
+
+  <p style="padding-top:16px;">Yardzen's brief asks for a world-class, distinctive, design-led brand worthy of the landscape work behind it. That is the right ambition and it is an achievable one — the raw material is already there in the projects Yardzen delivers every week. What has been missing is the system that presents them to a single standard.</p>
+
+  <div class="foot">
+    <div class="line" style="margin-bottom:16px;"></div>
+    <div class="sal">Thank you,</div>
+    <div class="name">Daniel Pliego <span>Casa Soda</span></div>
+    <div class="contact"><span>Mexico City</span><span><a href="tel:+525510265196">+52 55 1026 5196</a></span><span><a href="mailto:hola@casasoda.com">hola@casasoda.com</a></span></div>
+    <div class="visit">Visit <a href="https://casasoda.com">Casa Soda</a> to see our portfolio.</div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<!--
+  CASA SODA — PLANTILLA OFICIAL DE COTIZACIÓN (one-pager)
+  Reglas de diseño (no romper):
+  - Todo NEGRO. Cero copy gris. Jerarquía por peso y tamaño, no por color.
+  - Una sola tipografía: DM Sans. Nada de serif ni segunda fuente.
+  - Fondo blanco (así el corte a 2a página no se nota). Reglas 1px negras.
+  - Español mexicano natural, sin jerga técnica. Texto corto — dilo una vez.
+  - Precios en MXN + IVA. Siempre incluir ESTIMADO DE TIEMPOS por fase.
+  - Footer: Daniel Pliego · Casa Soda, tel, mail y link a Casa Soda (portafolio).
+  Exportar a PDF:
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+      --headless=new --disable-gpu --no-pdf-header-footer \
+      --print-to-pdf="Cotizacion-{slug}.pdf" "file://$PWD/index.html"
+  Reemplaza los {{PLACEHOLDERS}}.
+-->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Soda — Cotización · Chantilly Fest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --paper: #FFFFFF;
+    --ink:   #0A0A0A;
+  }
+
+  html, body { background:#cfccc4; font-family:'DM Sans', system-ui, sans-serif; color:var(--ink); -webkit-font-smoothing:antialiased; }
+
+  .sheet {
+    width:210mm; min-height:297mm; margin:24px auto; background:var(--paper);
+    padding:26mm 26mm 22mm; display:flex; flex-direction:column;
+    box-shadow:0 12px 48px rgba(0,0,0,0.22);
+  }
+
+  .line { height:1px; background:var(--ink); }
+  .line.thick { height:3px; }
+
+  /* Header */
+  .head { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:14px; }
+  .head .wm { font-size:24px; font-weight:700; letter-spacing:-0.03em; }
+  .head .doc { font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; }
+
+  /* Title */
+  .title { padding:22px 0 0; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; }
+  .title h1 { font-size:74px; font-weight:700; letter-spacing:-0.03em; line-height:0.92; margin-top:14px; }
+
+  /* Info */
+  .info { display:grid; grid-template-columns:1fr 1fr; }
+  .info .cell { padding:15px 0; }
+  .info .cell + .cell { padding-left:24px; }
+  .info .k { font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; }
+  .info .v { font-size:17px; font-weight:500; margin-top:5px; }
+
+  /* Lead */
+  .lead { font-size:19px; font-weight:500; line-height:1.4; letter-spacing:-0.01em; padding:14px 0 18px; }
+
+  /* Section label */
+  .sec { font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; padding-top:22px; padding-bottom:4px; }
+
+  /* Price rows */
+  .prow { padding:12px 0; border-top:1px solid var(--ink); }
+  .prow:first-of-type { border-top:none; }
+  .prow-top { display:flex; justify-content:space-between; align-items:center; gap:24px; margin-bottom:6px; }
+  .prow .name { font-size:19px; font-weight:700; }
+  .prow .name b { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; margin-left:12px; padding:2px 8px; border:1px solid var(--ink); border-radius:3px; }
+  .prow .price { font-size:30px; font-weight:700; letter-spacing:-0.02em; white-space:nowrap; }
+  .prow .price small { font-size:14px; font-weight:500; margin-left:2px; }
+  .prow .time { font-size:14px; font-weight:700; margin-top:8px; }
+  .prow .time span { font-weight:500; }
+  .prow .desc { font-size:14px; font-weight:400; line-height:1.45; max-width:56ch; margin-top:5px; }
+
+  /* Two-column lists */
+  .cols { display:grid; grid-template-columns:1fr 1fr; gap:2px 40px; }
+  .li { display:flex; gap:12px; padding:8px 0; font-size:15px; font-weight:400; line-height:1.4; }
+  .li .n { font-weight:700; min-width:14px; }
+  .li b { font-weight:700; }
+
+  .chk { display:flex; gap:9px; padding:1px 0; font-size:13.5px; font-weight:400; line-height:1.35; }
+  .chk::before { content:''; flex:0 0 5px; height:5px; margin-top:6px; background:var(--ink); }
+  .chk b { font-weight:700; }
+  .need { display:flex; gap:12px; padding:8px 0; font-size:16px; font-weight:500; }
+  .need::before { content:''; flex:0 0 8px; height:8px; margin-top:8px; background:var(--ink); }
+
+  .ex { padding:8px 0; font-size:15px; font-weight:400; border-top:1px solid rgba(10,10,10,0.18); }
+  .ex:first-of-type { border-top:none; }
+  .ex b { font-weight:700; }
+
+  /* Notes */
+  .notes { padding-top:18px; }
+  .notes div { font-size:14px; font-weight:400; line-height:1.55; }
+  .notes b { font-weight:700; }
+
+  /* Footer */
+  .foot { margin-top:auto; padding-top:26px; }
+  .foot .sal { font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; }
+  .foot .name { font-size:19px; font-weight:700; margin-top:6px; }
+  .foot .name span { font-weight:500; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; margin-left:12px; }
+  .foot .contact { font-size:14px; font-weight:500; margin-top:12px; letter-spacing:0.01em; }
+  .foot .contact span + span::before { content:'·'; margin:0 10px; }
+  .foot a { color:var(--ink); text-decoration:none; }
+  .foot .visit { font-size:15px; font-weight:500; margin-top:10px; }
+  .foot .visit a { font-weight:700; text-decoration:underline; text-underline-offset:2px; }
+
+  @media print {
+    @page { size:A4; margin:0; }
+    html, body { background:#fff; }
+    .sheet { margin:0; box-shadow:none; width:210mm; min-height:297mm; }
+  }
+  @media (max-width:760px) {
+    .sheet { width:100%; min-height:auto; margin:0; padding:26px 20px; box-shadow:none; }
+    .title h1 { font-size:48px; }
+    .info, .cols { grid-template-columns:1fr; }
+    .info .cell + .cell { padding-left:0; }
+    .prow .price { font-size:24px; }
+  }
+</style>
+</head>
+<body>
+  <div class="sheet">
+
+    <div class="head">
+      <div class="wm">Casa Soda</div>
+      <div class="doc">Cotización · 21 agosto 2026</div>
+    </div>
+    <div class="line thick"></div>
+
+    <div class="title">
+      <div class="eyebrow">Chantilly Fest</div>
+      <h1>Sitio de registro<br>de compras</h1>
+    </div>
+
+    <div class="lead">Cada quien crea su cuenta, sube su ticket y ve sus sellos. Ustedes aprueban desde un panel. Los niveles suben solos.</div>
+    <div class="line"></div>
+
+    <div class="prow">
+      <div class="prow-top"><span class="name">1 · El sitio <b>1 semana</b></span><span class="price">$24–36k <small>MXN</small></span></div>
+      <div class="chk"><span>Las 3 pantallas del diseño.</span></div>
+      <div class="chk"><span>Celular, tablet y desktop.</span></div>
+      <div class="chk"><span>Formulario paso a paso.</span></div>
+      <div class="chk"><span>Validación de cada campo.</span></div>
+      <div class="chk"><span>Subir foto del ticket.</span></div>
+      <div class="chk"><span>Pasaporte de sellos y medallas.</span></div>
+    </div>
+    <div class="prow">
+      <div class="prow-top"><span class="name">2 · El backend y el admin <b>3 semanas</b></span><span class="price">$46–74k <small>MXN</small></span></div>
+      <div class="cols">
+        <div class="chk"><span>Cuenta del participante.</span></div>
+        <div class="chk"><span>Lista de participantes con nivel y sellos.</span></div>
+        <div class="chk"><span>Base de participantes, compras y sellos.</span></div>
+        <div class="chk"><span>Buscador.</span></div>
+        <div class="chk"><span>Tickets guardados y privados.</span></div>
+        <div class="chk"><span>Ficha con sus compras y tickets.</span></div>
+        <div class="chk"><span>Sellos y niveles automáticos: Plata, Oro, Diamante.</span></div>
+        <div class="chk"><span>Corregir sellos a mano.</span></div>
+        <div class="chk"><span>Rangos de nivel editables por ustedes.</span></div>
+        <div class="chk"><span>Números por día, tienda y nivel.</span></div>
+        <div class="chk"><span>Bandeja para aprobar o rechazar tickets.</span></div>
+        <div class="chk"><span>Filtrar y exportar por nivel.</span></div>
+        <div class="chk"><span>Candados contra tickets repetidos.</span></div>
+        <div class="chk"><span>Acceso con clave.</span></div>
+        <div class="chk"><span>Exportar a Excel.</span></div>
+        <div class="chk"><span>Publicación en su dominio.</span></div>
+      </div>
+    </div>
+    <div class="prow">
+      <div class="prow-top"><span class="name">3 · Hosting y soporte <b>Incluido</b></span><span class="price">$6–8k <small>MXN/mes</small></span></div>
+      <div class="cols">
+        <div class="chk"><span>Nosotros lo hospedamos.</span></div>
+        <div class="chk"><span>Soporte de lunes a viernes, 9 a 7.</span></div>
+        <div class="chk"><span>Mientras la promoción esté activa.</span></div>
+        <div class="chk"><span>Capacitación a su equipo.</span></div>
+      </div>
+      <div class="desc">El primer mes va incluido. Después, mes a mes.</div>
+    </div>
+    <div class="prow">
+      <div class="prow-top"><span class="name">4 · Premios <b>Por definir</b></span><span class="price">Aparte</span></div>
+      <div class="chk"><span>¿Qué gana el participante en cada nivel?</span></div>
+      <div class="chk"><span>Si se entrega en tienda, ya va incluido.</span></div>
+      <div class="chk"><span>Si hay código o canje en el sitio, se cotiza aparte.</span></div>
+    </div>
+    <div class="prow">
+      <div class="prow-top"><span class="name">Total</span><span class="price">$70–110k <small>MXN</small></span></div>
+      <div class="time">4 semanas</div>
+    </div>
+    <div class="line"></div>
+
+    <div class="sec">Cómo trabajamos</div>
+    <div class="cols">
+      <div class="chk"><span><b>Arranque.</b> Nos pasan diseño, tiendas y premios.</span></div>
+      <div class="chk"><span><b>Construcción.</b> Link para ver avances.</span></div>
+      <div class="chk"><span><b>Pruebas.</b> Registramos compras de prueba juntos.</span></div>
+      <div class="chk"><span><b>Publicación.</b> Sale en vivo y les enseñamos el panel.</span></div>
+    </div>
+
+    <div class="sec">Qué necesitamos de ustedes</div>
+    <div class="cols">
+      <div class="chk"><span>Diseño final y textos.</span></div>
+      <div class="chk"><span>Tiendas, niveles y premios.</span></div>
+      <div class="chk"><span>Quién valida los tickets.</span></div>
+      <div class="chk"><span>Dominio.</span></div>
+    </div>
+
+    <div class="sec">Extras <span style="font-weight:500;letter-spacing:0;text-transform:none;">— aparte, si los quieren</span></div>
+    <div class="cols">
+      <div class="chk"><span><b>Canje</b> con código por participante.</span></div>
+      <div class="chk"><span><b>Correo</b> al subir de nivel.</span></div>
+      <div class="chk"><span><b>Reporte semanal</b> por tienda.</span></div>
+      <div class="chk"><span><b>Lectura automática</b> del ticket.</span></div>
+    </div>
+
+    <div class="notes">
+      <div>Pago: 50% para arrancar, 50% al publicar. MXN + IVA.</div>
+    </div>
+
+    <div class="foot">
+      <div class="line" style="margin-bottom:16px;"></div>
+      <div class="sal">Saludos,</div>
+      <div class="name">Daniel Pliego <span>Casa Soda</span></div>
+      <div class="contact"><span>Ciudad de México</span><span><a href="tel:+525510265196">+52 55 1026 5196</a></span><span><a href="mailto:hola@casasoda.com">hola@casasoda.com</a></span></div>
+      <div class="visit">Visita <a href="https://casasoda.com">Casa Soda</a> para ver nuestro portafolio.</div>
+    </div>
+
+  </div>
+</body>
+</html>
