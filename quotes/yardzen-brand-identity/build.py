@@ -69,6 +69,7 @@ PROBLEM = sheet('''  <div class="sec">Why now</div>
   <p>That's a system problem, not a discipline problem, and it doesn't improve on its own.</p>''')
 
 TODAY_AFTER = '''  <div class="sec">What changes</div>
+  <h2 class="big">From every request<br>starting at zero</h2>
   <table>
     <tr><th>Today</th><th class="brand" style="text-align:left">After</th></tr>
     <tr><td>Every request starts from zero</td><td style="text-align:left"><b>The right answer is the fastest one</b></td></tr>
@@ -155,7 +156,7 @@ DELIVERABLES_3 = sheet('''  <div class="sec">Deliverables · Phase 3</div>
     <tr><td><b>Asset packs</b></td><td style="text-align:left">Logo and elements exported in the formats each surface needs</td><td>SVG · PNG · EPS</td></tr>
   </table>''')
 
-OBJECTIVES = sheet('''  <div class="sec">Your brief</div>
+OBJECTIVES = sheet('''  <div class="sec">Your brief, answered</div>
   <h2 class="big">Five objectives,<br>five answers</h2>
   <p>You set these. Here's what in this proposal answers each one.</p>
   <div class="numrow"><div class="n">01</div><div class="t"><b>Consistency at scale</b>A flexible system that adapts across Clients, Contractors and Partners without fragmenting. Answered by the compositional system and the co-branding rules.</div></div>
@@ -272,6 +273,7 @@ def CLOSE(final_line):
 A = [
   COVER.replace("{{LEAD}}", "A visual identity for Yardzen, designed, written down, and applied, so every team can use it without asking anyone's permission."),
   PROBLEM,
+  OBJECTIVES,
   sheet(TODAY_AFTER + '''
   <div class="line"></div>
   <h3>What we're actually building</h3>
@@ -287,7 +289,7 @@ A = [
   <p><b>Copy</b> turns that into rules somebody who wasn't in the room can follow.</p>
   <p><b>Adaptations</b> shows it working on the eight surfaces marketing actually uses, then hands everything over.</p>
   <p class="tnote"><b>Why the last two are not one phase.</b> September shows you the brand. It doesn't yet tell a stranger how to apply it, and it doesn't yet exist on a single real surface. Those are separate jobs and they're where the work actually is.</p>'''),
-  SEP29, OBJECTIVES, DELIVERABLES_1, DELIVERABLES_2, DELIVERABLES_3,
+  SEP29, DELIVERABLES_1, DELIVERABLES_2, DELIVERABLES_3,
   MONEY, FITS, OWNERSHIP, WORKING,
   CLOSE('''<p>The brief asks for a distinctive, design-led brand worthy of the landscape work behind it. That ambition is reachable, because the raw material already exists in the projects Yardzen delivers every week.</p>
   <p class="big"><b>What's missing is the system that presents them to one standard.</b></p>'''),
@@ -314,7 +316,8 @@ B = [
   <div class="line"></div>
   <h3>Nobody is ignoring the brand. There's nothing to follow.</h3>
   <p>Every marketing request today is answered from scratch, which is why the standards slip. <b>Doing it right is currently slower than doing it wrong.</b> That's a system problem, and it doesn't improve on its own.</p>'''),
-  OBJECTIVES, DELIVERABLES_1, DELIVERABLES_2, DELIVERABLES_3,
+  OBJECTIVES,
+  DELIVERABLES_1, DELIVERABLES_2, DELIVERABLES_3,
   MONEY, OWNERSHIP, WORKING,
   CLOSE('''<p class="big"><b>The raw material already exists in the projects Yardzen delivers every week. What's missing is the system that presents them to one standard.</b></p>'''),
 ]
@@ -340,6 +343,7 @@ C = [
   <h3>Product doesn't pay for this</h3>
   <p><b>Product holds at $9k in every period.</b> A dedicated brand designer joins for this engagement and Said leads brand execution. Casa Soda is adding capacity, not moving your product hours onto a brand book.</p>'''),
   PROBLEM,
+  OBJECTIVES,
   sheet(TODAY_AFTER + '''
   <div class="line"></div>
   <h3>Where the return is</h3>
@@ -352,7 +356,7 @@ C = [
   <div class="line"></div>
   <h3>You see it working on September 29</h3>
   <p>The first deliverable is <b>a 15-slide brand guide, designed in the new identity and printed</b>. Not a logo on a white page. The identity doing its job, in your hands, three weeks from signature.</p>'''),
-  SEP29, OBJECTIVES, DELIVERABLES_1, DELIVERABLES_2, DELIVERABLES_3,
+  SEP29, DELIVERABLES_1, DELIVERABLES_2, DELIVERABLES_3,
   FITS, OWNERSHIP, WORKING,
   CLOSE('''<p>The brief asks for a distinctive, design-led brand worthy of the landscape work behind it. That ambition is reachable, because the raw material already exists in the projects Yardzen delivers every week.</p>
   <p class="big"><b>What's missing is the system that presents them to one standard.</b></p>'''),
