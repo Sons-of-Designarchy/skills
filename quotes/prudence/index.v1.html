@@ -91,22 +91,6 @@
   .diag-item.despues { color:var(--white); }
   .diag-item.despues strong { color:var(--lime); font-weight:500; }
 
-  /* ── 3. ESTRUCTURA ── */
-  .struct-wrap { display:grid; grid-template-columns:1fr 1fr; gap:4vw; align-items:center; }
-  .struct-stack { display:flex; flex-direction:column; gap:0.6vh; }
-  .struct-sec {
-    border:1px solid rgba(240,237,228,0.18); border-radius:10px; padding:1.4vh 1.6vw;
-    display:flex; justify-content:space-between; align-items:baseline; gap:1vw;
-  }
-  .struct-sec span { font-size:clamp(1rem,1.25vw,1.5rem); font-weight:500; color:var(--white); }
-  .struct-sec small { font-size:clamp(0.8rem,0.85vw,1rem); color:var(--muted); font-weight:300; text-align:right; }
-  .struct-sec.hero { border:1.5px solid var(--lime); padding:4vh 1.6vw; position:relative; overflow:hidden; }
-  .struct-sec.hero span { font-size:clamp(1.6rem,2.4vw,3rem); color:var(--lime); }
-  .struct-sec.hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--lime),var(--purple),var(--coral),var(--lime)); opacity:0.75; }
-  .struct-notes { display:flex; flex-direction:column; gap:3vh; }
-  .struct-note { font-size:clamp(1rem,1.15vw,1.35rem); color:var(--muted); font-weight:300; line-height:1.6; }
-  .struct-note strong { display:block; font-size:clamp(1.3rem,1.8vw,2.2rem); font-weight:500; color:var(--white); letter-spacing:-0.02em; margin-bottom:0.5vh; }
-
   /* ── 4. ALCANCE ── */
   #s4 .slide-body { gap:2vh; }
   .scope-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.8vw; flex:1; }
@@ -274,13 +258,6 @@
     .diag-col + .diag-col { margin-top:5vw; }
     .diag-item { font-size:0.95rem; padding:1.2vh 0; }
 
-    .struct-wrap { grid-template-columns:1fr; gap:5vw; }
-    .struct-sec { padding:3vw 4vw; flex-direction:column; align-items:flex-start; gap:0.3vh; }
-    .struct-sec small { text-align:left; font-size:0.8rem; }
-    .struct-sec.hero { padding:6vw 4vw; }
-    .struct-note { font-size:0.9rem; }
-    .struct-note strong { font-size:1.15rem; }
-
     #s4 .slide-body { gap:1.5vh; }
     .scope-grid { grid-template-columns:1fr; gap:3vw; }
     .scope-col { flex-direction:row; align-items:stretch; gap:3vw; }
@@ -350,7 +327,7 @@
       <div>
         <div class="cover-meta">
           <span class="cover-lead">Prudence · Propuesta de Proyecto</span>
-          <span class="cover-sub">Septiembre 2026 · v2</span>
+          <span class="cover-sub">Julio 2026</span>
         </div>
       </div>
       <div class="cover-footer-row">
@@ -365,34 +342,11 @@
     <div class="slide-body" style="justify-content:center;align-items:center;gap:4vh;">
       <div class="label" style="text-align:center;">Objetivo</div>
       <div class="big-statement">
-        Prudence tiene una historia<br>que casi nadie conoce.<br>
-        <em>Un sitio que la cuente en one shot — y que invite a sumarse.</em>
+        Prudence ya tiene la marca,<br>el tono y la audiencia.<br>
+        <em>Le falta el hub digital que lo conecte todo.</em>
       </div>
       <div class="sub-statement">
-        Quién la creó, qué hacen por el mundo y cómo unirte.<br>Disruptivo, no corporativo. 100% móvil.
-      </div>
-    </div>
-    <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
-  </div>
-
-  <!-- 3. ESTRUCTURA -->
-  <div class="slide slide-dark" id="s3">
-    <div class="slide-body" style="gap:2.5vh;justify-content:center;">
-      <div class="label">Estructura del sitio</div>
-      <div class="struct-wrap">
-        <div class="struct-stack">
-          <div class="struct-sec hero"><span>Historia</span><small>Hero audiovisual · founder · misión</small></div>
-          <div class="struct-sec"><span>Videos y campañas</span><small>Love Chain · testimoniales · premios</small></div>
-          <div class="struct-sec"><span>Productos</span><small>Por país → tiendas locales</small></div>
-          <div class="struct-sec"><span>Proyectos activos de la ONG</span><small>DKT School · migrantes · educación</small></div>
-          <div class="struct-sec"><span>Blog</span><small>Educación sexual sin tabúes</small></div>
-          <div class="struct-sec"><span>Logos · Footer</span><small>Aliados · contacto · redes</small></div>
-        </div>
-        <div class="struct-notes">
-          <div class="struct-note"><strong>Cambios de ritmo visual</strong>Cada sección rompe con la anterior — color, escala, tipografía.</div>
-          <div class="struct-note"><strong>Descansos con video</strong>El material audiovisual respira entre bloques de historia.</div>
-          <div class="struct-note"><strong>Mensaje en one shot</strong>Se entiende qué es Prudence en 10 segundos; el resto profundiza.</div>
-        </div>
+        Catálogo, educación sin tabúes y cercanía de marca.<br>100% móvil.
       </div>
     </div>
     <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
@@ -404,34 +358,33 @@
       <div class="label">Alcance del proyecto</div>
       <div class="scope-grid">
         <div class="scope-col">
-          <div class="scope-label">Narrativa<br>& Diseño</div>
+          <div class="scope-label">Diseño<br>UX/UI</div>
           <div class="scope-box">
-            <div class="scope-item">Workshop de estructura con Alan y equipo</div>
-            <div class="scope-item">Guion narrativo — historia, founder, misión</div>
-            <div class="scope-item">Dirección visual disruptiva, no corporativa</div>
-            <div class="scope-item">Diseño mobile-first en Figma editable</div>
+            <div class="scope-item">Diseño mobile-first — wireframes + mockups</div>
+            <div class="scope-item">Sistema visual alineado al tono Prudence</div>
+            <div class="scope-item">Arquitectura de información y sitemap</div>
+            <div class="scope-item">Archivos Figma editables</div>
             <div class="scope-item">3 rondas de revisión incluidas</div>
-            <div class="scope-item outcome">Una página espectacular que se entiende en one shot</div>
+            <div class="scope-item outcome">Una experiencia segura, inclusiva, moderna y muy visual</div>
           </div>
         </div>
         <div class="scope-col">
           <div class="scope-label">Sitio<br>Framer</div>
           <div class="scope-box">
-            <div class="scope-item">Historia con ritmo visual y descansos con video</div>
-            <div class="scope-item">Videos y campañas — testimoniales, premios</div>
-            <div class="scope-item">Productos por país → enlaces a tiendas locales</div>
-            <div class="scope-item">Proyectos activos de la ONG + logos + footer</div>
-            <div class="scope-item outcome">Animación y motion como parte del lenguaje, no decoración</div>
+            <div class="scope-item">Home con banners de campañas + accesos rápidos</div>
+            <div class="scope-item">Catálogo CMS — filtros por categoría + fichas técnicas</div>
+            <div class="scope-item">¿Dónde comprar? — localizador / enlaces a puntos de venta</div>
+            <div class="scope-item">Contacto + FAQ con formulario</div>
+            <div class="scope-item outcome">Autoadministrable — el equipo sube productos sin código</div>
           </div>
         </div>
         <div class="scope-col">
           <div class="scope-label">Contenido<br>& SEO</div>
           <div class="scope-box">
-            <div class="scope-item">Blog y proyectos de la ONG en CMS</div>
-            <div class="scope-item">Selector de país y productos editables</div>
+            <div class="scope-item">Blog / sección educativa en CMS</div>
             <div class="scope-item">SEO básico — estructura, metas, slugs</div>
             <div class="scope-item">Capacitación al equipo interno</div>
-            <div class="scope-item outcome">Autoadministrable — el equipo publica sin código</div>
+            <div class="scope-item outcome">Listo para posicionar y crecer orgánico</div>
           </div>
         </div>
       </div>
@@ -455,18 +408,18 @@
             <div class="price-note">
               <strong>50% anticipo</strong> al inicio · <strong>50%</strong> al lanzamiento<br>
               <strong>3 rondas de revisión</strong> incluidas<br><br>
-              Misma inversión que la propuesta original — cambia el enfoque, no el precio. El rango se ajusta según el volumen de contenido y video.
+              El rango se ajusta según el alcance final de contenido. Lo cerramos juntos en una llamada corta.
             </div>
           </div>
         </div>
         <div>
           <div class="inv-col-title">Incluye</div>
           <div class="inv-box">
-            <div class="entregable">Workshop de estructura + guion narrativo</div>
             <div class="entregable">Diseño UX/UI mobile-first (Figma)</div>
-            <div class="entregable">Sitio en Framer con motion y video</div>
-            <div class="entregable">Productos por país + tiendas locales</div>
-            <div class="entregable">Blog + proyectos ONG en CMS</div>
+            <div class="entregable">Sitio en Framer autoadministrable</div>
+            <div class="entregable">Catálogo CMS con filtros + fichas</div>
+            <div class="entregable">Blog / sección educativa</div>
+            <div class="entregable">¿Dónde comprar? + Contacto / FAQ</div>
             <div class="entregable">SEO básico + capacitación</div>
             <div class="entregable">QA + deploy a producción</div>
           </div>
@@ -478,7 +431,7 @@
               Sitio en <strong>Framer</strong> — rápido, seguro y editable por tu equipo.<br><br>
               <strong style="color:var(--white);font-weight:500;">$1,200 MXN/mes</strong> — hosting + dominio<br>
               <strong style="color:var(--lime);font-weight:500;">$2,500 MXN/mes</strong> — incluye soporte y cambios chicos<br><br>
-              <span style="opacity:0.7;">Opcionales: copywriting, edición de video, paquete de artículos de blog.</span>
+              <span style="opacity:0.7;">Opcionales: copywriting, mapa interactivo, paquete de artículos de blog.</span>
             </div>
           </div>
         </div>
@@ -500,8 +453,8 @@
       <div class="timeline-track">
         <div class="tl-phase">
           <div class="tl-phase-num">Fase 1</div>
-          <div class="tl-phase-name">Workshop & narrativa</div>
-          <div class="tl-phase-wk">Guion · estructura — sem 1–2</div>
+          <div class="tl-phase-name">Descubrimiento & arquitectura</div>
+          <div class="tl-phase-wk">Sitemap · IA — sem 1–2</div>
         </div>
         <div class="tl-phase">
           <div class="tl-phase-num">Fase 2</div>
@@ -511,7 +464,7 @@
         <div class="tl-phase">
           <div class="tl-phase-num">Fase 3</div>
           <div class="tl-phase-name">Build en Framer</div>
-          <div class="tl-phase-wk">Motion · video · CMS — sem 6–10</div>
+          <div class="tl-phase-wk">CMS · catálogo · blog — sem 6–10</div>
         </div>
         <div class="tl-phase">
           <div class="tl-phase-num">Fase 4</div>
@@ -519,7 +472,7 @@
           <div class="tl-phase-wk">Capacitación + live — sem 11–12</div>
         </div>
       </div>
-      <div class="tl-foot"><strong>Fast track</strong> = equipo dedicado + diseño y build en paralelo para lanzar en ~2 meses en lugar de 3. Arrancando en septiembre, live a mediados de diciembre (estándar) o mediados de noviembre (fast).</div>
+      <div class="tl-foot"><strong>Fast track</strong> = equipo dedicado + diseño y build en paralelo para lanzar en ~2 meses en lugar de 3. Arrancando ahora, live a mediados de septiembre (estándar) o mediados de agosto (fast).</div>
     </div>
     <div class="slide-footer"><span>✦ hola@casasoda.com</span></div>
   </div>
