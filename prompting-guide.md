@@ -96,6 +96,19 @@ Why this matters: older Node (18/20) on Node-24 projects causes silent breakage 
 
 Lost? Run `/soda-help` in Claude Code, or in a terminal: `bash ~/projects/soda/skills/setup.sh --help`. Still lost? Ask Dan.
 
+### Running the Yardzen Capture Expo app
+
+Repo: `~/projects/mobile-apps/yardzen-capture` (separate Nx monorepo, not inside the `yardzen` repo).
+
+```bash
+cd ~/projects/mobile-apps/yardzen-capture
+EXPO_OFFLINE=1 npx expo start
+```
+
+Scan the QR code with Expo Go (Android) or the iOS Camera app. Phone and Mac must be on the same WiFi — the dev server prints `exp://<local-ip>:8081`.
+
+**`EXPO_OFFLINE=1` is required**, not optional. `app.json` has an EAS `projectId`/`owner` set, so the first manifest request from Expo Go triggers an EAS-login/dev-code-signing check. With no one there to answer that prompt, it crashes with `HTTP 500 AssertionError: username && password` and the app never loads. `EXPO_OFFLINE=1` skips EAS code signing entirely (falls back to unsigned, which is fine for local testing) and the manifest loads clean.
+
 ---
 
 ## Who You're Working With

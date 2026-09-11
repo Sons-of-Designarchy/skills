@@ -350,6 +350,13 @@ vercel --yes --prod     # uploads build/ and serves it — done in ~15 seconds
 
 That's it. No environment variables, no secrets, no special flags.
 
+**Gotcha — deploy hangs forever with no error:** if `vercel --yes --prod` prints "Building…" and then just sits there (or `vercel inspect <url>` shows `status: UNKNOWN` and `Builds: [0ms]`), the local git commit's author email doesn't match the verified/primary email on the deploying Vercel account. There's no useful CLI error — it just hangs indefinitely.
+
+- Check both: `git config user.email` and `git log -1 --format=%ae` (config only affects *future* commits — a bad HEAD commit still hangs even after fixing config).
+- The verified email must match what's on the Vercel account (Vercel dashboard → Settings → Email) — do not assume which address that is from memory, confirm it in the dashboard, since teams/people can have more than one plausible email.
+- If HEAD's author is wrong, a fresh commit under the right identity is enough — no need to amend/force-push an already-pushed commit. `git commit --allow-empty -m "..."` works fine if there's nothing new to actually change.
+- Claude cannot set git config itself (hard rule) — ask Claude to have you run `git config user.email "..."` yourself via the `!` prefix.
+
 ### All deployed apps
 
 Audited 2026-09-04. Ports come from each app's `vite.config.ts`; project names from its `.vercel/project.json`.
