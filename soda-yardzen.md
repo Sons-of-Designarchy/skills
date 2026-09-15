@@ -86,6 +86,27 @@ pnpm run lint
 
 ## Git & PR Workflow
 
+### ⛔ Never create a git worktree
+
+There are exactly **two** Yardzen checkouts and they are the only ones to use:
+
+- `~/projects/yardzen`
+- `~/projects/yardzen-worktree`
+
+Never run the worktree-add subcommand. Never pass `isolation: "worktree"` to an
+agent. Never create anything under `.claude/worktrees/`.
+
+To work on another branch, `git checkout` it in whichever of the two is free
+(stash first if dirty). If a branch is already checked out in the other one,
+go work in that one.
+
+**Why:** a third checkout blocks `git checkout <branch>` in the main repo with
+"already used by worktree", duplicates `node_modules` on a very large repo, and
+leaves stale copies where it stops being obvious which branch is real. This has
+gone wrong twice, 14 and 15 September 2026. A `PreToolUse` hook at
+`~/.claude/hooks/block-worktree.sh` now denies the command outright. Do not try
+to work around it.
+
 - Base branch: **`dev`** (not `main` — that's a different branch, exists but is not ours)
 - Always pull from `dev` before starting
 - Open Jira ticket first, create branch from the ticket (use Jira's "create branch" option)
