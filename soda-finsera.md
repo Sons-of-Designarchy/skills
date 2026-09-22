@@ -69,11 +69,14 @@ yarn format
 - **Every commit must start with the ticket ID** — GitLab enforces the pattern `^(sc[\s-]|Sc[\s-]|SC[\s-])?([0-9]{4,}|Merge).+$` on squash commits. A commit message like "Add enterprise plan" will fail the pipeline. Always prefix: `sc-83133 add enterprise plan for the website`.
 - When a branch has multiple commits, squash them into one before merging: `git reset --soft master && git commit -m "sc-XXXXX description"` then force-push.
 
-**GitLab MR workflow** — no `glab` CLI. Push branch, use the MR URL printed in push output:
+**GitLab MR workflow** — `glab` is installed and authenticated against `gitlab.finseradev.net` (token in the macOS keyring; `glab auth status` to confirm). Create MRs from the terminal, never through the web form:
+```bash
+glab mr create --source-branch <branch> --target-branch master \
+  --title "sc-XXXXX short description" --description "..." --remove-source-branch --yes
+# draft:  add --draft
+# list / view / close:  glab mr list --author=@me · glab mr view <id> · glab mr close <id>
 ```
-remote: To create a merge request for feat/xxx, visit:
-remote:   https://gitlab.com/finsera/web-ui/-/merge_requests/new?...
-```
+Alternative when pushing a new branch: `git push -u origin <branch> -o merge_request.create -o merge_request.draft -o merge_request.title="..."`.
 
 ---
 
