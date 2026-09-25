@@ -137,6 +137,8 @@ That's it. Let's go.
 
 ## Workflow
 
+**Step 0 — numbers first, file second.** Before touching any HTML/PDF, post the proposed phases, prices, timeline and monthly costs as a short list in chat and get Dan's OK. He iterates on the numbers in conversation; only then build the file. Building the file first gets rejected on sight (La Vase, Sep 2026).
+
 ### Step 1 — Extract from transcript
 
 From any input, extract:
@@ -551,3 +553,20 @@ Rules (Dan's taste, learned the hard way):
 - **Cut the text ~50%.** Advertising/non-technical audience → plain language, no dev jargon (no "provisioning", "stack", "QA", "infraestructura"). Short lines. Say it once.
 - **Export:** Chrome headless `--headless=new --print-to-pdf` on the HTML → A4 PDF. Two pages is fine. QA by rendering to PNG and eyeballing before handing it over.
 - **Don't fine-tune-by-committee.** Dan expects Soda's accumulated taste (this file, soda-front) applied up front, not 10 rounds of corrections. Build it right, screenshot it, then show him.
+- **Same client, same format.** For a repeat client, clone the quote that won with them (Prudence → La Vase used `quotes/prudence/adaptada/` as base, Fraunces title + lime accent included). Consistency beats the template.
+- **PDF QA:** render every page to PNG and check for clipped footers/footnotes. `swift soda-quote-files/pdf2png.swift <pdf> <outdir>` writes `pdfpage1.png`, `pdfpage2.png`… A4 in CSS px is 794×1123; anything past that on a `.sheet` with `overflow:hidden` is silently cut.
+
+### Copy rules learned on La Vase (Sep 2026)
+
+- Header wordmark is **Casa Soda**, never "Soda". Footer carries Dan's cel +52 55 1026 5196.
+- No "live noviembre" style dates in the info row; just "6–8 semanas". Validity goes in the header: "V1 · VÁLIDA 30 DÍAS".
+- No internal jargon in client copy: "discovery" → "primera llamada"; "stack" → name the tools (Framer, Next.js, Contentful, Sanity). Always name Contentful/Sanity explicitly, never "u otra tecnología".
+- Client pays CMS/hosting subscriptions directly; when the CMS is Contentful/Sanity say "se cotiza según plataforma" (Contentful is expensive).
+- Framer account belongs to the client; Soda migrates at launch and keeps an editor seat. Say it, it answers the "dependencia del proveedor" objection.
+- Monthly costs: title + small description per row, no em dashes, price column can carry a second line ("gratis los primeros 3 meses" / "después $3,500 / mes"). "Gratis 3 meses" must be scoped: "cambios chicos (hasta 4 h/mes) y un reporte SEO mensual con ajustes".
+- Copywriting belongs in phase 1 (strategy + design), not in the SEO phase. SEO monitoring lives in the monthly support, not as a project deliverable.
+- Page 2 with fewer black rules: structure list with only top/bottom hairline, deliverables as a plain 2-col numbered list, process with 1px rules. FAQs ≤ 2 lines each.
+
+### Competitive benchmark — Prudence terna (Sep 2026)
+
+Won at **$89,000 + IVA** vs Long Island **$45,000** (Next.js + Contentful on Vercel, 4–5 weeks, 20–40 product cap) and DOV **$96,000** (WordPress, 10–12 weeks, maintenance $7,000/mes optional). The evaluator recommended DOV first and Soda second; Soda still won. What they weighed: point-by-point brief compliance, standard tech / low vendor dependence, absorbed costs for the first months, delivery time. Implications: mirror the brief's sitemap and deliverables verbatim, answer vendor lock-in explicitly, keep the free-first-3-months, and compress timelines (Long Island's 4–5 weeks is the anchor). La Vase (same client) was quoted at **$118,000–132,000**, 6–8 weeks, range driven only by the AI advisor tier.

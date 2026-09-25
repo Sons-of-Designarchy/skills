@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Soda — Cotización · La Vase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F0EDE4;
+    --paper: #F7F5EF;
+    --black: #0A0A0A;
+    --ink:   #14140F;
+    --lime:  #C8FF00;
+    --line:  rgba(10,10,10,0.14);
+    --muted: #0A0A0A;
+  }
+
+  html, body { background: #d9d6cc; font-family: 'DM Sans', system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+  .sheet {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 24px auto;
+    background: var(--cream);
+    padding: 16mm 18mm 14mm;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.22);
+  }
+
+  /* ---- Header ---- */
+  .head { display:flex; justify-content:space-between; align-items:flex-start; }
+  .head .brand { display:flex; align-items:center; gap:12px; }
+  .head .brand img { height: 32px; width:auto; }
+  .head .brand .wm { font-weight:700; font-size:25px; letter-spacing:-0.02em; }
+  .head .doc { text-align:right; }
+  .head .doc .k { font-size:10px; letter-spacing:0.14em; font-weight:600;  }
+  .head .doc .v { font-size:11px; letter-spacing:0.07em; font-weight:600; margin-top:4px; }
+
+  .rule { height:2px; background:var(--black); margin:16px 0 0; }
+  .rule.thin { height:1px; background:var(--black); }
+
+  /* ---- Title block ---- */
+  .titleblock { padding: 14px 0 6px; }
+  .titleblock .cat { font-size:11px; letter-spacing:0.17em; font-weight:600;  text-transform:uppercase; }
+  .titleblock h1 { font-family:'Fraunces', serif; font-weight:400; font-size:46px; line-height:0.98; letter-spacing:-0.01em; margin-top:4px; }
+
+  /* ---- Info row ---- */
+  .inforow { display:grid; grid-template-columns: repeat(3,1fr); border-top:1px solid var(--black); border-bottom:1px solid var(--black); }
+  .inforow .cell { padding: 10px 18px 10px 0; }
+  .inforow .cell + .cell { padding-left:18px; border-left:1px solid var(--black); }
+  .inforow .k { font-size:10px; letter-spacing:0.12em; font-weight:600;  }
+  .inforow .v { font-size:15px; font-weight:600; margin-top:6px; }
+
+  /* ---- Section headers ---- */
+  .sec { font-size:19px; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; margin:14px 0 10px; }
+  .desc { font-size:15.5px; line-height:1.4; color:var(--ink); max-width:56ch; }
+
+  /* ---- Price table ---- */
+  table { width:100%; border-collapse:collapse; margin-top:6px; }
+  thead th { font-size:10px; letter-spacing:0.10em; font-weight:600;  text-transform:uppercase; text-align:left; padding:0 8px 10px 0; }
+  thead th.num { text-align:right; }
+  tbody td { padding:7px 8px 7px 0; border-top:1px solid var(--black); vertical-align:middle; }
+  tbody td.sub { width:1%; padding-left:18px; }
+  tbody .item { font-size:15.5px; font-weight:600; }
+  tbody .item ul { list-style:none; margin-top:6px; }
+  tbody .item li { font-weight:400; color:var(--ink); font-size:12px; line-height:1.45; padding-left:14px; position:relative; margin-top:2px; }
+  tbody .item li::before { content:''; position:absolute; left:0; top:7px; width:5px; height:5px; background:var(--lime); border:1px solid var(--black); }
+  tbody .item li b { color:var(--ink); font-weight:600; }
+  tbody .sub { text-align:right; font-size:23px; font-weight:700; letter-spacing:-0.01em; white-space:nowrap; }
+  tbody .sub .time { display:block; font-size:10.5px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase;  margin-top:4px; }
+
+  .totalrow td { border-top:2px solid var(--black); padding-top:12px; padding-bottom:6px; }
+  .totalrow .tl { font-size:20px; font-weight:700; text-transform:uppercase; letter-spacing:0.01em; }
+  .totalrow .tv { text-align:right; font-size:26px; font-weight:700; letter-spacing:-0.01em; white-space:nowrap; }
+  .totalrow .tv b { background: var(--lime); padding:2px 10px; border-radius:4px; }
+
+  .struct { display:flex; flex-direction:column; margin-top:6px; }
+  .struct .s { display:flex; gap:12px; padding:3.5px 0; align-items:baseline; }
+  .struct .s:first-child { border-top:1px solid var(--black); padding-top:8px; }
+  .struct .s:last-child { border-bottom:1px solid var(--black); padding-bottom:8px; }
+  .struct .n { font-size:10px; font-weight:700; letter-spacing:0.05em;  flex-shrink:0; width:20px; }
+  .struct .s > div { display:flex; justify-content:space-between; gap:16px; flex:1; align-items:baseline; }
+  .struct .t { font-size:13px; font-weight:600; }
+  .struct .d { font-size:11.5px; font-weight:400; line-height:1.4; text-align:right; }
+  .optional { margin-top:10px; }
+  .optional .oh { font-size:10px; letter-spacing:0.11em; font-weight:600;  text-transform:uppercase; margin-bottom:8px; }
+  .optional .orow { display:grid; grid-template-columns:1fr auto; align-items:start; gap:24px; font-size:13px; padding:5px 0; border-top:1px solid var(--black); }
+  .optional .orow:last-of-type { border-bottom:1px solid var(--black); }
+  .optional .orow span:first-child { color:var(--ink); }
+  .optional .orow .ot { font-size:13px; font-weight:600; display:block; }
+  .optional .orow .od { font-size:10.5px; font-weight:400; display:block; margin-top:2px; line-height:1.35; }
+  .optional .orow > span:last-child { font-weight:600; white-space:nowrap; text-align:right; }
+  .optional .orow .od { max-width:62ch; }
+  .optional .orow .pn { display:block; font-size:10.5px; font-weight:400; margin-top:1px; }
+
+  .pagenote { margin-top:auto; padding-top:10px; font-size:11px;  display:flex; justify-content:space-between; letter-spacing:0.06em; }
+
+  /* ---- FAQs ---- */
+  .faq { display:flex; flex-direction:column; }
+  .faq .qa { padding:4px 0; }
+  .faq .q { font-size:14.5px; font-weight:700; }
+  .faq .a { font-size:12px; line-height:1.42; color:var(--ink); margin-top:6px; max-width:72ch; }
+  .faq .a b { color:var(--ink); font-weight:600; }
+
+  /* ---- Proceso ---- */
+  .proc { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  .proc .p { border-top:1px solid var(--black); padding-top:10px; position:relative; }
+  .proc .p::before { content:''; position:absolute; left:0; top:-3px; width:5px; height:5px; background:var(--lime); border:1px solid var(--black); }
+  .deliv { display:grid; grid-template-columns:1fr 1fr; gap:6px 28px; }
+  .deliv .d { display:flex; gap:10px; font-size:12.5px; line-height:1.4; align-items:baseline; }
+  .deliv .d b { font-size:10px; letter-spacing:0.05em; flex-shrink:0; width:18px; }
+  .proc .pk { font-size:10px; letter-spacing:0.09em; font-weight:700; text-transform:uppercase; }
+  .proc .pv { font-size:11.5px; line-height:1.4; margin-top:4px; }
+
+  /* ---- Footer ---- */
+  .foot { margin-top:auto; padding-top:6px; }
+  .foot .sal { font-size:10px; letter-spacing:0.12em; font-weight:600;  }
+  .foot .name { font-size:17px; font-weight:700; margin-top:6px; }
+  .foot .name span { font-weight:400;  font-size:12px; letter-spacing:0.07em; text-transform:uppercase; margin-left:10px; }
+  .foot .contact { display:flex; flex-wrap:wrap; gap:8px 22px; font-size:12.5px; margin-top:6px; letter-spacing:0.02em; }
+  .foot .contact a { white-space:nowrap; }
+  .foot .contact span { white-space:nowrap; }
+
+  @media print {
+    @page { size: A4; margin: 0; }
+    html, body { background:#fff; }
+    .sheet { margin:0; box-shadow:none; width:210mm; height:296mm; min-height:0; overflow:hidden; }
+    .sheet + .sheet { page-break-before: always; }
+  }
+  @media screen and (max-width: 760px) {
+    .sheet { width:100%; min-height:auto; margin:0; padding:28px 18px 24px; box-shadow:none; }
+    .sheet + .sheet { border-top:1px solid var(--line); }
+    .titleblock h1 { font-size:44px; }
+    .inforow { grid-template-columns:1fr; }
+    .inforow .cell + .cell { border-left:none; padding-left:0; }
+    tbody .sub { font-size:20px; }
+    .totalrow .tv { font-size:26px; }
+    .proc { grid-template-columns:1fr 1fr; }
+    .pagenote { display:none; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- PÁGINA 1 -->
+  <div class="sheet">
+    <div class="head">
+      <div class="brand">
+        <img src="icon-black.png" alt="Casa Soda">
+        <span class="wm">Casa Soda</span>
+      </div>
+      <div class="doc">
+        <div class="k">COTIZACIÓN</div>
+        <div class="v">24 DE SEPTIEMBRE, 2026 · V1 · VÁLIDA 30 DÍAS</div>
+      </div>
+    </div>
+    <div class="rule"></div>
+
+    <div class="titleblock">
+      <h1>La Vase</h1>
+      <div class="cat" style="margin-top:10px;">Sitio Web Informativo · Rediseño + SEO + Asesor de IA</div>
+      <p class="desc" style="margin-top:12px;">El referente en México sobre vasectomía sin bisturí: un sitio 100% móvil que aparece primero en Google, resuelve dudas sin tabúes y convierte cada visita en una cita por WhatsApp.</p>
+    </div>
+
+    <div class="inforow">
+      <div class="cell"><div class="k">ENTREGA</div><div class="v">6–8 semanas</div></div>
+      <div class="cell"><div class="k">ESTRUCTURA</div><div class="v">7 secciones · autoadministrable</div></div>
+      <div class="cell"><div class="k">ENFOQUE</div><div class="v">SEO · conversión · 100% móvil</div></div>
+    </div>
+
+    <div class="sec">Desglose de proyecto</div>
+    <table>
+      <thead>
+        <tr><th>Descripción</th><th class="num">Subtotal</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="item">Estrategia SEO, contenido + Diseño UX/UI
+            <ul>
+              <li>Auditoría del sitio actual y keyword research</li>
+              <li>Redactamos todos los textos del sitio con SEO</li>
+              <li>Arquitectura, wireframes y mockups en Figma</li>
+            </ul>
+          </td>
+          <td class="sub">$40,000<span class="time">2 semanas</span></td>
+        </tr>
+        <tr>
+          <td class="item">Desarrollo del sitio
+            <ul>
+              <li>Las 7 secciones del brief, 100% mobile-first</li>
+              <li>CTAs a WhatsApp y llamada · Google Maps · agenda</li>
+              <li>Autoadministrable · Framer o Next.js + Contentful/Sanity</li>
+            </ul>
+          </td>
+          <td class="sub">$54,000<span class="time">3–4 semanas</span></td>
+        </tr>
+        <tr>
+          <td class="item">Asesor de IA
+            <ul>
+              <li><b>Sencillo:</b> FAQs aprobadas, canaliza a WhatsApp</li>
+              <li><b>Completo:</b> toda la base clínica + agenda en el chat</li>
+              <li>El nivel lo definimos juntos en una primera llamada</li>
+            </ul>
+          </td>
+          <td class="sub">$12,000–26,000<span class="time">3 semanas · en paralelo</span></td>
+        </tr>
+        <tr>
+          <td class="item">Optimización SEO, QA + capacitación
+            <ul>
+              <li>Sitio optimizado al máximo: velocidad y metadatos</li>
+              <li>Reporte de auditoría SEO y velocidad</li>
+              <li>Capacitación y manual de administración</li>
+            </ul>
+          </td>
+          <td class="sub">$12,000<span class="time">1–2 semanas</span></td>
+        </tr>
+        <tr class="totalrow">
+          <td class="tl">Total <em style="font-style:normal;font-weight:400;font-size:13px;letter-spacing:0.07em;">MXN</em></td>
+          <td class="tv"><b>$118,000–132,000</b> <em style="font-style:normal;font-weight:400;font-size:14px;">+ IVA</em></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="optional">
+      <div class="oh">Gastos mensuales · aplican una vez lanzado el sitio</div>
+
+      <div class="orow"><span><span class="ot">Hosting Framer</span><span class="od">Lo contrata La Vase directo. Con Next.js, Contentful o Sanity se cotiza según plataforma.</span></span><span>$150–500 / mes<span class="pn">gratis los primeros 3 meses</span></span></div>
+      <div class="orow"><span><span class="ot">Operación del Asesor de IA</span><span class="od">Según el volumen de conversaciones que atienda.</span></span><span>$500–1,500 / mes</span></div>
+      <div class="orow"><span><span class="ot">Soporte Casa Soda</span><span class="od">Cambios chicos (hasta 4 h/mes) y un reporte SEO mensual con ajustes.</span></span><span>Gratis 3 meses<span class="pn">después $3,500 / mes</span></span></div>
+    </div>
+
+
+  </div>
+
+  <!-- PÁGINA 2 -->
+  <div class="sheet">
+    <div class="head">
+      <div class="brand">
+        <img src="icon-black.png" alt="Casa Soda">
+        <span class="wm">Casa Soda</span>
+      </div>
+      <div class="doc">
+        <div class="k">COTIZACIÓN</div>
+        <div class="v">24 DE SEPTIEMBRE, 2026 · V1 · VÁLIDA 30 DÍAS</div>
+      </div>
+    </div>
+    <div class="rule"></div>
+
+    <div class="sec" style="margin-top:10px;">Estructura del sitio</div>
+    <div class="struct">
+      <div class="s"><span class="n">01</span><div><div class="t">Home</div><div class="d">Propuesta de valor · sello Prudence/DKT · paquetes destacados · CTAs flotantes</div></div></div>
+      <div class="s"><span class="n">02</span><div><div class="t">Paquetes y costos</div><div class="d">Plata · Especial · Premium · beneficios · métodos de pago · meses sin intereses</div></div></div>
+      <div class="s"><span class="n">03</span><div><div class="t">El procedimiento</div><div class="d">Sin bisturí · anestesia sin aguja (MadaJet) · comparativas · preguntas frecuentes</div></div></div>
+      <div class="s"><span class="n">04</span><div><div class="t">Testimoniales</div><div class="d">Historias en video de hombres y parejas reales</div></div></div>
+      <div class="s"><span class="n">05</span><div><div class="t">Asesor de IA</div><div class="d">Dudas, cuidados, costos y ubicaciones 24/7 con la base clínica de La Vase</div></div></div>
+      <div class="s"><span class="n">06</span><div><div class="t">Blog / SEO</div><div class="d">Artículos optimizados · publicación sin código</div></div></div>
+      <div class="s"><span class="n">07</span><div><div class="t">Ubicaciones y contacto</div><div class="d">Clínicas CDMX y Zona Metropolitana · Google Maps · agendamiento</div></div></div>
+    </div>
+
+    <div class="sec" style="margin-top:16px;">Entregables</div>
+    <div class="deliv">
+      <div class="d"><b>01</b><span>Arquitectura, sitemap y wireframes UX</span></div>
+      <div class="d"><b>02</b><span>Diseño UI en Figma, mobile y desktop</span></div>
+      <div class="d"><b>03</b><span>Asesor de IA configurado con FAQs</span></div>
+      <div class="d"><b>04</b><span>Sitio probado y en producción</span></div>
+      <div class="d"><b>05</b><span>Reporte de auditoría SEO y PageSpeed</span></div>
+      <div class="d"><b>06</b><span>Capacitación y manual de uso</span></div>
+    </div>
+
+    <div class="sec" style="margin-top:16px;">Proceso</div>
+    <div class="proc">
+      <div class="p"><div class="pk">Sem 1–2</div><div class="pv">Kickoff, keyword research, textos y diseño en Figma.</div></div>
+      <div class="p"><div class="pk">Sem 3–6</div><div class="pv">Desarrollo del sitio y Asesor de IA en paralelo.</div></div>
+      <div class="p"><div class="pk">Sem 6–8</div><div class="pv">Optimización SEO, QA, reporte y capacitación.</div></div>
+      <div class="p"><div class="pk">Live</div><div class="pv">Lanzamiento, 3 meses de soporte y monitoreo SEO.</div></div>
+    </div>
+
+
+    <div class="sec" style="margin-top:14px;">FAQs</div>
+    <div class="faq">
+      <div class="qa">
+        <div class="q">¿Cómo se paga?</div>
+        <div class="a"><b>50% de anticipo</b> y <b>50% al lanzamiento</b>. Precios en MXN + IVA. Dos rondas de revisión por etapa.</div>
+      </div>
+      <div class="qa">
+        <div class="q">¿Por qué un rango?</div>
+        <div class="a">Depende solo del Asesor de IA. En la <b>primera llamada</b> definimos el nivel y cerramos el precio firme. Mejoras posteriores se cotizan aparte.</div>
+      </div>
+      <div class="qa">
+        <div class="q">¿Por qué Framer?</div>
+        <div class="a">Su equipo edita sin programar, <b>carga muy rápido en celular</b> y no hay plugins que se rompan. <b>La cuenta es de La Vase</b>; nosotros conservamos un acceso para editar.</div>
+      </div>
+      <div class="qa">
+        <div class="q">¿Y si preferimos Next.js?</div>
+        <div class="a">Si necesitan más flexibilidad, lo construimos en <b>Next.js con Contentful o Sanity</b>: un CMS muy fácil de editar y el <b>código queda libre</b>, 100% de La Vase. Mismo precio; la suscripción del CMS se cotiza según plataforma.</div>
+      </div>
+      <div class="qa">
+        <div class="q">¿Cómo garantizan el SEO?</div>
+        <div class="a"><b>Escribimos los textos</b> con las palabras que ya buscan sus pacientes. El sitio sale <b>optimizado desde el día uno</b>, sin perder lo ya posicionado. Cada mes, un reporte con ajustes.</div>
+      </div>
+      <div class="qa">
+        <div class="q">¿Qué necesitamos de La Vase?</div>
+        <div class="a">Accesos, <b>información clínica</b>, paquetes, ubicaciones y testimoniales. El calendario corre al recibirlos.</div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <div class="rule thin" style="margin-bottom:10px;"></div>
+      <div class="sal">SALUDOS,</div>
+      <div class="name">Daniel <span>Casa Soda</span></div>
+      <div class="contact">
+        <span>Ciudad de México</span>
+        <a href="tel:+525510265196" style="color:inherit;text-decoration:none;">+52 55 1026 5196</a>
+        <a href="mailto:hola@casasoda.com" style="color:inherit;text-decoration:none;">hola@casasoda.com</a>
+        <a href="https://casasoda.com" target="_blank" rel="noopener" style="color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--lime);text-decoration-thickness:2px;text-underline-offset:3px;">casasoda.com ↗</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
