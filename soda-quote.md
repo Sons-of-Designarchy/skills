@@ -245,6 +245,9 @@ The quote task in **Soda Ventas → Pipeline Management → Nuevos Leads** (`901
 4. Rewrite the epic description: final price, delivery date, platform, quote link, phases, terna context.
 5. Create one task per quote phase in the client's `PROJECTS` list (`01 · …`, `02 · …`), first one `next up`, rest `backlog`, each linked to the epic with `clickup_add_task_link` and with "Epic: [name](url)" as first line. Launch task gets the live date as due date.
 6. New quotes for the same client: new task in Nuevos Leads, linked to the existing epic.
+7. **Dates are the contract.** On win, set on the epic: `start_date` = kickoff (the day materials + anticipo land) and `due_date` = the launch date agreed in the quote. The last PROJECTS task is the **MEGACIERRE**: `NN · 🚀 MEGACIERRE · Lanzamiento <fecha>`, priority urgent, same due date. That date never moves. Scope that shows up after kickoff goes to a `post-launch` task under the same epic, quoted or absorbed later, never into the launch. Launching on the agreed day is the deliverable Dan cares most about.
+
+**Backfill (Sep 2026):** every past/current client now has a record in Nuevos Leads (won / lost / quote send) and, where a folder exists, sits in its EPICS or project list too: Yardzen retainer, Tierra de Monte 2025, Pedralbes 2025, Casa de Copas 2025, Finsera, Fawnroad, Prudence; quotes Jetstime v2, Yardzen Brand Book, Chantilly, motos, notificaciones as `quote send`; Alonso/Sinuhé, Jetstime v1, Nico, Midrash as `lost`. Prices marked "confirmar" where the repo had none.
 
 Worked example (Sep 2026): folder **Prudence / DKT** (`1400400000000854`) → EPICS `1400400000001291`, PROJECTS `1400400000001292`, MINUTAS `1400400000001293`. Epic = [Prudence — Sitio Web Narrativo](https://app.clickup.com/t/86ajb6p8j); La Vase quote = [La Vase — Sitio Web Informativo](https://app.clickup.com/t/17tn048qhpp).
 
