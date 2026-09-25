@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Soda — Kickoff · Prudence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F0EDE4;
+    --paper: #F7F5EF;
+    --black: #0A0A0A;
+    --ink:   #14140F;
+    --lime:  #C8FF00;
+    --line:  rgba(10,10,10,0.14);
+    --muted: #0A0A0A;
+  }
+
+  html, body { background: #d9d6cc; font-family: 'DM Sans', system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+  .sheet {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 24px auto;
+    background: var(--cream);
+    padding: 16mm 18mm 14mm;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.22);
+  }
+
+  /* ---- Header ---- */
+  .head { display:flex; justify-content:space-between; align-items:flex-start; }
+  .head .brand { display:flex; align-items:center; gap:12px; }
+  .head .brand img { height: 32px; width:auto; }
+  .head .brand .wm { font-weight:700; font-size:25px; letter-spacing:-0.02em; }
+  .head .doc { text-align:right; }
+  .head .doc .k { font-size:10px; letter-spacing:0.14em; font-weight:600;  }
+  .head .doc .v { font-size:11px; letter-spacing:0.07em; font-weight:600; margin-top:4px; }
+
+  .rule { height:2px; background:var(--black); margin:16px 0 0; }
+  .rule.thin { height:1px; background:var(--black); }
+
+  /* ---- Title block ---- */
+  .titleblock { padding: 14px 0 6px; }
+  .titleblock .cat { font-size:11px; letter-spacing:0.17em; font-weight:600;  text-transform:uppercase; }
+  .titleblock h1 { font-family:'Fraunces', serif; font-weight:400; font-size:46px; line-height:0.98; letter-spacing:-0.01em; margin-top:4px; }
+
+  /* ---- Info row ---- */
+  .inforow { display:grid; grid-template-columns: repeat(3,1fr); border-top:1px solid var(--black); border-bottom:1px solid var(--black); }
+  .inforow .cell { padding: 10px 18px 10px 0; }
+  .inforow .cell + .cell { padding-left:18px; border-left:1px solid var(--black); }
+  .inforow .k { font-size:10px; letter-spacing:0.12em; font-weight:600;  }
+  .inforow .v { font-size:15px; font-weight:600; margin-top:6px; }
+
+  /* ---- Section headers ---- */
+  .sec { font-size:19px; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; margin:14px 0 10px; }
+  .desc { font-size:15.5px; line-height:1.4; color:var(--ink); max-width:56ch; }
+
+  /* ---- Price table ---- */
+  table { width:100%; border-collapse:collapse; margin-top:6px; }
+  thead th { font-size:10px; letter-spacing:0.10em; font-weight:600;  text-transform:uppercase; text-align:left; padding:0 8px 10px 0; }
+  thead th.num { text-align:right; }
+  tbody td { padding:7px 8px 7px 0; border-top:1px solid var(--black); vertical-align:middle; }
+  tbody td.sub { width:1%; padding-left:18px; }
+  tbody .item { font-size:15.5px; font-weight:600; }
+  tbody .item ul { list-style:none; margin-top:6px; }
+  tbody .item li { font-weight:400; color:var(--ink); font-size:12px; line-height:1.45; padding-left:14px; position:relative; margin-top:2px; }
+  tbody .item li::before { content:''; position:absolute; left:0; top:7px; width:5px; height:5px; background:var(--lime); border:1px solid var(--black); }
+  tbody .item li b { color:var(--ink); font-weight:600; }
+  tbody .sub { text-align:right; font-size:23px; font-weight:700; letter-spacing:-0.01em; white-space:nowrap; }
+  tbody .sub .time { display:block; font-size:10.5px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase;  margin-top:4px; }
+
+  .totalrow td { border-top:2px solid var(--black); padding-top:12px; padding-bottom:6px; }
+  .totalrow .tl { font-size:20px; font-weight:700; text-transform:uppercase; letter-spacing:0.01em; }
+  .totalrow .tv { text-align:right; font-size:26px; font-weight:700; letter-spacing:-0.01em; white-space:nowrap; }
+  .totalrow .tv b { background: var(--lime); padding:2px 10px; border-radius:4px; }
+
+  .struct { display:flex; flex-direction:column; margin-top:6px; }
+  .struct .s { display:flex; gap:12px; padding:3.5px 0; align-items:baseline; }
+  .struct .s:first-child { border-top:1px solid var(--black); padding-top:8px; }
+  .struct .s:last-child { border-bottom:1px solid var(--black); padding-bottom:8px; }
+  .struct .n { font-size:10px; font-weight:700; letter-spacing:0.05em;  flex-shrink:0; width:20px; }
+  .struct .s > div { display:flex; justify-content:space-between; gap:16px; flex:1; align-items:baseline; }
+  .struct .t { font-size:13px; font-weight:600; }
+  .struct .d { font-size:11.5px; font-weight:400; line-height:1.4; text-align:right; }
+  .optional { margin-top:10px; }
+  .optional .oh { font-size:10px; letter-spacing:0.11em; font-weight:600;  text-transform:uppercase; margin-bottom:8px; }
+  .optional .orow { display:grid; grid-template-columns:1fr auto; align-items:start; gap:24px; font-size:13px; padding:5px 0; border-top:1px solid var(--black); }
+  .optional .orow:last-of-type { border-bottom:1px solid var(--black); }
+  .optional .orow span:first-child { color:var(--ink); }
+  .optional .orow .ot { font-size:13px; font-weight:600; display:block; }
+  .optional .orow .od { font-size:10.5px; font-weight:400; display:block; margin-top:2px; line-height:1.35; }
+  .optional .orow > span:last-child { font-weight:600; white-space:nowrap; text-align:right; }
+  .optional .orow .od { max-width:62ch; }
+  .optional .orow .pn { display:block; font-size:10.5px; font-weight:400; margin-top:1px; }
+
+  .pagenote { margin-top:auto; padding-top:10px; font-size:11px;  display:flex; justify-content:space-between; letter-spacing:0.06em; }
+
+  /* ---- FAQs ---- */
+  .faq { display:flex; flex-direction:column; }
+  .faq .qa { padding:4px 0; }
+  .faq .q { font-size:14.5px; font-weight:700; }
+  .faq .a { font-size:12px; line-height:1.42; color:var(--ink); margin-top:6px; max-width:72ch; }
+  .faq .a b { color:var(--ink); font-weight:600; }
+
+  /* ---- Proceso ---- */
+  .proc { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  .proc .p { border-top:1px solid var(--black); padding-top:10px; position:relative; }
+  .proc .p::before { content:''; position:absolute; left:0; top:-3px; width:5px; height:5px; background:var(--lime); border:1px solid var(--black); }
+  .deliv { display:grid; grid-template-columns:1fr 1fr; gap:6px 28px; }
+  .deliv .d { display:flex; gap:10px; font-size:12.5px; line-height:1.4; align-items:baseline; }
+  .deliv .d b { font-size:10px; letter-spacing:0.05em; flex-shrink:0; width:18px; }
+  .proc .pk { font-size:10px; letter-spacing:0.09em; font-weight:700; text-transform:uppercase; }
+  .proc .pv { font-size:11.5px; line-height:1.4; margin-top:4px; }
+
+  /* ---- Footer ---- */
+  .foot { margin-top:auto; padding-top:6px; }
+  .foot .sal { font-size:10px; letter-spacing:0.12em; font-weight:600;  }
+  .foot .name { font-size:17px; font-weight:700; margin-top:6px; }
+  .foot .name span { font-weight:400;  font-size:12px; letter-spacing:0.07em; text-transform:uppercase; margin-left:10px; }
+  .foot .contact { display:flex; flex-wrap:wrap; gap:8px 22px; font-size:12.5px; margin-top:6px; letter-spacing:0.02em; }
+  .foot .contact a { white-space:nowrap; }
+  .foot .contact span { white-space:nowrap; }
+
+  @media print {
+    @page { size: A4; margin: 0; }
+    html, body { background:#fff; }
+    .sheet { margin:0; box-shadow:none; width:210mm; height:296mm; min-height:0; overflow:hidden; }
+    .sheet + .sheet { page-break-before: always; }
+  }
+  @media screen and (max-width: 760px) {
+    .sheet { width:100%; min-height:auto; margin:0; padding:28px 18px 24px; box-shadow:none; }
+    .sheet + .sheet { border-top:1px solid var(--line); }
+    .titleblock h1 { font-size:44px; }
+    .inforow { grid-template-columns:1fr; }
+    .inforow .cell + .cell { border-left:none; padding-left:0; }
+    tbody .sub { font-size:20px; }
+    .totalrow .tv { font-size:26px; }
+    .proc { grid-template-columns:1fr 1fr; }
+    .pagenote { display:none; }
+  }
+</style>
+</head>
+<style>
+  .kt { width:100%; border-collapse:collapse; margin-top:6px; }
+  .kt th { font-size:10px; letter-spacing:0.1em; font-weight:600; text-transform:uppercase; text-align:left; padding:0 10px 8px 0; border-bottom:1px solid var(--black); }
+  .kt td { padding:7px 10px 7px 0; border-bottom:1px solid var(--line); font-size:12px; line-height:1.4; vertical-align:top; }
+  .kt td:first-child { font-weight:600; }
+  .kt tr:last-child td { border-bottom:1px solid var(--black); }
+  .kt .hi { font-weight:700; }
+  .agenda { display:grid; grid-template-columns:1fr 1fr; gap:10px 28px; margin-top:6px; }
+  .agenda .a { display:flex; gap:10px; align-items:baseline; border-top:1px solid var(--black); padding-top:8px; }
+  .agenda .a b { font-size:10px; letter-spacing:0.05em; flex-shrink:0; width:18px; }
+  .agenda .a span { font-size:13px; }
+  .agenda .a small { display:block; font-size:11.5px; margin-top:2px; }
+  .q { columns:2; column-gap:28px; margin-top:6px; }
+  .q div { break-inside:avoid; font-size:12px; line-height:1.45; padding:5px 0 5px 16px; position:relative; }
+  .q div::before { content:''; position:absolute; left:0; top:9px; width:8px; height:8px; border:1px solid var(--black); }
+  .sub2 { font-size:12.5px; line-height:1.45; margin-top:6px; max-width:80ch; }
+</style>
+<body>
+
+  <!-- PÁGINA 1 -->
+  <div class="sheet">
+    <div class="head">
+      <div class="brand"><img src="icon-black.png" alt="Casa Soda"><span class="wm">Casa Soda</span></div>
+      <div class="doc"><div class="k">KICKOFF</div><div class="v">SEMANA DEL 29 DE SEPTIEMBRE, 2026</div></div>
+    </div>
+    <div class="rule"></div>
+
+    <div class="titleblock">
+      <h1>Prudence</h1>
+      <div class="cat" style="margin-top:10px;">Sitio Web Narrativo · Kickoff del proyecto</div>
+      <p class="desc" style="margin-top:12px;">Una hora para salir con estructura aprobada, roles con nombre y la fecha de lanzamiento confirmada: 11 de diciembre de 2026.</p>
+    </div>
+
+    <div class="inforow">
+      <div class="cell"><div class="k">LANZAMIENTO</div><div class="v">11 de diciembre 2026</div></div>
+      <div class="cell"><div class="k">HITO CLAVE</div><div class="v">Materiales completos · 15 oct</div></div>
+      <div class="cell"><div class="k">PLATAFORMA</div><div class="v">Framer · cuenta de Prudence</div></div>
+    </div>
+
+    <div class="sec">Agenda</div>
+    <div class="agenda">
+      <div class="a"><b>01</b><span>Estructura general del sitio<small>Las 6 secciones y qué lleva cada una · 10 min</small></span></div>
+      <div class="a"><b>02</b><span>Documento técnico<small>Plataforma, cuenta, dominio, país, CMS · 15 min</small></span></div>
+      <div class="a"><b>03</b><span>Roles<small>Quién entrega contenido, quién aprueba · 10 min</small></span></div>
+      <div class="a"><b>04</b><span>Timeline<small>10 semanas hacia el 11 de diciembre · 10 min</small></span></div>
+    </div>
+
+    <div class="sec" style="margin-top:22px;">01 · Estructura del sitio</div>
+    <p class="sub2">Un one-page narrativo, 100% móvil: la historia arriba, la acción abajo. Cambios de ritmo visual y descansos con video entre bloques. Todo autoadministrable.</p>
+    <table class="kt">
+      <thead><tr><th>Sección</th><th>Qué lleva</th><th>Aporta Prudence / DKT</th></tr></thead>
+      <tbody>
+        <tr><td>Historia</td><td>Línea de tiempo con parallax: el founder, nace Prudence, llega DKT, hitos y cifras, qué hacen hoy por el mundo. Descansos con video.</td><td>Guion base (se cierra en el workshop), fotos históricas, video institucional</td></tr>
+        <tr><td>Videos y campañas</td><td>Librería completa con filtro por tipo y año; se reproducen en modal.</td><td>Links o archivos de cada video, título y año</td></tr>
+        <tr><td>Productos</td><td>Listado completo con filtro por categoría. Modal con ficha y dónde comprar según el país del visitante.</td><td>Lista de productos, fotos, descripción corta, tiendas por país</td></tr>
+        <tr><td>Proyectos ONG</td><td>DKT School, migrantes, educación. Tarjetas con descripción, fotos y cómo participar.</td><td>Proyectos vivos, textos, fotos, links</td></tr>
+        <tr><td>Blog</td><td>Educación sexual sin tabúes. Destacado + lista; publicación sin código.</td><td>Mínimo 3 artículos para arrancar</td></tr>
+        <tr><td>Aliados · Footer</td><td>Muro de logos, contacto, redes, legales.</td><td>Logos en vector, contacto, aviso de privacidad</td></tr>
+      </tbody>
+    </table>
+    <p class="sub2">Templates listos para editar después del lanzamiento: campaña, lanzamiento de producto, artículo.</p>
+  </div>
+
+  <!-- PÁGINA 2 -->
+  <div class="sheet">
+    <div class="head">
+      <div class="brand"><img src="icon-black.png" alt="Casa Soda"><span class="wm">Casa Soda</span></div>
+      <div class="doc"><div class="k">KICKOFF</div><div class="v">SEMANA DEL 29 DE SEPTIEMBRE, 2026</div></div>
+    </div>
+    <div class="rule"></div>
+
+    <div class="sec" style="margin-top:14px;">02 · Documento técnico (draft)</div>
+    <table class="kt">
+      <thead><tr><th>Tema</th><th>Propuesta</th><th>Decisión de DKT</th></tr></thead>
+      <tbody>
+        <tr><td>Plataforma</td><td>Framer: rápido en móvil, video y motion nativos, sin plugins ni mantenimiento.</td><td>Confirmar</td></tr>
+        <tr><td>Cuenta</td><td>Construimos en nuestro workspace; al lanzar migramos a la cuenta de Prudence y conservamos acceso de editor.</td><td>Quién abre la cuenta y con qué correo</td></tr>
+        <tr><td>Dominio</td><td>Se conserva el actual; DNS apunta a Framer el día del lanzamiento, con redirects de las URLs actuales.</td><td>Accesos al registrador</td></tr>
+        <tr><td>País</td><td>Selector al entrar, recordado en el dispositivo. Cambia productos y tiendas; no cambia historia, videos, proyectos ni blog.</td><td>Lista de países y si cambia el idioma</td></tr>
+        <tr><td>CMS</td><td>Productos (categoría, descripción, imagen, países, tienda por país) · Videos · Proyectos · Blog · Aliados.</td><td>Validar campos de Productos</td></tr>
+        <tr><td>Video</td><td>YouTube o Vimeo para la librería; clips cortos del parallax hospedados en Framer, sin audio.</td><td>Dónde viven hoy los videos</td></tr>
+        <tr><td>Medición</td><td>GA4 y Meta Pixel; eventos: clic a tienda, reproducción de video, formulario.</td><td>Accesos a GA4 y Meta</td></tr>
+        <tr><td>Legales</td><td>Aviso de privacidad y términos en footer. Sin age gate salvo que legal lo pida.</td><td>Textos legales vigentes</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sec" style="margin-top:20px;">03 · Roles</div>
+    <table class="kt">
+      <thead><tr><th>Rol</th><th>Casa Soda</th><th>DKT / Prudence</th></tr></thead>
+      <tbody>
+        <tr><td>Dirección y aprobaciones</td><td>Daniel Pliego</td><td>Sponsor que aprueba estructura, diseño y lanzamiento: ________</td></tr>
+        <tr><td>Diseño UX/UI</td><td>Said Díaz</td><td>Aprobación de diseño: ________</td></tr>
+        <tr><td>Desarrollo Framer y CMS</td><td>Karla Campos</td><td>Quien administrará el sitio: ________</td></tr>
+        <tr><td>Seguimiento y minutas</td><td>Sandra Figueroa</td><td>Contacto del día a día: Nataly Sánchez</td></tr>
+        <tr><td>Contenido y accesos</td><td>Integra y carga</td><td>Entrega videos, productos, textos, logos, dominio, cuentas: ________</td></tr>
+      </tbody>
+    </table>
+    <p class="sub2">Una persona aprueba por lado. Dos rondas de revisión por etapa. Revisión semanal de 30 minutos, mismo día y hora.</p>
+
+  </div>
+
+  <!-- PÁGINA 3 -->
+  <div class="sheet">
+    <div class="head">
+      <div class="brand"><img src="icon-black.png" alt="Casa Soda"><span class="wm">Casa Soda</span></div>
+      <div class="doc"><div class="k">KICKOFF</div><div class="v">SEMANA DEL 29 DE SEPTIEMBRE, 2026</div></div>
+    </div>
+    <div class="rule"></div>
+
+    <div class="sec" style="margin-top:14px;">04 · Timeline hacia el 11 de diciembre</div>
+    <table class="kt">
+      <thead><tr><th>Semana</th><th>Fechas</th><th>Etapa</th><th>Entregable</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>1 – 8 oct</td><td>Kickoff y estructura</td><td>Workshop de guion, estructura aprobada, lista de materiales</td></tr>
+        <tr><td>2</td><td>15 oct</td><td class="hi">Materiales completos</td><td class="hi">Videos, productos, proyectos, textos, logos y accesos entregados</td></tr>
+        <tr><td>2 – 4</td><td>8 – 29 oct</td><td>Diseño</td><td>Wireframes y mockups en Figma, móvil primero</td></tr>
+        <tr><td>5 – 8</td><td>29 oct – 26 nov</td><td>Desarrollo</td><td>Sitio en Framer, selector de país, CMS, carga de contenido</td></tr>
+        <tr><td>9 – 10</td><td>26 nov – 9 dic</td><td>QA y capacitación</td><td>Pruebas en móvil, SEO básico, capacitación, migración de cuenta</td></tr>
+        <tr><td class="hi">Live</td><td class="hi">11 dic 2026</td><td class="hi">Lanzamiento</td><td class="hi">Sitio publicado en el dominio de Prudence</td></tr>
+      </tbody>
+    </table>
+    <p class="sub2">Cambios de alcance después del kickoff entran a una lista post-lanzamiento y se cotizan aparte. No mueven el 11 de diciembre.</p>
+
+    <div class="sec" style="margin-top:20px;">Preguntas para cerrar en la llamada</div>
+    <div class="q">
+      <div>¿En qué países se muestra el sitio y cambia el idioma en alguno?</div>
+      <div>¿Quién aprueba de lado de DKT? ¿Hay revisión de DKT International o legal?</div>
+      <div>¿Dónde viven hoy los videos y cuántos son?</div>
+      <div>¿Cuántos productos y categorías? ¿Hay ficha por producto?</div>
+      <div>¿Qué tiendas por país se listan y con qué links?</div>
+      <div>¿Quién tiene los accesos al dominio y quién abre la cuenta de Framer?</div>
+      <div>¿Hay manual de marca vigente y aviso de privacidad?</div>
+      <div>¿El blog arranca con artículos existentes o nuevos? ¿Quién los escribe?</div>
+    </div>
+
+    <div class="foot">
+      <div class="rule thin" style="margin-bottom:10px;"></div>
+      <div class="sal">SALUDOS,</div>
+      <div class="name">Daniel <span>Casa Soda</span></div>
+      <div class="contact">
+        <span>Ciudad de México</span>
+        <a href="tel:+525510265196" style="color:inherit;text-decoration:none;">+52 55 1026 5196</a>
+        <a href="mailto:hola@casasoda.com" style="color:inherit;text-decoration:none;">hola@casasoda.com</a>
+        <a href="https://casasoda.com" target="_blank" rel="noopener" style="color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--lime);text-decoration-thickness:2px;text-underline-offset:3px;">casasoda.com ↗</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
