@@ -235,6 +235,23 @@ or:
 
 ---
 
+### Step 5 — Quote sent → epic (the sales-to-delivery handoff)
+
+The quote task in **Soda Ventas → Pipeline Management → Nuevos Leads** (`901324607712`) is the single record. It never gets recreated.
+
+1. While selling, move its status: `cotizando` → `quote send` → `won` / `lost`. Fill Opportunity (MXN number, even though the field says USD), Notes, Next Step, Next action.
+2. On **won**: create the client folder in space **Clientes CS 2026** (`90138980015`) with lists `EPICS`, `PROJECTS`, `MINUTAS` (same pattern as Yardzen / Tierra de Monte). Existing client → reuse its folder.
+3. **Add the task to the client's EPICS list** with `clickup_add_task_to_list` (Tasks in Multiple Lists). Do NOT `clickup_move_task`: the sales statuses don't map to the delivery statuses and the move fails with "Invalid status mappings". Added-to-list keeps the `won` record in Ventas and shows the same task as the epic in the client folder, history and fields included.
+4. Rewrite the epic description: final price, delivery date, platform, quote link, phases, terna context.
+5. Create one task per quote phase in the client's `PROJECTS` list (`01 · …`, `02 · …`), first one `next up`, rest `backlog`, each linked to the epic with `clickup_add_task_link` and with "Epic: [name](url)" as first line. Launch task gets the live date as due date.
+6. New quotes for the same client: new task in Nuevos Leads, linked to the existing epic.
+
+Worked example (Sep 2026): folder **Prudence / DKT** (`1400400000000854`) → EPICS `1400400000001291`, PROJECTS `1400400000001292`, MINUTAS `1400400000001293`. Epic = [Prudence — Sitio Web Narrativo](https://app.clickup.com/t/86ajb6p8j); La Vase quote = [La Vase — Sitio Web Informativo](https://app.clickup.com/t/17tn048qhpp).
+
+The `epic` tag only exists in some spaces; tagging fails from Ventas, skip it.
+
+---
+
 ## ClickUp field IDs (Nuevos Leads)
 
 | Field | ID |
