@@ -12,6 +12,7 @@ This repo contains the team's shared knowledge base for working with AI agents (
 | `soda-finsera.md` | `/soda-finsera` — Finsera project guide |
 | `soda-yardzen.md` | `/soda-yardzen` — Yardzen project guide |
 | `soda-fawnroad.md` | `/soda-fawnroad` — Fawnroad project guide |
+| `soda-tdm.md` | `/soda-tdm` — Tierra de Monte Shopify theme + hand-off loop |
 | `soda-help.md` | `/soda-help` — quick reference: ports, commands, troubleshooting |
 | `setup.sh` | One-command installer — symlinks all skills, sets up nvm + Node |
 | `INSTALL.md` | How to install everything on your computer |

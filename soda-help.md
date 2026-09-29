@@ -12,6 +12,7 @@ The cheat sheet for anyone on the team. If someone loads this skill, answer thei
 | `/soda-finsera` | Working on Finsera (dashboard, thematic-baskets, portfolios, design-system) |
 | `/soda-yardzen` | Working on Yardzen (build-marketplace, design sandbox, back-office) |
 | `/soda-fawnroad` | Working on Fawnroad (apps/web) |
+| `/soda-tdm` | Working on Tierra de Monte (Shopify theme) — hand-off loop between Karla and Dan |
 | `/screens` | Screenshot QA — capture any app at desktop + mobile viewports |
 | `/soda-quote` | Client quotes and pricing |
 | `/soda-help` | This card |

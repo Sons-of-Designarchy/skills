@@ -20,6 +20,7 @@ MANAGED_SKILLS=(
   "soda-finsera:soda-finsera.md"
   "soda-yardzen:soda-yardzen.md"
   "soda-fawnroad:soda-fawnroad.md"
+  "soda-tdm:soda-tdm.md"
   "soda-help:soda-help.md"
   "soda-quote:soda-quote.md"
   "soda-ops:soda-ops.md"
@@ -35,6 +36,7 @@ Casa Soda — quick reference
     /soda-finsera    Finsera project guide (dashboard, thematic-baskets)
     /soda-yardzen    Yardzen project guide (build-marketplace, sandboxes)
     /soda-fawnroad   Fawnroad project guide (apps/web)
+    /soda-tdm        Tierra de Monte Shopify theme + Karla/Dan hand-off loop
     /soda-help       This quick reference, inside Claude Code
     /screens         Screenshot QA at fixed viewports
     /soda-quote      Client quotes and pricing
