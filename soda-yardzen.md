@@ -346,6 +346,7 @@ Practices reviewers have asked for. Apply them before opening a PR, not after th
 - **No ticket numbers anywhere in code.** Not in comments, docblocks, variable or test names, or strings: no "(EN-6093)", no "EN-6037:" prefixes. Describe the behavior instead. Tickets belong in the branch name, commit messages and PR only. When you touch a file that already has one, remove it. *(#6446, #6447)*
 - **Name stand-ins and route them to design.** When an asset is borrowed (chairs → lounges icon), say so in the code comment and in the PR, and ask for a design sign-off. *(#6447)*
 - **A blocked button stays reachable.** Use `aria-disabled` (not native `disabled`) plus a click guard, so keyboard and screen-reader users can focus it, hear why via `aria-describedby`, and get taken to the first missing field. Keep live-region hints always mounted; one that mounts already filled is often skipped. *(#6446)*
+- **Changing a shared component means auditing every call site.** If a rework moves where `className` lands (outer wrapper → inner box), grep every usage and check each passed class still means the same thing: a `pt-1` that was spacing on the wrapper becomes an override of the box padding. List the call sites checked in the PR. *(#6445)*
 
 ## Icons
 
