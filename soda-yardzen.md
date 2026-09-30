@@ -336,6 +336,16 @@ Bugs a code read alone missed:
 - Only touch files relevant to the task
 - Lockfiles, unrelated components, go files must NOT appear in a feature branch commit
 
+## Review Learnings (from PR reviews)
+
+Practices reviewers have asked for. Apply them before opening a PR, not after the review.
+
+- **Test the invariant the PR fixes.** If the bug was "a catalog item had no icon", add a one-line test that fails when any item lacks one (see `lib/toll/tollWishlistMappings.test.ts`). Prove it fails by breaking it once locally. *(#6447)*
+- **Optimize every SVG before committing.** Raw Figma exports are 3-5x too big. Run `svgo --precision=1` with `removeViewBox: false` (the default preset strips `viewBox`, which breaks scaling). *(#6447)*
+- **One icon family, one canvas.** Icons shown at the same size must share a viewBox (the wishlist set is 20x20). Mixed 20/24/56 canvases render at different stroke weights and look busier. Rescale or ask design for a matching export. *(#6447)*
+- **No ticket numbers in code comments.** Describe the behavior ("one icon per wishlist item…"), not "(EN-6093)". Tickets live in the PR and the commit, not the code. *(#6447)*
+- **Name stand-ins and route them to design.** When an asset is borrowed (chairs → lounges icon), say so in the code comment and in the PR, and ask for a design sign-off. *(#6447)*
+
 ## Icons
 
 - Font Awesome Pro — don't swap it, don't add icon changes without explicit confirmation
