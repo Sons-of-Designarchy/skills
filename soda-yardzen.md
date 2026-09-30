@@ -347,6 +347,7 @@ Practices reviewers have asked for. Apply them before opening a PR, not after th
 - **Name stand-ins and route them to design.** When an asset is borrowed (chairs → lounges icon), say so in the code comment and in the PR, and ask for a design sign-off. *(#6447)*
 - **A blocked button stays reachable.** Use `aria-disabled` (not native `disabled`) plus a click guard, so keyboard and screen-reader users can focus it, hear why via `aria-describedby`, and get taken to the first missing field. Keep live-region hints always mounted; one that mounts already filled is often skipped. *(#6446)*
 - **Changing a shared component means auditing every call site.** If a rework moves where `className` lands (outer wrapper → inner box), grep every usage and check each passed class still means the same thing: a `pt-1` that was spacing on the wrapper becomes an override of the box padding. List the call sites checked in the PR. *(#6445)*
+- **Never hand a whole Contentful entry to a client component.** Map it to plain fields on the server (heading, image src/size, CTA url/text) and pass those. Entries can reference each other in loops (CTA → package details → CTA) and break the render. Put the mapper in its own non-`"use client"` file: a function exported from a client file can't be called from a server component. *(#6413)*
 
 ## Icons
 
