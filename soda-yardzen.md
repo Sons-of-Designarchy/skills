@@ -345,6 +345,7 @@ Practices reviewers have asked for. Apply them before opening a PR, not after th
 - **One icon family, one canvas.** Icons shown at the same size must share a viewBox (the wishlist set is 20x20). Mixed 20/24/56 canvases render at different stroke weights and look busier. Rescale or ask design for a matching export. *(#6447)*
 - **No ticket numbers in code comments.** Describe the behavior ("one icon per wishlist item…"), not "(EN-6093)". Tickets live in the PR and the commit, not the code. *(#6447)*
 - **Name stand-ins and route them to design.** When an asset is borrowed (chairs → lounges icon), say so in the code comment and in the PR, and ask for a design sign-off. *(#6447)*
+- **A blocked button stays reachable.** Use `aria-disabled` (not native `disabled`) plus a click guard, so keyboard and screen-reader users can focus it, hear why via `aria-describedby`, and get taken to the first missing field. Keep live-region hints always mounted; one that mounts already filled is often skipped. *(#6446)*
 
 ## Icons
 
