@@ -93,6 +93,7 @@ Full process (Dan's draft): ClickUp doc "Yardzen work tracking: Jira boards", ht
 - **ClickUp keeps a copy of every Jira ticket**, linked both ways. One Jira ticket can be 5 or 6 ClickUp tasks; internal review happens in ClickUp.
 - **Jira moves when ClickUp reaches "in client review"**: then the Jira ticket goes to In review with the PR or Figma link. Internal review never shows in Jira.
 - ClickUp-only (no Jira ticket): shaping notes, minutes, ops, quotes.
+- **Handoffs:** current PM state lives in `handoffs/` (latest: `handoffs/yardzen-pm-2026-10-05.md`). Read the newest one before continuing PM work.
 - Rule of thumb: if a Yardzen stakeholder would ask "where is this?", it belongs in Jira. Process docs use roles (Yardzen stakeholder, Soda PM, Soda designer, Soda front-end), not names.
 
 ## Git & PR Workflow
