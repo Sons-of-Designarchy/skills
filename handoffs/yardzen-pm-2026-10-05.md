@@ -33,7 +33,7 @@ ClickUp statuses (YZ-Product & Marketing): minutes, backlog, on hold, block, sha
 - Every task that reaches done gets a row in the monthly log.
 
 ## Open work (pick up here)
-1. **Atlassian access.** Not authenticated yet. Run `/mcp` → atlassian → sign in with the Yardzen account.
+1. **Atlassian access.** Works on the main laptop (cloudId `08e7e050-5173-446b-b5cc-7dc663c43d03`, site yardzen.atlassian.net, project EN = YZ Engineering). Each laptop authenticates its own: `/mcp` → atlassian. EN-6265 has a comment with the "Toll on Trellis" scope (2026-10-05).
 2. **Migration from the Slack table.** Dan pastes the Slack table. Build a draft list (board, existing EN- or new, ClickUp copy yes/no, status). Dan reviews. Only then create tickets and links.
 3. **Make "done" automatic (Dan doesn't want manual).** Proposal, not built yet:
    - New list `COMPLETED` in the Yardzen folder.
