@@ -46,3 +46,9 @@ ClickUp statuses (YZ-Product & Marketing): minutes, backlog, on hold, block, sha
 
 ## Jira numbers already assigned
 EN-6381 My Account button (PR #6509) · EN-6382 reviews badges (PR #6510) · EN-6383 design profile quiz (PR #6342) · EN-6384 reviews automatic vs hand-picked (+ per-review source logo, Google / Houzz) · EN-6265 Toll layout (branch pushed, no PR yet, QA in progress on the main laptop).
+
+## Onboarding on Trellis (code plan, agreed 2026-10-05)
+Goal: consistency. Toll onboarding built from Trellis so the layout lives in one place.
+- **PR 1 "Toll on Trellis"** (branch EN-6265, being built on the main laptop): BottomActionsBar floating (StepFooter deleted), uploader `size="sm"`, MediaPreview (extracted from uploader + error state, fixes "NoSuchBucket"), SiteInfo (from unused property-confirm-modal), vertical LabeledStepper (StepSidebar deleted), HelpCard on ContentCard (BannerCard deleted, one support contact), AppShell (renamed AdminPageLayout) + SectionShell (OnboardingFlowShell deleted). Standard onboarding unchanged.
+- **PR 2 "One onboarding header"** (after PR 1 merges): OnboardingNavbar with slots (logo, center, right), project data in the navbar for both flows; delete CoBrandedHeader and ProjectCard. Touches the standard onboarding in prod: QA both flows at 3 sizes.
+- Needs Jira tickets for both (EN-6265 may cover PR 1).
