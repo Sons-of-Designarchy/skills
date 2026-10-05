@@ -90,8 +90,9 @@ Full process (Dan's draft): ClickUp doc "Yardzen work tracking: Jira boards", ht
 
 - **YZ Engineering (EN-):** anything that ends in a PR. Every branch, PR title and commit carries the EN- number.
 - **YZ Design:** anything that ends in Figma, an asset, copy or a decision. Link it to the EN- ticket when it turns into code.
-- **ClickUp:** Soda internal only (shaping, minutes, ops, quotes).
-- When you open a PR, move its EN- ticket to In review and paste the PR link.
+- **ClickUp keeps a copy of every Jira ticket**, linked both ways. One Jira ticket can be 5 or 6 ClickUp tasks; internal review happens in ClickUp.
+- **Jira moves when ClickUp reaches "in client review"**: then the Jira ticket goes to In review with the PR or Figma link. Internal review never shows in Jira.
+- ClickUp-only (no Jira ticket): shaping notes, minutes, ops, quotes.
 - Rule of thumb: if Alicia would ask "where is this?", it belongs in Jira.
 
 ## Git & PR Workflow
