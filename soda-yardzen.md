@@ -84,6 +84,16 @@ pnpm run lint
 
 ---
 
+## Work Tracking (Jira boards)
+
+Full process (Dan's draft): ClickUp doc "Yardzen work tracking: Jira boards", https://app.clickup.com/90131023048/docs/2ky3mh68-18953
+
+- **YZ Engineering (EN-):** anything that ends in a PR. Every branch, PR title and commit carries the EN- number.
+- **YZ Design:** anything that ends in Figma, an asset, copy or a decision. Link it to the EN- ticket when it turns into code.
+- **ClickUp:** Soda internal only (shaping, minutes, ops, quotes).
+- When you open a PR, move its EN- ticket to In review and paste the PR link.
+- Rule of thumb: if Alicia would ask "where is this?", it belongs in Jira.
+
 ## Git & PR Workflow
 
 ### ⛔ Never create a git worktree
