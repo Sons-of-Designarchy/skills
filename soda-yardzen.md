@@ -382,6 +382,8 @@ Practices reviewers have asked for. Apply them before opening a PR, not after th
 
 ## Design Sandbox Deployments
 
+**Every new or newly deployed prototype gets its link in the ClickUp "Prototipos" page** (https://app.clickup.com/90131023048/v/dc/2ky3mh68-8953/2ky3mh68-18693), the list the team uses, in the same `**Name**` + link format. Read the page first and add one entry; don't rewrite the rest. Also add the row to "Design Sandbox: Apps & Vercel Links" (doc 2ky3mh68-18753). Use the `yz-<folder>.vercel.app` alias.
+
 Design sandbox apps live in `apps/design-sandbox/` inside the NX monorepo. They are standalone Vite SPAs — each has its own `package.json`, `vite.config.ts`, and `vercel.json`.
 
 **Why they must build locally:** every app imports from `libs/ui-v2/` via the `@yz-ds` alias in `vite.config.ts`. That path resolves to `../../../libs/ui-v2/src` — outside the app subdirectory — so Vercel's remote build fails with "Can't resolve libs/ui-v2/...". The fix: always build locally first, then push the `build/` output to Vercel.
