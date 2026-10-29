@@ -224,7 +224,10 @@ We no longer default to Framer. Delivery options by complexity:
 - Multi-page marketing site → AI-built React/Vite + Tailwind (custom, ownable, Claude Code builds it)
 - Existing Framer template → can migrate to custom codebase (we do this, it's a real service)
 - CMS-heavy → Webflow or Contentful-backed custom site
+- Custom Next.js + Sanity site → **default to PerfectlyRad** (see below), don't start from scratch
 The AI-built custom site is now competitive at MID tier and up. It's faster than it used to be and the client owns the code.
+
+**PerfectlyRad** = Casa Soda's whitelabel website theme / design system. Repo `git@github.com:Sons-of-Designarchy/perfectlyrad.git` (clone at `~/projects/soda/perfectlyrad`). Next.js 16 + Tailwind 4 + Sanity, on Vercel. Multi-project: each client lives in `src/projects/<id>/` (today: `demo`, `prudence`). Run one with `npm run dev:<id>` (e.g. `npm run dev:prudence` → :3030). Catalog: https://perfectlyrad.vercel.app/catalog · epic: https://app.clickup.com/t/17tn048u1hd. Quote copy can say "la misma base del sitio de Prudence" for repeat/sister clients (La Vase v2).
 
 Format:
 > **Suggested plan: MID** — Small team, multi-page marketing site, existing brand, no CMS complexity, 6-week timeline. ~$1,500–2,000/mo.
@@ -242,7 +245,7 @@ The quote task in **Soda Ventas → Pipeline Management → Nuevos Leads** (`901
 1. While selling, move its status: `cotizando` → `quote send` → `won` / `lost`. Fill Opportunity (MXN number, even though the field says USD), Notes, Next Step, Next action.
 2. On **won**: create the client folder in space **Clientes CS 2026** (`90138980015`) with lists `EPICS`, `PROJECTS`, `MINUTAS` (same pattern as Yardzen / Tierra de Monte). Existing client → reuse its folder.
 3. **Add the task to the PLANNING board** (`1400400000002254`, space-level list in Clientes CS 2026) with `clickup_add_task_to_list` (Tasks in Multiple Lists). Every `won` task lives there, one card per project, and that card is the epic Dan creates tasks against. Do NOT `clickup_move_task`: the sales statuses don't map to the delivery statuses and the move fails with "Invalid status mappings". Added-to-list keeps the `won` record in Ventas and shows the same task in PLANNING, history and fields included.
-4. Rewrite the epic description: final price, delivery date, platform, phases, terna context, and a **"Todo lo que tenemos"** section at the top linking everything that exists so far: quote (URL + PDF path), kickoff doc, wireframes, minutas, recordings, Figma, related quotes. One card, every link.
+4. Rewrite the epic description: final price, delivery date, platform, phases, terna context, and a **"Todo lo que tenemos"** section at the top linking everything that exists so far: quote (URL + PDF path), kickoff artifacts (Step 6), wireframes, minutas, recordings, Figma, related quotes. One card, every link.
 5. Create one task per quote phase in the client's `PROJECTS` list (`01 · …`, `02 · …`), first one `next up`, rest `backlog`, each linked to the epic with `clickup_add_task_link` and with "Epic: [name](url)" as first line. Launch task gets the live date as due date.
 6. New quotes for the same client: new task in Nuevos Leads, linked to the existing epic.
 7. **Dates are the contract.** On win, set on the epic: `start_date` = kickoff (the day materials + anticipo land) and `due_date` = the launch date agreed in the quote. The last PROJECTS task is the **MEGACIERRE**: `NN · 🚀 MEGACIERRE · Lanzamiento <fecha>`, priority urgent, same due date. That date never moves. Scope that shows up after kickoff goes to a `post-launch` task under the same epic, quoted or absorbed later, never into the launch. Launching on the agreed day is the deliverable Dan cares most about.
@@ -254,6 +257,62 @@ PLANNING was created 30 Sep 2026 with the six `won` records at the time: Prudenc
 Worked example (Sep 2026): folder **Prudence / DKT** (`1400400000000854`) → EPICS `1400400000001291`, PROJECTS `1400400000001292`, MINUTAS `1400400000001293`. Epic = [Prudence — Sitio Web Narrativo](https://app.clickup.com/t/86ajb6p8j); La Vase quote = [La Vase — Sitio Web Informativo](https://app.clickup.com/t/17tn048qhpp).
 
 The `epic` tag only exists in some spaces; tagging fails from Ventas, skip it.
+
+### Step 6 — Kickoff deliverables (artifacts)
+
+After a win, the kickoff package is **4 claude.ai Artifacts**, not quote-template PDFs. Flow (Said's FigJam):
+
+```
+timeline → brief creativo → mapa y contenido → brief técnico
+                 wireframe de ventas (la cotización) ──┘──────────┘
+```
+
+| Doc | What it carries |
+|---|---|
+| **Timeline** | Gantt (pattern below) |
+| **Brief creativo** | objetivo, pain points, para quién, tono, dirección visual, cómo medimos (KPI) |
+| **Mapa y contenido** | one row per section: qué lleva / qué aporta el cliente. Plus client requirements checklist (below) |
+| **Brief técnico** | decision table: Tema \| Propuesta \| Pendiente del cliente |
+
+Client requirements checklist (in Mapa y contenido):
+- **Marca** — logos, fuentes, colores, master graphics, licencias, tono y voz
+- **Proyecto** (Karla) — responsables de áreas, pagos, comunicación/seguimiento, entrega de materiales, accesos
+- **Contenido** — secciones, legales, ¿copy actual o nuevo?
+- **Productos** — catálogo, fichas técnicas, inventario
+- **Accesos** — credenciales, hosting, dominio, carpetas de contenido, plataformas
+
+Rules (Dan's feedback, Oct 2026):
+- Don't build them on the quote template. Make them graphic (timeline = Gantt, not a list).
+- Each doc carries only its own info. No repeated title block, info row, launch banner or signature across docs.
+- Minimal text. Same for chat: he rejected a long summary and asked for ~10% of it. Keep chat replies short.
+- Style: DM Sans only, cream #F0EDE4 / black #0A0A0A, lime #C8FF00 only as fill. Light + dark tokens.
+- Artifacts are private until shared from the page's Share menu.
+
+**Timeline pattern** (Prudence v2, reuse it): weekday-indexed Gantt (8 weeks = 40 columns). Soda work = lime bar, client work = dashed outline bar, approvals = diamonds, weekly review = dots, "Hoy" marker. Rows:
+1. Arranque
+2. Revisión semanal (30 min, same day/time, every week)
+3. Materiales (client)
+4. Redacción de contenido (above Diseño)
+5. Diseño (call it "Diseño", not "Dirección visual") + approval diamond
+6. Desarrollo, from week 2, in parallel
+7. Carga de contenido, from week 4 (client)
+8. QA
+9. Pendientes y capacitación (final week: missing content + trainings)
+10. Lanzamiento, with **soft launch one week before** the final launch
+
+Keep a "Fechas que no se mueven" row and the work rules: una persona aprueba por lado · dos rondas por etapa · revisión semanal · materiales tarde = se ajusta alcance, no fecha.
+
+**Worked example — Prudence (Oct 2026).** Kickoff deck said Framer + 11 dic; that's stale. Reality:
+- (Re)started lun 26 oct 2026. Materiales 13 nov · diseño aprobado 25 nov · soft launch vie 11 dic · OK final 16 dic · **lanzamiento vie 18 dic 2026**.
+- Platform: **Next.js + Sanity on Vercel, built on PerfectlyRad** (DKT knows). prudence.com.mx (a store today) gets replaced; current URLs redirect; purchases go to per-country stores (MX, GT, VE).
+- Newsletter = simple form (email + country), registros guardados y exportables; no external tool decided. Proyectos ONG section dropped, Newsletter section added.
+- In PerfectlyRad: home built from code with placeholders, no Sanity project yet, regions MX/GT/VE, newsletter endpoint is a stub that only logs.
+- Artifacts: [Timeline](https://claude.ai/artifact/YTHwSzpey22Aa8gU45N5z7) · [Brief creativo](https://claude.ai/artifact/8igWa69cnwipgMksPXeXbY) · [Mapa y contenido](https://claude.ai/artifact/9d5iLD3eDmgPzT9zYyWcGK) · [Brief técnico](https://claude.ai/artifact/JSDq5VwCGLhG65yiNat6KK). Sources: `quotes/prudence/entregables/` (timeline.html, brief-creativo.html, mapa-y-contenido.html, brief-tecnico.html).
+- ClickUp task: https://app.clickup.com/t/90131023048/17tn04949nq (duplicated from the sales pipeline).
+
+Gotchas:
+- Headless Chrome won't render narrower than ~500px. Check 390px through an iframe, or accept it.
+- If a ClickUp link can't be read (connector not connected), ask the user to connect it via `/mcp` or paste the content. Don't guess.
 
 ---
 
@@ -591,4 +650,4 @@ Rules (Dan's taste, learned the hard way):
 
 ### Competitive benchmark — Prudence terna (Sep 2026)
 
-Won at **$89,000 + IVA** vs Long Island **$45,000** (Next.js + Contentful on Vercel, 4–5 weeks, 20–40 product cap) and DOV **$96,000** (WordPress, 10–12 weeks, maintenance $7,000/mes optional). The evaluator recommended DOV first and Soda second; Soda still won. What they weighed: point-by-point brief compliance, standard tech / low vendor dependence, absorbed costs for the first months, delivery time. Implications: mirror the brief's sitemap and deliverables verbatim, answer vendor lock-in explicitly, keep the free-first-3-months, and compress timelines (Long Island's 4–5 weeks is the anchor). La Vase (same client) was quoted at **$118,000–132,000**, 6–8 weeks, range driven only by the AI advisor tier.
+Won at **$89,000 + IVA** vs Long Island **$45,000** (Next.js + Contentful on Vercel, 4–5 weeks, 20–40 product cap) and DOV **$96,000** (WordPress, 10–12 weeks, maintenance $7,000/mes optional). The evaluator recommended DOV first and Soda second; Soda still won. What they weighed: point-by-point brief compliance, standard tech / low vendor dependence, absorbed costs for the first months, delivery time. Implications: mirror the brief's sitemap and deliverables verbatim, answer vendor lock-in explicitly, keep the free-first-3-months, and compress timelines (Long Island's 4–5 weeks is the anchor). La Vase (same client) v1 was quoted at **$118,000–132,000**, 6–8 weeks, range driven only by the AI advisor tier; **v2** (`quotes/la-vase/`) on "la misma base del sitio de Prudence" (Next.js + Sanity / PerfectlyRad) at **$80,000 fijo**, 7–8 semanas.
