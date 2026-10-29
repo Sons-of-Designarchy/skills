@@ -229,6 +229,8 @@ The AI-built custom site is now competitive at MID tier and up. It's faster than
 
 **PerfectlyRad** = Casa Soda's whitelabel website theme / design system. Repo `git@github.com:Sons-of-Designarchy/perfectlyrad.git` (clone at `~/projects/soda/perfectlyrad`). Next.js 16 + Tailwind 4 + Sanity, on Vercel. Multi-project: each client lives in `src/projects/<id>/` (today: `demo`, `prudence`). Run one with `npm run dev:<id>` (e.g. `npm run dev:prudence` → :3030). Catalog: https://perfectlyrad.vercel.app/catalog · epic: https://app.clickup.com/t/17tn048u1hd. Quote copy can say "la misma base del sitio de Prudence" for repeat/sister clients (La Vase v2).
 
+**Client content only.** The PerfectlyRad catalog and the `demo` project carry sample copy from other projects ("Aliados", "escuelas aliadas", "Un programa en escuelas"). Never copy it into a client doc. Take client content only from `src/projects/<id>/`, that client's quote/kickoff and what the user says; if a section or audience isn't in those, leave it out or mark it as a question.
+
 Format:
 > **Suggested plan: MID** — Small team, multi-page marketing site, existing brand, no CMS complexity, 6-week timeline. ~$1,500–2,000/mo.
 
