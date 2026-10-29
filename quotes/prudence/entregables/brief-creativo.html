@@ -1,0 +1,170 @@
+<title>Prudence Brief Creativo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F0EDE4;
+    --fg: #0A0A0A;
+    --rule: #0A0A0A;
+    --grid: rgba(10,10,10,0.10);
+    --soda: #C8FF00;
+    --on-soda: #0A0A0A;
+    --ink-bg: #0A0A0A;   /* inverted tiles */
+    --ink-fg: #F0EDE4;
+    --font: 'DM Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg:#121210; --fg:#F0EDE4; --rule:#F0EDE4; --grid:rgba(240,237,228,0.12); --ink-bg:#F0EDE4; --ink-fg:#121210; color-scheme:dark; }
+  }
+  :root[data-theme="dark"] { --bg:#121210; --fg:#F0EDE4; --rule:#F0EDE4; --grid:rgba(240,237,228,0.12); --ink-bg:#F0EDE4; --ink-fg:#121210; color-scheme:dark; }
+
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family:var(--font); font-size:15px; line-height:1.45; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:1080px; margin:0 auto; padding-block:40px 56px; padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); display:flex; flex-direction:column; gap:44px; }
+
+  header { border-bottom:2px solid var(--rule); padding-bottom:16px; }
+  .eyebrow { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; }
+  h1 { font-size:clamp(34px, 6vw, 56px); font-weight:700; letter-spacing:-0.03em; line-height:1; margin:6px 0 0; text-wrap:balance; }
+  h2 { font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; margin:0 0 12px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .chip { font-size:10px; letter-spacing:0.1em; border:1.5px dashed var(--rule); padding:2px 8px; font-weight:700; }
+
+  /* Objetivo */
+  .goal { font-size:clamp(28px, 5vw, 52px); font-weight:700; letter-spacing:-0.03em; line-height:1.05; margin:0; text-wrap:balance; }
+  .goal mark { background:var(--soda); color:var(--on-soda); padding:0 6px; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
+  .goal-parts { display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); margin-top:20px; border-top:1px solid var(--rule); }
+  .goal-parts div { padding:12px 12px 12px 0; border-bottom:1px solid var(--grid); font-weight:700; font-size:15px; }
+  .goal-parts span { display:block; font-size:28px; letter-spacing:-0.02em; line-height:1; margin-bottom:4px; }
+
+  /* Pain points */
+  .pains { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px; }
+  .pain { border:1.5px solid var(--rule); padding:14px 16px; display:flex; gap:12px; align-items:baseline; font-size:15px; font-weight:500; }
+  .pain b { font-size:22px; font-weight:700; letter-spacing:-0.02em; font-variant-numeric:tabular-nums; flex-shrink:0; }
+
+  /* Audiencia */
+  .aud { display:grid; grid-template-columns:2fr 1fr; gap:10px; }
+  .aud > div { padding:18px; border:1.5px solid var(--rule); }
+  .aud .main { background:var(--ink-bg); color:var(--ink-fg); border-color:var(--ink-bg); }
+  .aud .lvl { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; }
+  .aud .who { font-size:clamp(20px, 3vw, 28px); font-weight:700; letter-spacing:-0.02em; line-height:1.1; margin-top:8px; }
+  .flags { display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
+  .flags span { font-size:12px; font-weight:700; border:1.5px solid currentColor; padding:3px 10px; border-radius:99px; }
+
+  /* Tono */
+  .tone { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); border-top:2px solid var(--rule); }
+  .tone > div { padding:16px 16px 16px 0; border-bottom:1px solid var(--grid); }
+  .tone .w { font-size:clamp(24px, 3.4vw, 32px); font-weight:700; letter-spacing:-0.02em; line-height:1; }
+  .tone .n { font-size:14px; font-weight:500; margin-top:6px; }
+
+  /* Dirección visual */
+  .dir { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px; }
+  .dcard { border:1.5px solid var(--rule); padding:14px; display:flex; flex-direction:column; gap:12px; }
+  .dcard p { margin:0; font-size:14.5px; font-weight:700; }
+  .viz { height:72px; display:flex; gap:4px; }
+  .v-break i { flex:1; border:1.5px solid var(--rule); }
+  .v-break i:nth-child(1) { background:var(--soda); border-color:var(--on-soda); }
+  .v-break i:nth-child(2) { background:var(--ink-bg); border-color:var(--ink-bg); flex:0.6; }
+  .v-break i:nth-child(3) { flex:1.6; }
+  .v-pause { flex-direction:column; gap:4px; }
+  .v-pause i { flex:1; border:1.5px solid var(--rule); }
+  .v-pause i.dark { background:var(--ink-bg); border-color:var(--ink-bg); color:var(--ink-fg); font-style:normal; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex:1.4; }
+  .v-ch { align-items:flex-end; }
+  .v-ch i { flex:1; border:1.5px solid var(--rule); font-style:normal; font-size:11px; font-weight:700; display:flex; align-items:flex-start; justify-content:center; padding-top:4px; }
+  .v-ch i:nth-child(1){height:40%} .v-ch i:nth-child(2){height:55%} .v-ch i:nth-child(3){height:70%} .v-ch i:nth-child(4){height:85%} .v-ch i:nth-child(5){height:100%; background:var(--soda); border-color:var(--on-soda); color:var(--on-soda);}
+  .v-phone { justify-content:center; align-items:flex-end; gap:10px; }
+  .v-phone .ph { width:36px; height:68px; border:2px solid var(--rule); border-radius:7px; background:var(--soda); }
+  .v-phone .dt { width:96px; height:46px; border:1.5px dashed var(--rule); border-radius:3px; }
+
+  /* KPIs */
+  .kpis { display:grid; grid-template-columns:1.6fr 1fr; gap:10px; }
+  .kpi-main { background:var(--soda); color:var(--on-soda); padding:22px; display:flex; flex-direction:column; justify-content:space-between; gap:18px; min-height:220px; }
+  .kpi-main .tag { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; }
+  .kpi-main .big { font-size:clamp(36px, 6vw, 64px); font-weight:700; letter-spacing:-0.035em; line-height:0.95; }
+  .kpi-side { display:grid; grid-template-rows:repeat(3, 1fr); gap:10px; }
+  .kpi-side div { border:1.5px solid var(--rule); padding:12px 14px; font-weight:700; font-size:16px; display:flex; align-items:center; gap:10px; }
+  .kpi-side b { font-size:11px; letter-spacing:0.1em; }
+
+  @media (max-width:640px) {
+    .aud, .kpis { grid-template-columns:1fr; }
+    .kpi-main { min-height:170px; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Casa Soda · Prudence · Sitio narrativo</div>
+    <h1>Brief creativo</h1>
+  </header>
+
+  <section>
+    <h2>Objetivo</h2>
+    <p class="goal">Una página <mark>espectacular</mark> que cuenta la historia de Prudence en one shot.</p>
+    <div class="goal-parts">
+      <div><span>01</span>Quién la creó</div>
+      <div><span>02</span>Qué hace por el mundo</div>
+      <div><span>03</span>Que capte registros al newsletter</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Lo que hoy no funciona <span class="chip">Hipótesis a validar</span></h2>
+    <div class="pains">
+      <div class="pain"><b>1</b>Casi nadie conoce la historia de Prudence.</div>
+      <div class="pain"><b>2</b>Se ve como producto, no como causa.</div>
+      <div class="pain"><b>3</b>prudence.com.mx es una tienda; no cuenta nada.</div>
+      <div class="pain"><b>4</b>Campañas y videos dispersos.</div>
+      <div class="pain"><b>5</b>No queda claro dónde comprar en cada país.</div>
+      <div class="pain"><b>6</b>No se capta a nadie.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Para quién</h2>
+    <div class="aud">
+      <div class="main">
+        <div class="lvl">Principal</div>
+        <div class="who">Jóvenes y adultos</div>
+        <div class="flags"><span>México</span><span>Guatemala</span><span>Venezuela</span></div>
+      </div>
+      <div>
+        <div class="lvl">Secundario</div>
+        <div class="who">Aliados, medios y distribuidores</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tono</h2>
+    <div class="tone">
+      <div><div class="w">Disruptivo</div><div class="n">No corporativo.</div></div>
+      <div><div class="w">Sin tabúes</div><div class="n">Educación sexual dicha de frente.</div></div>
+      <div><div class="w">Serio, no solemne</div><div class="n">Rigor en salud, nunca acartonado.</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Dirección visual</h2>
+    <div class="dir">
+      <div class="dcard"><div class="viz v-break" aria-hidden="true"><i></i><i></i><i></i></div><p>Cada sección rompe con la anterior: color, escala, ritmo.</p></div>
+      <div class="dcard"><div class="viz v-pause" aria-hidden="true"><i></i><i class="dark">“una sola frase”</i><i></i></div><p>Dos descansos de video con una sola frase.</p></div>
+      <div class="dcard"><div class="viz v-ch" aria-hidden="true"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div><p>Historia en capítulos que se mueven al hacer scroll.</p></div>
+      <div class="dcard"><div class="viz v-phone" aria-hidden="true"><div class="ph"></div><div class="dt"></div></div><p>Primero el celular.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Cómo medimos</h2>
+    <div class="kpis">
+      <div class="kpi-main">
+        <div class="tag">KPI principal</div>
+        <div class="big">Registros al newsletter</div>
+      </div>
+      <div class="kpi-side">
+        <div>Clics a tienda por país</div>
+        <div>Reproducciones de video</div>
+        <div>Lectura completa de la historia</div>
+      </div>
+    </div>
+  </section>
+</div>

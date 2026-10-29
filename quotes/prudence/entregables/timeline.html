@@ -1,0 +1,157 @@
+<title>Prudence Timeline</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: one Gantt in weekdays (40 columns, 26 oct → 18 dic), milestones as diamonds, list below for detail. Casa Soda palette. */
+  :root {
+    --bg: #F0EDE4;
+    --fg: #0A0A0A;
+    --rule: #0A0A0A;
+    --grid: rgba(10,10,10,0.10);
+    --soda: #C8FF00;      /* work Casa Soda does */
+    --on-soda: #0A0A0A;
+    --client: #F0EDE4;    /* work DKT owes, drawn as outline */
+    --font: 'DM Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg:#121210; --fg:#F0EDE4; --rule:#F0EDE4; --grid:rgba(240,237,228,0.12); --client:#121210; color-scheme:dark; }
+  }
+  :root[data-theme="dark"] { --bg:#121210; --fg:#F0EDE4; --rule:#F0EDE4; --grid:rgba(240,237,228,0.12); --client:#121210; color-scheme:dark; }
+
+  body { background:var(--bg); color:var(--fg); font-family:var(--font); font-size:15px; line-height:1.45; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:1080px; margin:0 auto; padding-block:40px 56px; padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); display:flex; flex-direction:column; gap:36px; }
+
+  header { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:16px; border-bottom:2px solid var(--rule); padding-bottom:16px; }
+  .eyebrow { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; }
+  h1 { font-size:clamp(34px, 6vw, 56px); font-weight:700; letter-spacing:-0.03em; line-height:1; margin:6px 0 0; text-wrap:balance; }
+  .launch { text-align:right; }
+  .launch .d { font-size:clamp(22px, 3.4vw, 30px); font-weight:700; letter-spacing:-0.02em; }
+  .launch .d mark { background:var(--soda); color:var(--on-soda); padding:0 8px; }
+
+  /* Gantt */
+  .gantt-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .gantt { min-width:760px; padding:26px 14px 0 0; display:grid; grid-template-columns:150px repeat(40, 1fr); position:relative; font-variant-numeric:tabular-nums; }
+  .wk { grid-row:1; font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; padding:0 0 8px 6px; border-left:1px solid var(--grid); }
+  .wk small { display:block; font-weight:500; letter-spacing:0; text-transform:none; font-size:11px; }
+  .lbl { grid-column:1; font-size:13px; font-weight:700; padding:10px 12px 10px 0; border-top:1px solid var(--grid); display:flex; flex-direction:column; justify-content:center; }
+  .lbl small { font-weight:500; font-size:11px; }
+  .cell { border-top:1px solid var(--grid); }
+  .vline { grid-row:1 / -1; border-left:1px solid var(--grid); pointer-events:none; }
+  .bar { align-self:center; height:26px; display:flex; align-items:center; padding:0 8px; font-size:11.5px; font-weight:700; white-space:nowrap; overflow:hidden; border:1.5px solid var(--rule); }
+  .bar.soda { background:var(--soda); color:var(--on-soda); border-color:var(--on-soda); }
+  .bar.client { background:var(--client); color:var(--fg); border-style:dashed; }
+  .ms { align-self:center; justify-self:end; display:flex; align-items:center; gap:6px; transform:translateX(7px); z-index:2; }
+  .ms i { width:14px; height:14px; background:var(--fg); transform:rotate(45deg); flex-shrink:0; }
+  .ms.dot { justify-self:center; transform:none; }
+  .ms.dot i { width:10px; height:10px; border-radius:50%; transform:none; }
+  .ms.big { transform:translateX(10px); }
+  .ms.big i { width:20px; height:20px; background:var(--soda); border:2px solid var(--on-soda); }
+  .today { grid-row:1 / -1; border-left:2px solid var(--fg); position:relative; pointer-events:none; z-index:3; }
+  .today span { position:absolute; top:-22px; left:-1px; font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; background:var(--fg); color:var(--bg); padding:2px 6px; white-space:nowrap; }
+
+  .legend { display:flex; flex-wrap:wrap; gap:8px 24px; font-size:12.5px; margin-top:14px; }
+  .legend span { display:inline-flex; align-items:center; gap:8px; }
+  .sw { width:22px; height:12px; border:1.5px solid var(--rule); display:inline-block; }
+  .sw.soda { background:var(--soda); border-color:var(--on-soda); }
+  .sw.client { border-style:dashed; }
+  .sw.dia { width:11px; height:11px; background:var(--fg); transform:rotate(45deg); border:none; }
+
+  /* Fechas clave */
+  h2 { font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; margin:0 0 10px; }
+  .keys { display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); border-top:1px solid var(--rule); }
+  .key { padding:14px 16px 14px 0; border-bottom:1px solid var(--grid); min-width:0; }
+  .key .when { font-size:22px; font-weight:700; letter-spacing:-0.02em; font-variant-numeric:tabular-nums; }
+  .key .what { font-size:13.5px; font-weight:700; margin-top:2px; }
+  .key .who { font-size:12px; margin-top:2px; }
+  .key.launch-key .when mark { background:var(--soda); color:var(--on-soda); padding:0 6px; }
+
+  .rules { display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:10px 28px; margin:0; padding:0; list-style:none; }
+  .rules li { font-size:13.5px; border-top:1px solid var(--grid); padding-top:8px; }
+  .rules b { font-weight:700; }
+
+  .wrap > * { min-width:0; }
+  @media (max-width:520px) { .launch { text-align:left; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">Casa Soda · Prudence · Sitio narrativo</div>
+      <h1>Timeline</h1>
+    </div>
+    <div class="launch">
+      <div class="eyebrow">Lanzamiento</div>
+      <div class="d"><mark>Viernes 18 dic</mark></div>
+    </div>
+  </header>
+
+  <section aria-label="Gantt">
+    <div class="gantt-scroll">
+      <div class="gantt" id="gantt"></div>
+    </div>
+    <div class="legend">
+      <span><i class="sw soda"></i>Casa Soda</span>
+      <span><i class="sw client"></i>Prudence / DKT</span>
+      <span><i class="sw dia"></i>Aprobación o entrega</span>
+      <span><i class="sw dia" style="border-radius:50%; transform:none;"></i>Revisión semanal</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Fechas que no se mueven</h2>
+    <div class="keys">
+      <div class="key"><div class="when">13 nov</div><div class="what">Materiales completos</div><div class="who">Prudence / DKT</div></div>
+      <div class="key"><div class="when">25 nov</div><div class="what">Diseño aprobado</div><div class="who">Prudence / DKT</div></div>
+      <div class="key"><div class="when">11 dic</div><div class="what">Soft launch</div><div class="who">Sitio en vivo para revisión</div></div>
+      <div class="key"><div class="when">16 dic</div><div class="what">Visto bueno final</div><div class="who">Prudence / DKT</div></div>
+      <div class="key launch-key"><div class="when"><mark>18 dic</mark></div><div class="what">Sitio en vivo</div><div class="who">prudence.com.mx</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Cómo trabajamos</h2>
+    <ul class="rules">
+      <li><b>Una persona aprueba</b> de cada lado.</li>
+      <li><b>Dos rondas de revisión</b> por etapa.</li>
+      <li><b>Revisión semanal</b> de 30 minutos, mismo día y hora.</li>
+      <li>Si los materiales llegan tarde, <b>se ajusta el alcance, no la fecha</b>.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+  // Weekday index 1–40: Mon 26 oct = 1 … Fri 18 dic = 40.
+  const WEEKS = ["26 oct","2 nov","9 nov","16 nov","23 nov","30 nov","7 dic","14 dic"];
+  const TODAY = 3; // mié 28 oct
+  const ROWS = [
+    { label:"Arranque", sub:"Inventario y preview", bars:[{ from:1, to:5, who:"soda", text:"Arranque" }] },
+    { label:"Revisión semanal", sub:"30 minutos, mismo día y hora", ms:[3, 8, 13, 18, 23, 28, 33, 38].map(day => ({ day, text:"Revisión", dot:true })) },
+    { label:"Materiales", sub:"Marca, catálogo, textos, accesos", bars:[{ from:1, to:15, who:"client", text:"Entrega de materiales" }], ms:[{ day:15, text:"13 nov" }] },
+    { label:"Redacción de contenido", sub:"Textos y guion de la historia", bars:[{ from:6, to:20, who:"soda", text:"Redacción" }] },
+    { label:"Diseño", sub:"Hero, Historia, descansos", bars:[{ from:6, to:23, who:"soda", text:"Diseño" }], ms:[{ day:23, text:"Aprobado" }] },
+    { label:"Desarrollo", sub:"Productos, videos, blog, form", bars:[{ from:6, to:30, who:"soda", text:"Desarrollo" }] },
+    { label:"Carga de contenido", sub:"En el CMS", bars:[{ from:16, to:35, who:"client", text:"Carga de contenido" }] },
+    { label:"QA", sub:"Celular, SEO, redirects", bars:[{ from:31, to:35, who:"soda", text:"QA" }] },
+    { label:"Pendientes y capacitación", sub:"Contenidos que falten, capacitaciones", bars:[{ from:36, to:39, who:"soda", text:"Ajustes" }], ms:[{ day:38, text:"OK final" }] },
+    { label:"Lanzamiento", sub:"Soft 11 dic · Final 18 dic", ms:[{ day:35, text:"Soft launch" }, { day:40, text:"18 dic", big:true }] },
+  ];
+
+  const g = document.getElementById("gantt");
+  const el = (cls, style, html) => { const d = document.createElement("div"); d.className = cls; if (style) d.style.cssText = style; if (html) d.innerHTML = html; g.appendChild(d); return d; };
+
+  el("wk", "grid-column:1; border-left:none;");
+  WEEKS.forEach((w, i) => el("wk", `grid-column:${2 + i*5} / span 5;`, `Sem ${i+1}<small>${w}</small>`));
+  WEEKS.forEach((_, i) => el("vline", `grid-column:${2 + i*5};`));
+
+  ROWS.forEach((r, i) => {
+    const row = i + 2;
+    el("lbl", `grid-row:${row};`, `${r.label}<small>${r.sub}</small>`);
+    el("cell", `grid-row:${row}; grid-column:2 / -1;`);
+    (r.bars || []).forEach(b => el(`bar ${b.who}`, `grid-row:${row}; grid-column:${b.from + 1} / ${b.to + 2};`, b.text));
+    (r.ms || []).forEach(m => el(`ms${m.big ? " big" : ""}${m.dot ? " dot" : ""}`, `grid-row:${row}; grid-column:${m.day + 1};`, `<i title="${m.text}"></i>`));
+  });
+
+  el("today", `grid-column:${TODAY + 1}; margin-left:50%;`, "<span>Hoy</span>");
+</script>

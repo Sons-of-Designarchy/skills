@@ -1,0 +1,100 @@
+<title>Prudence Brief Técnico</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F0EDE4;
+    --fg: #0A0A0A;
+    --rule: #0A0A0A;
+    --grid: rgba(10,10,10,0.10);
+    --soda: #C8FF00;
+    --on-soda: #0A0A0A;
+    --ink-bg: #0A0A0A;
+    --ink-fg: #F0EDE4;
+    --font: 'DM Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg:#121210; --fg:#F0EDE4; --rule:#F0EDE4; --grid:rgba(240,237,228,0.12); --ink-bg:#F0EDE4; --ink-fg:#121210; color-scheme:dark; }
+  }
+  :root[data-theme="dark"] { --bg:#121210; --fg:#F0EDE4; --rule:#F0EDE4; --grid:rgba(240,237,228,0.12); --ink-bg:#F0EDE4; --ink-fg:#121210; color-scheme:dark; }
+
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family:var(--font); font-size:15px; line-height:1.45; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:1080px; margin:0 auto; padding-block:40px 56px; padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); display:flex; flex-direction:column; gap:44px; }
+
+  header { border-bottom:2px solid var(--rule); padding-bottom:16px; }
+  .eyebrow { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; }
+  h1 { font-size:clamp(34px, 6vw, 56px); font-weight:700; letter-spacing:-0.03em; line-height:1; margin:6px 0 0; text-wrap:balance; }
+  h2 { font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; margin:0 0 12px; }
+
+  /* Flow diagram */
+  .flow { display:grid; grid-template-columns:1fr auto 1.2fr auto 1fr; align-items:center; gap:10px; }
+  .node { border:1.5px solid var(--rule); padding:14px; min-width:0; }
+  .node .k { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; }
+  .node .t { font-size:20px; font-weight:700; letter-spacing:-0.02em; line-height:1.1; margin-top:4px; }
+  .node.mid { background:var(--ink-bg); color:var(--ink-fg); border-color:var(--ink-bg); }
+  .node.end { background:var(--soda); color:var(--on-soda); border-color:var(--on-soda); }
+  .arr { font-size:22px; font-weight:700; text-align:center; }
+  .sub { grid-column:3; display:flex; align-items:center; gap:10px; font-size:14px; font-weight:700; }
+  .sub .node { padding:8px 12px; }
+  .sub .node .t { font-size:15px; margin:0; }
+
+  /* Decision table */
+  .tbl { border-top:2px solid var(--rule); }
+  .tr { display:grid; grid-template-columns:150px 1fr 260px; column-gap:24px; border-bottom:1px solid var(--grid); padding:12px 0; align-items:baseline; }
+  .th { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; padding:10px 0; }
+  .tema { font-size:16px; font-weight:700; letter-spacing:-0.01em; }
+  .prop { font-size:14.5px; font-weight:500; }
+  .pend { font-size:13.5px; font-weight:700; }
+  .pend .chip { display:inline-block; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; border:1.5px dashed var(--rule); padding:1px 6px; margin-right:8px; vertical-align:1px; }
+  .pend.none { font-weight:500; }
+
+  @media (max-width:720px) {
+    .flow { grid-template-columns:1fr; }
+    .arr { transform:rotate(90deg); line-height:1; }
+    .sub { grid-column:1; }
+    .tr.th-row { display:none; }
+    .tr { grid-template-columns:1fr; row-gap:4px; }
+    .pend.none { display:none; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Casa Soda · Prudence · Sitio narrativo</div>
+    <h1>Brief técnico</h1>
+  </header>
+
+  <section aria-label="Cómo se conecta">
+    <h2>Cómo se conecta</h2>
+    <div class="flow">
+      <div class="node"><div class="k">Prudence edita</div><div class="t">Sanity</div></div>
+      <div class="arr" aria-hidden="true">→</div>
+      <div class="node mid"><div class="k">Sitio</div><div class="t">Next.js en Vercel</div></div>
+      <div class="arr" aria-hidden="true">→</div>
+      <div class="node end"><div class="k">En vivo</div><div class="t">prudence.com.mx</div></div>
+      <div class="sub"><span>Form newsletter</span><span class="arr" aria-hidden="true">→</span><div class="node"><div class="t">Registros exportables</div></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Decisiones</h2>
+    <div class="tbl" role="table">
+      <div class="tr th-row" role="row"><div class="th">Tema</div><div class="th">Propuesta</div><div class="th">Pendiente de DKT</div></div>
+
+      <div class="tr" role="row"><div class="tema">Plataforma</div><div class="prop">Next.js con Sanity para editar, publicado en Vercel (sobre el sistema PerfectlyRad de Casa Soda).</div><div class="pend none">—</div></div>
+      <div class="tr" role="row"><div class="tema">Cuentas</div><div class="prop">Todo a nombre de Prudence al lanzar; Casa Soda conserva acceso.</div><div class="pend"><span class="chip">DKT</span>Correo para abrir las cuentas</div></div>
+      <div class="tr" role="row"><div class="tema">Dominio</div><div class="prop">El nuevo sitio reemplaza prudence.com.mx; las ligas actuales redirigen.</div><div class="pend"><span class="chip">DKT</span>Acceso al dominio</div></div>
+      <div class="tr" role="row"><div class="tema">Tienda actual</div><div class="prop">Las compras se van a las tiendas de cada país.</div><div class="pend"><span class="chip">DKT</span>Confirmar cierre de la tienda en línea</div></div>
+      <div class="tr" role="row"><div class="tema">Países</div><div class="prop">México, Guatemala y Venezuela; cambian productos y tiendas.</div><div class="pend"><span class="chip">DKT</span>¿Algún país en otro idioma?</div></div>
+      <div class="tr" role="row"><div class="tema">Contenido</div><div class="prop">Productos, videos, blog, historia y colaboradores editables en Sanity.</div><div class="pend"><span class="chip">DKT</span>Quién administra</div></div>
+      <div class="tr" role="row"><div class="tema">Videos</div><div class="prop">Librería en YouTube o Vimeo; loops cortos sin audio.</div><div class="pend"><span class="chip">DKT</span>Dónde viven hoy</div></div>
+      <div class="tr" role="row"><div class="tema">Newsletter</div><div class="prop">Un form simple: correo y país; los registros se guardan y se exportan.</div><div class="pend none">—</div></div>
+      <div class="tr" role="row"><div class="tema">Medición</div><div class="prop">GA4 y Meta Pixel: registros, clics a tienda, videos.</div><div class="pend"><span class="chip">DKT</span>Accesos</div></div>
+      <div class="tr" role="row"><div class="tema">Legales</div><div class="prop">Aviso de privacidad como página propia, ligado al form y al footer.</div><div class="pend"><span class="chip">DKT</span>Texto vigente</div></div>
+      <div class="tr" role="row"><div class="tema">SEO</div><div class="prop">Título, descripción e imagen para compartir en cada página.</div><div class="pend none">—</div></div>
+    </div>
+  </section>
+</div>
