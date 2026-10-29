@@ -292,7 +292,7 @@ Rules (Dan's feedback, Oct 2026):
 1. Arranque
 2. Revisión semanal (30 min, same day/time, every week)
 3. Materiales (client)
-4. Redacción de contenido (above Diseño)
+4. Contenido (above Diseño, from day 1 of the project; Dan renamed it from "Redacción de contenido")
 5. Diseño (call it "Diseño", not "Dirección visual") + approval diamond
 6. Desarrollo, from week 2, in parallel
 7. Carga de contenido, from week 4 (client)
