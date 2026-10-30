@@ -91,6 +91,8 @@ Alternative when pushing a new branch: `git push -u origin <branch> -o merge_req
 
 **Tools:** Shortcut (tasks), GitLab (code hosting), Pitch (presentations), PostHog (analytics)
 
+**Handoffs:** growth / marketing taskforce state lives in `handoffs/` (latest: `handoffs/finsera-growth-2026-10-30.md`). Read the newest one before continuing that work. Every draft MR in that workstream gets a story in the Shortcut epic "Marketing taskforce" (85210).
+
 **Meetings:** Monday 12pm — testing meeting + new feature demo
 
 ---
