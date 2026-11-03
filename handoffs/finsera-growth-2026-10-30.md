@@ -71,3 +71,12 @@ Shared / public watchlists: workspace reads are limited to the creator or `conte
 Hero prompt → `/explore/[slug]` (curated-theme match, no LLM, in-memory rate limit), dynamic OG images (satori on ECS, risky), embed widget `/embed/theme/[id]`, company pages `/company/[ticker]`, weekly rankings, self-serve referral links.
 
 Source doc: "Finsera Growth — Project Brief" (Claude Doc TeBxUrGGZvcsA4dQLxb88o). Marcel's SEO/GEO audit is quoted in full in !6411.
+
+## Update 2026-11-02
+- Live on finsera.com: /videos/insights, /videos/themes, /videos/risk (Laurent's per-product links), GTM container GTM-NXN44DFJ + cookie consent banner (consent mode v2, localStorage key finsera_cookie_consent), button hover fix (cherry-picked from the old sc-84992 branch), SEO plumbing (!3). Vercel deploy is manual: `vercel --prod --yes --scope finsera1` from the website repo.
+- GA4 property G-Z72QEWSBEB fires from inside the GTM container; the site has no direct gtag config (double counting otherwise). GA admin to do: add themes.finsera.com under Configure your domains, pick "I use a custom consent banner".
+- web-ui merged to master (on dev + staging, NOT prod yet): !6411 SEO plumbing, !6415 share buttons. Prod goes through the trigger pipeline (deploy-client / deploy-ssr / submit-version), not a master merge.
+- web-ui open, ready: !6427 GTM container + consent banner on themes (branch google-analytics-tag), !6428 /demo-scheduled confirmation after a Cal.com booking on /videos (branch demo-scheduled), !6412 signup (now sc-85234). Drafts: !6414, !6416. !6413 public theme pages was closed by someone, branch still on the remote.
+- Campaigns land on themes.finsera.com, so conversions = page views of /demo-scheduled and /register there.
+- Sergio merged the import restructure (!6422, finsera-core split into @local/finsera-core + @local/finsera-ui, new ESLint rules). Rebase the drafts before merging. He also asked for a review of the new loading states in apps/finsera (localhost:3000), not done.
+- Shortcut: epic "Marketing taskforce" 85210 in workspace finsera-1. Every draft MR needs a story there. Backfill still pending (the Chrome extension was attached to a profile not logged into Shortcut).
