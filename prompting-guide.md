@@ -6,6 +6,22 @@ This is the **common core**: who Dan is, how to work with him, and the rules tha
 
 ---
 
+## RULE −1 — Check the Claude account before anything else
+
+Before any tool call, agent, artifact or doc, check the session's account
+(`userEmail` in the session context). Yardzen work runs on `@yardzen.com`.
+**Everything else (Casa Soda, Tierra de Monte, PerfectlyRad, Prudence, Finsera,
+Fawnroad, La Vase, quotes, ops) runs on the Casa Soda account
+(`hola@casasoda.com`).** If they don't match, the first line of your reply is:
+"This session is on the <X> account — run `/login` with <Y> before I start."
+No research, no agents, no artifacts, not even "the quick part".
+
+**Why:** on 2026-10-11 a full Tierra de Monte session (research agents, a
+published artifact, two rebuild agents) ran on the Yardzen account because this
+guide wasn't loaded and the old rule only named Finsera. Never again.
+
+---
+
 ## RULE ZERO — Text is sized by the Typography component. Always.
 
 **Never write a text size, weight, font, or colour by hand. Not in a
@@ -238,7 +254,7 @@ A task isn't done when it's merged. Done = tested, documented, deployed to stagi
 
 ## Before You Start Any Task
 
-**Account check (hard rule):** The Yardzen Claude account must NEVER be used for Finsera work. Check the Claude account email for the session (shown as `userEmail` in session context). If it's a Yardzen account (e.g., `@yardzen.com`) and the task touches anything Finsera — STOP immediately and warn Dan before doing any work. Dan's personal account is `hola@casasoda.com`.
+**Account check (hard rule):** see RULE −1 at the top. The Yardzen Claude account is only for Yardzen work. If `userEmail` is `@yardzen.com` and the task touches anything else (Finsera, Tierra de Monte, PerfectlyRad, Prudence, Fawnroad, Casa Soda), STOP immediately and warn Dan before doing any work. The Casa Soda account is `hola@casasoda.com`.
 
 Ask yourself — or ask Dan — these four things:
 
