@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Soda — Cierre Fase 1 · Tierra de Monte</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --paper: #FFFFFF;
+    --ink:   #0A0A0A;
+  }
+
+  html, body { background:#cfccc4; font-family:'DM Sans', system-ui, sans-serif; color:var(--ink); -webkit-font-smoothing:antialiased; }
+
+  .sheet {
+    width:210mm; min-height:297mm; margin:24px auto; background:var(--paper);
+    padding:26mm 26mm 22mm; display:flex; flex-direction:column;
+    box-shadow:0 12px 48px rgba(0,0,0,0.22);
+  }
+
+  .line { height:1px; background:var(--ink); }
+  .line.thick { height:3px; }
+
+  /* Header */
+  .head { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:14px; }
+  .head .wm { font-size:24px; font-weight:700; letter-spacing:-0.03em; }
+  .head .doc { font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; }
+
+  /* Title */
+  .title { padding:26px 0 24px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; }
+  .title h1 { font-size:74px; font-weight:700; letter-spacing:-0.03em; line-height:0.92; margin-top:14px; }
+
+  /* Info */
+  .info { display:grid; grid-template-columns:1fr 1fr; }
+  .info .cell { padding:15px 0; }
+  .info .cell + .cell { padding-left:24px; }
+  .info .k { font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; }
+  .info .v { font-size:17px; font-weight:500; margin-top:5px; }
+
+  /* Lead */
+  .lead { font-size:19px; font-weight:500; line-height:1.4; letter-spacing:-0.01em; padding:22px 0; max-width:30ch; }
+
+  /* Section label */
+  .sec { font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; padding-top:22px; padding-bottom:4px; }
+
+  /* Price rows */
+  .prow { padding:16px 0; border-top:1px solid var(--ink); }
+  .prow:first-of-type { border-top:none; }
+  .prow-top { display:flex; justify-content:space-between; align-items:baseline; gap:24px; }
+  .prow .name { font-size:19px; font-weight:700; }
+  .prow .name b { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; margin-left:12px; padding:2px 8px; border:1px solid var(--ink); border-radius:3px; }
+  .prow .price { font-size:30px; font-weight:700; letter-spacing:-0.02em; white-space:nowrap; }
+  .prow .price small { font-size:14px; font-weight:500; margin-left:2px; }
+  .prow .time { font-size:14px; font-weight:700; margin-top:8px; }
+  .prow .time span { font-weight:500; }
+  .prow .desc { font-size:14px; font-weight:400; line-height:1.45; max-width:56ch; margin-top:5px; }
+
+  /* Two-column lists */
+  .cols { display:grid; grid-template-columns:1fr 1fr; gap:2px 40px; }
+  .li { display:flex; gap:12px; padding:8px 0; font-size:15px; font-weight:400; line-height:1.4; }
+  .li .n { font-weight:700; min-width:14px; }
+  .li b { font-weight:700; }
+
+  .need { display:flex; gap:12px; padding:8px 0; font-size:16px; font-weight:500; }
+  .need::before { content:''; flex:0 0 8px; height:8px; margin-top:8px; background:var(--ink); }
+
+  .ex { padding:8px 0; font-size:15px; font-weight:400; border-top:1px solid rgba(10,10,10,0.18); }
+  .ex:first-of-type { border-top:none; }
+  .ex b { font-weight:700; }
+
+  /* Notes */
+  .notes { padding-top:18px; }
+  .notes div { font-size:14px; font-weight:400; line-height:1.55; }
+  .notes b { font-weight:700; }
+
+  /* Footer */
+  .foot { margin-top:auto; padding-top:26px; }
+  .foot .sal { font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; }
+  .foot .name { font-size:19px; font-weight:700; margin-top:6px; }
+  .foot .name span { font-weight:500; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; margin-left:12px; }
+  .foot .contact { font-size:14px; font-weight:500; margin-top:12px; letter-spacing:0.01em; }
+  .foot .contact span + span::before { content:'·'; margin:0 10px; }
+  .foot a { color:var(--ink); text-decoration:none; }
+  .foot .visit { font-size:15px; font-weight:500; margin-top:10px; }
+  .foot .visit a { font-weight:700; text-decoration:underline; text-underline-offset:2px; }
+
+  @media print {
+    @page { size:A4; margin:0; }
+    html, body { background:#fff; }
+    .sheet { margin:0; box-shadow:none; width:210mm; min-height:297mm; }
+  }
+  @media screen and (max-width:760px) {
+    .sheet { width:100%; min-height:auto; margin:0; padding:26px 20px; box-shadow:none; }
+    .title h1 { font-size:48px; }
+    .info, .cols { grid-template-columns:1fr; }
+    .info .cell + .cell { padding-left:0; }
+    .prow .price { font-size:24px; }
+  }
+
+  .todo { background:var(--ink); color:#fff; padding:1px 7px; font-weight:700; white-space:nowrap; }
+  .rows .r { display:flex; justify-content:space-between; gap:24px; align-items:baseline; padding:10px 0; border-top:1px solid var(--ink); font-size:15px; }
+  .rows .r:first-child { border-top:none; }
+  .rows .r b { font-weight:700; white-space:nowrap; font-size:16px; }
+  .rows .r.total { font-size:18px; font-weight:700; }
+  .rows .r.total b { font-size:24px; }
+  .rows .r span small { display:block; font-size:13.5px; line-height:1.4; margin-top:2px; }
+  .rows .r > span b.nm { font-size:15px; }
+  .sheet { padding:20mm 22mm 18mm; }
+  .title h1 { font-size:54px; }
+  .title { padding:18px 0 16px; }
+  .info .cell { padding:10px 0; }
+  .need { font-size:14.5px; padding:5px 0; }
+  .need::before { margin-top:6px; }
+  .foot { padding-top:14px; }
+  .rows .r { padding:8px 0; }
+  .lead { max-width:44ch; font-size:18px; padding:18px 0; }
+  .li { font-size:14.5px; padding:6px 0; }
+  .sec { padding-top:16px; }
+  .sheet + .sheet { break-before:page; }
+  .plain { font-size:14.5px; line-height:1.5; padding:6px 0; max-width:62ch; }
+</style>
+</head>
+<body><div class="sheet">
+<div class="head"><div class="wm">Casa Soda</div><div class="doc">Reporte de cierre · Noviembre 2026</div></div><div class="line thick"></div>
+<div class="title"><div class="eyebrow">Tierra de Monte · Programa de Aliados</div><h1>Cierre de la<br>Fase 1</h1></div><div class="line"></div>
+<div class="info"><div class="cell"><div class="k">Acta de cierre</div><div class="v">13 de noviembre de 2026</div></div><div class="cell"><div class="k">Siguiente paso</div><div class="v">Decidir la Fase 2</div></div></div><div class="line"></div>
+<div class="lead">Tierra de Monte ya tiene una página donde un aliado puede conocer el programa, armar su pedido y registrarse. Este reporte resume qué se hizo, qué falta, el saldo y lo que sigue.</div><div class="line"></div>
+<div class="sec">Qué cambió en el camino</div>
+<div class="plain">El 17 de septiembre la estrategia pasó a <b>vender primero y registrar después</b>, con la página en Shopify y compra desde $5,000. Construimos ese flujo de compra, que no estaba en el plan original, y a cambio se ajustó el alcance: una sola página y un solo kit para todos los niveles.</div>
+<div class="sec">Lo que se entregó</div><div class="cols"><div class="li"><span class="n">1</span><span><b>Página de Aliados en línea.</b> tierrademonte.com/aliados, en computadora y celular.</span></div><div class="li"><span class="n">2</span><span><b>Compra primero.</b> El aliado elige productos, ve su subtotal y arma su pedido desde $5,000.</span></div><div class="li"><span class="n">3</span><span><b>Pedidos grandes.</b> Arriba de $20,000 el botón abre WhatsApp con el pedido ya escrito, para que no se pierda la venta.</span></div><div class="li"><span class="n">4</span><span><b>Registro.</b> Formulario de GoHighLevel en la página y en el carrito.</span></div><div class="li"><span class="n">5</span><span><b>Programa definido.</b> Niveles, beneficios y flujo completo del aliado.</span></div><div class="li"><span class="n">6</span><span><b>Revisión de Shopify.</b> Diagnóstico de la tienda y pantallas de compra.</span></div></div>
+<div class="line" style="margin-top:12px"></div>
+<div class="sec">Lo que falta para el cierre · al 13 de noviembre</div><div class="cols"><div class="li"><span class="n">1</span><span><b>GoHighLevel.</b> Bienvenida automática y compra conectada. El PDF y el nivel se asignan a mano.</span></div><div class="li"><span class="n">2</span><span><b>Prueba completa.</b> Compra y registro de punta a punta, documentados.</span></div><div class="li"><span class="n">3</span><span><b>Material base.</b> Pieza maestra, formatos base de redes y un kit de bienvenida.</span></div><div class="li"><span class="n">4</span><span><b>Guía de mensajes y KPIs.</b> Ya en borrador; se entregan finales.</span></div><div class="li"><span class="n">5</span><span><b>Capacitación.</b> Una sesión de 2 horas para su equipo.</span></div><div class="li"><span class="n">6</span><span><b>Entrega.</b> Carpeta, documentación, accesos y acta de cierre.</span></div></div>
+<div class="line" style="margin-top:12px"></div>
+<div class="sec">Lo que no se hizo en esta fase</div>
+<div class="plain">Páginas y materiales por nivel, brochure, fichas, media kit, Canva editable, reportes mensuales y el rediseño completo del sitio. Salieron del cierre por el cambio de estrategia y son la base de la Fase 2.</div>
+</div>
+<div class="sheet">
+<div class="head"><div class="wm">Casa Soda</div><div class="doc">Tierra de Monte · Cierre de la Fase 1</div></div><div class="line thick"></div>
+<div class="sec">Balance</div>
+<div class="rows">
+<div class="r"><span>Total contratado</span><b><span class="todo">[CONFIRMAR]</span></b></div>
+<div class="r"><span>Pagado a la fecha</span><b><span class="todo">[CONFIRMAR]</span></b></div>
+<div class="r total"><span>Saldo por liquidar</span><b><span class="todo">[CONFIRMAR]</span></b></div>
+</div>
+<div class="plain">El saldo se liquida con el acta de cierre del 13 de noviembre. Montos en MXN + IVA.</div>
+<div class="line"></div>
+<div class="sec">Siguientes pasos · propuesta de Fase 2</div>
+<div class="plain"><b>Para presentar a dirección:</b> la página ya está en línea. La Fase 2 hace que el programa opere solo, con cada aliado atendido según su nivel y con números claros cada mes. Son módulos independientes: pueden aprobar todos o solo los que necesiten.</div>
+<div class="rows"><div class="r"><span><b class="nm">GoHighLevel completo</b><small>Journey automático por nivel, segmentación, mensajes y capacitación. 3 semanas.</small></span><b>$45,000</b></div><div class="r"><span><b class="nm">Materiales por nivel</b><small>Kits y PDF por nivel, brochure, fichas, media kit, Canva editable y niveles joya. 4 semanas.</small></span><b>$55,000</b></div><div class="r"><span><b class="nm">Métricas</b><small>KPIs y un reporte mensual automático de Shopify y GoHighLevel, con una acción clara al mes. 2 semanas.</small></span><b>$25,000</b></div><div class="r"><span><b class="nm">Sitio</b><small>Mejoras al sitio con el nuevo sistema de diseño y precios distintos para Aliados. 3 a 4 semanas.</small></span><b>$40,000</b></div>
+<div class="r total"><span>Fase 2 completa · 8 a 10 semanas</span><b>$165,000</b></div></div>
+<div class="plain">MXN + IVA. <b>Soporte opcional:</b> $12,000 al mes, hasta 8 horas de GoHighLevel y sitio, más la revisión del reporte mensual. Propuesta válida por 30 días.</div>
+<div class="line"></div>
+<div class="sec">Lo que necesitamos de ustedes</div>
+<div class="need">Productos de Aliados con inventario, para la compra de prueba</div>
+<div class="need">Texto de la pieza maestra, contenido del kit y del PDF, y liga del grupo</div>
+<div class="need">Decisión de dirección sobre la Fase 2 antes del 13 de noviembre</div>
+<div class="plain" style="padding-top:12px">Casa Soda deja de operar el proyecto el <b>15 de noviembre</b>. Si la Fase 2 no sigue con nosotros, todo queda en sus manos, listo para que su equipo o su agencia continúen.</div>
+<div class="foot"><div class="line" style="margin-bottom:14px;"></div><div class="sal">Saludos,</div><div class="name">Daniel Pliego <span>Casa Soda</span></div><div class="contact"><span>Ciudad de México</span><span><a href="tel:+525510265196">+52 55 1026 5196</a></span><span><a href="mailto:hola@casasoda.com">hola@casasoda.com</a></span></div><div class="visit">Visita <a href="https://casasoda.com">Casa Soda</a> para ver nuestro portafolio.</div></div>
+</div></body>
+</html>

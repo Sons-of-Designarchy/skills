@@ -20,6 +20,12 @@ No research, no agents, no artifacts, not even "the quick part".
 published artifact, two rebuild agents) ran on the Yardzen account because this
 guide wasn't loaded and the old rule only named Finsera. Never again.
 
+**The same rule applies to CLIs.** Before deploying Soda work, check who the tool is logged in as:
+- **Vercel:** Soda = `hola@casasoda.com`, scope `daniel-pliegos-projects`. `vercel whoami` showing `danielpliego-4456` is the Yardzen account, so stop. A Soda token can live in `~/.vercel-soda-token` (chmod 600); use it as `vercel … --token "$(cat ~/.vercel-soda-token)"`.
+- **Shopify:** `tierra-de-monte.myshopify.com`.
+
+On 2026-11-10 Soda Intake turned out to be deployed in the Yardzen Vercel account, and it had to be moved.
+
 ---
 
 ## RULE ZERO — Text is sized by the Typography component. Always.

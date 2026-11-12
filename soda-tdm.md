@@ -164,6 +164,36 @@ Colour schemes live in the theme editor (Theme settings → Colors) and in `conf
 
 ---
 
+## Aliados: purchase and registration
+
+Live at https://tierrademonte.com/pages/aliados.
+
+**Order** (`sections/aliados-pedido.liquid` + `assets/pr-order.js`):
+- Minimum $5,000 to pay.
+- Above $20,000 the button becomes «Hablar con un asesor», a WhatsApp with the order written out.
+- The cart is the order.
+
+**Registration before paying** (`snippets/pr-cart-drawer.liquid` + `assets/pr-cart-register.js`):
+- **Pagar** opens the GoHighLevel form `PokFnUnhtj45vXhbVBBj` in the drawer. It is the same one as the page's registration.
+- The form asks for: Nombre completo, Correo, Teléfono, ¿Cómo te enteraste?, Estado. Karla manages the fields in GoHighLevel.
+- The browser remembers the registration for 30 days (`localStorage` `tdm-registered`).
+
+**Email on every registration** (setting «Avisar por correo cada registro», on by default, since 2026-11-11):
+- On submit, GoHighLevel sends the page the saved contact (`["set-sticky-contacts", "_ud", json]`).
+- The theme emails it, together with the cart, through Shopify's contact form (`/contact`).
+- It reaches the store's contact email (Configuración → Detalles de la tienda), whether or not the person pays.
+- Custom fields arrive under their GoHighLevel id. Their labels live in `LABELS` in `pr-cart-register.js`.
+- If Karla adds a field, read its id from the form (the input's `name`) and add the label there. Otherwise the email shows the raw id.
+
+**Testing:**
+- The form has Cloudflare Turnstile, which blocks headless browsers. Never try to get around it.
+- Dan tests by hand: incognito window, an order over $5,000, Pagar, register with `prueba+aliados@casasoda.com`, close the checkout without paying.
+- Then check the store inbox and GoHighLevel → Contactos.
+
+**Pushing to `main`:** Claude's `git push origin main` can be denied by permissions. When that happens, commit, and hand Dan the exact `! git push origin main` to run.
+
+---
+
 ## HANDOFF.md format
 
 One line per hand-off, newest on top:

@@ -312,6 +312,27 @@ Keep a "Fechas que no se mueven" row and the work rules: una persona aprueba por
 - Artifacts: [Timeline](https://claude.ai/artifact/YTHwSzpey22Aa8gU45N5z7) · [Brief creativo](https://claude.ai/artifact/8igWa69cnwipgMksPXeXbY) · [Mapa y contenido](https://claude.ai/artifact/9d5iLD3eDmgPzT9zYyWcGK) · [Brief técnico](https://claude.ai/artifact/JSDq5VwCGLhG65yiNat6KK). Sources: `quotes/prudence/entregables/` (timeline.html, brief-creativo.html, mapa-y-contenido.html, brief-tecnico.html).
 - ClickUp task: https://app.clickup.com/t/90131023048/17tn04949nq (duplicated from the sales pipeline).
 
+### Step 7 — Materials collection: Soda Intake
+
+After kickoff the client gets a link to send all their materials: files, folders, links and answers. Everything lands in the shared drive "Entregas de clientes", in folders by section.
+
+- **Repo:** `git@github.com:Sons-of-Designarchy/soda-intake.git` (clone at `~/projects/soda/soda-intake`).
+  - Next 16 on Vercel, in the **Soda** account (scope `daniel-pliegos-projects`).
+  - Guide: `SETUP.md`. ClickUp task: [Soda Intake](https://app.clickup.com/t/17tn0498xde), with one subtask per section.
+- **Prudence** (sent 2026-11-10): https://soda-prudence.vercel.app/prudence. Test client: `/demo`.
+  - Global login at `/` (user = client id).
+  - Each client has its password in Vercel as `PASSWORD_<ID>`. The password always goes in a separate message from the link.
+- **New client:**
+  - Copy `src/clients/prudence.ts`, register it in `src/clients/index.ts` and add `PASSWORD_<ID>` in Vercel.
+  - Take the checklist from the kickoff's Mapa y contenido.
+  - Optionally give it its own domain (`soda-<client>.vercel.app`) in the project.
+- **Pending:**
+  - The Discord webhook for `#entregas`, so there are no notifications yet.
+  - The timeline section (branch `feat/timeline`, not started).
+  - Deleting the old `soda-intake` project in the Yardzen Vercel account, which still holds the Google key.
+- **Testing locally:** `npx next dev -p 3111`. Real uploads hit the real Drive, so delete test files afterwards.
+  - On 2026-11-10 a test file in `Prudence/Marca/Logos en vector/` marked that item as delivered.
+
 Gotchas:
 - Headless Chrome won't render narrower than ~500px. Check 390px through an iframe, or accept it.
 - If a ClickUp link can't be read (connector not connected), ask the user to connect it via `/mcp` or paste the content. Don't guess.
