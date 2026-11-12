@@ -30,13 +30,37 @@ cd ~/projects/tierra-de-monte
 shopify version          # Shopify CLI 3.x — install with: brew install shopify-cli
 ```
 
-Local preview (opens a browser login the first time):
+**Store:** `tierra-de-monte.myshopify.com`
+
+Local preview (asks for a Shopify device login in the browser the first time, and again whenever the session expires):
 
 ```bash
-shopify theme dev --store <store>.myshopify.com
+shopify theme dev --store tierra-de-monte.myshopify.com
 ```
 
-It serves the theme at `http://127.0.0.1:9292` with hot reload, using real store data. It never touches the published theme.
+It serves the theme at `http://127.0.0.1:9292` with hot reload, using real store data. It never touches the published theme. Aliados page: `http://127.0.0.1:9292/pages/aliados`.
+
+Shareable preview of a branch (unpublished theme, safe):
+
+```bash
+shopify theme push --unpublished --theme "preview-<branch>" --store tierra-de-monte.myshopify.com
+```
+
+---
+
+## Current state (update this section every session)
+
+- **2026-10-05:** Aliados is **live**. It was built on `refactor/foundations` (Karla + Said), and that branch is fully merged into `main`. There never was a `feat-aliados` branch. The 2026-09-29 accidental merge + revert (`93c53d4`) didn't drop anything: code on `main` matches the branch.
+- Active polish branch: `dan/aliados-pulido` (from `main`). Workflow: Dan sends batches of ~30 screenshots with notes → Claude applies them all, checks every change against other pages that use the same section/token/scheme → commit per batch → unpublished preview → next batch.
+
+## Aliados architecture
+
+- Page template `templates/page.aliados.json`. Proposal variant `templates/page.aliados-propuesta.json`, viewed via `?view=aliados-propuesta`.
+- `layout/aliados.liquid` serves any template whose suffix contains `aliados`. Header/footer groups: `sections/header-aliados-group.json`, `sections/footer-aliados-group.json`.
+- `layout/theme.liquid` swaps the favicon/heading font when the suffix contains `aliados` (`settings.aliados_favicon`, `settings.aliados_heading_font`).
+- Aliados colour schemes: base (white), cream, verde, medio. Tokens follow each scheme.
+- Aliados sections and assets: `section-tdm-hero-slider`, `-card-grid`, `-comparison-table`, `-detail-spotlight`, `-faq`, `-scroll-steps`, `-slide-gallery`, `-ticker`, `-header-aliados`, `tdm-aliados-caps.css`, `tdm-card-grid.js`, `tdm-scroll-steps.js`.
+- **Shared with the main site** (check other pages before changing): `base.css`, `tdm-foundations.css`, `section-tdm-footer.css`, `sections/footer.liquid`, `collapsible-content.liquid`, `slide-gallery.liquid`, `ticker.liquid`, `layout/theme.liquid`. Scope Aliados-only changes with a section setting or the Aliados scheme, never globally.
 
 ---
 
