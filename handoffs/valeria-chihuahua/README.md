@@ -33,7 +33,7 @@ Doc interno: [Propuesta Val Chihuahua](https://claude.ai/artifact/7GrKGLCt6c5j3M
 
 ## Pendiente
 1. Reacción de Val a la propuesta (no había contestado el WhatsApp anterior).
-2. Definir el rol de Said y hablar con él antes de que vea el doc interno.
+2. Rol de Said: él prepara su propio doc de ajuste de colaboración y pidió pausar su vesting un año (dicho por Dan el 11 nov). Hablar con él antes de que vea el doc interno.
 3. Preguntar a Val cuánto gana hoy y cuántos días trabajaría.
 4. Socios aprueban: fijo, % de acciones y qué vale cada meta de facturación.
 5. Datos que faltan: saldo en banco, $25,000 de la cuenta Santander, $19,285 de pendientes de octubre.
