@@ -4,7 +4,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
 <style>
-  /* Layout: one Gantt in weekdays (40 columns, 26 oct → 18 dic), milestones as diamonds, list below for detail. Casa Soda palette. */
+  /* Layout: one Gantt in weekdays (40 columns), milestones as diamonds, list below for detail. Casa Soda palette. */
   :root {
     --bg: #F0EDE4;
     --fg: #0A0A0A;
@@ -122,20 +122,157 @@
 </div>
 
 <script>
-  // Weekday index 1–40: Mon 26 oct = 1 … Fri 18 dic = 40.
+  // Generado por skills/portal/build-timeline.mjs desde project.json. No editar a mano.
   const WEEKS = ["26 oct","2 nov","9 nov","16 nov","23 nov","30 nov","7 dic","14 dic"];
-  const TODAY = 3; // mié 28 oct
+  const TODAY = 14; // 11 nov
   const ROWS = [
-    { label:"Arranque", sub:"Inventario y preview", bars:[{ from:1, to:5, who:"soda", text:"Arranque" }] },
-    { label:"Revisión semanal", sub:"30 minutos, mismo día y hora", ms:[3, 8, 13, 18, 23, 28, 33, 38].map(day => ({ day, text:"Revisión", dot:true })) },
-    { label:"Materiales", sub:"Marca, catálogo, textos, accesos", bars:[{ from:1, to:15, who:"client", text:"Entrega de materiales" }], ms:[{ day:15, text:"13 nov" }] },
-    { label:"Contenido", sub:"Textos y guion de la historia", bars:[{ from:1, to:20, who:"soda", text:"Contenido" }] },
-    { label:"Diseño", sub:"Hero, Historia, descansos", bars:[{ from:6, to:23, who:"soda", text:"Diseño" }], ms:[{ day:23, text:"Aprobado" }] },
-    { label:"Desarrollo", sub:"Productos, videos, blog, form", bars:[{ from:6, to:30, who:"soda", text:"Desarrollo" }] },
-    { label:"Carga de contenido", sub:"En el CMS", bars:[{ from:16, to:35, who:"client", text:"Carga de contenido" }] },
-    { label:"QA", sub:"Celular, SEO, redirects", bars:[{ from:31, to:35, who:"soda", text:"QA" }] },
-    { label:"Pendientes y capacitación", sub:"Contenidos que falten, capacitaciones", bars:[{ from:36, to:39, who:"soda", text:"Ajustes" }], ms:[{ day:38, text:"OK final" }] },
-    { label:"Lanzamiento", sub:"Soft 11 dic · Final 18 dic", ms:[{ day:35, text:"Soft launch" }, { day:40, text:"18 dic", big:true }] },
+    {
+      "label": "Revisión semanal",
+      "sub": "30 minutos, mismo día y hora",
+      "bars": [],
+      "ms": [
+        {
+          "day": 3,
+          "text": "Revisión",
+          "dot": true
+        },
+        {
+          "day": 8,
+          "text": "Revisión",
+          "dot": true
+        },
+        {
+          "day": 13,
+          "text": "Revisión",
+          "dot": true
+        },
+        {
+          "day": 18,
+          "text": "Revisión",
+          "dot": true
+        },
+        {
+          "day": 23,
+          "text": "Revisión",
+          "dot": true
+        },
+        {
+          "day": 28,
+          "text": "Revisión",
+          "dot": true
+        },
+        {
+          "day": 33,
+          "text": "Revisión",
+          "dot": true
+        },
+        {
+          "day": 38,
+          "text": "Revisión",
+          "dot": true
+        }
+      ]
+    },
+    {
+      "label": "Narrativa + Diseño",
+      "sub": "Textos, guion, Hero, Historia",
+      "bars": [
+        {
+          "from": 1,
+          "to": 23,
+          "who": "soda",
+          "text": "Narrativa + Diseño"
+        }
+      ],
+      "ms": [
+        {
+          "day": 23,
+          "text": "Diseño aprobado",
+          "big": false
+        }
+      ]
+    },
+    {
+      "label": "Desarrollo",
+      "sub": "Productos, videos, blog, form",
+      "bars": [
+        {
+          "from": 6,
+          "to": 30,
+          "who": "soda",
+          "text": "Desarrollo"
+        }
+      ],
+      "ms": []
+    },
+    {
+      "label": "QA y capacitación",
+      "sub": "Celular, SEO, redirects, CMS",
+      "bars": [
+        {
+          "from": 31,
+          "to": 39,
+          "who": "soda",
+          "text": "QA y capacitación"
+        }
+      ],
+      "ms": [
+        {
+          "day": 38,
+          "text": "Visto bueno final",
+          "big": false
+        }
+      ]
+    },
+    {
+      "label": "Materiales",
+      "sub": "Marca, catálogo, textos, accesos",
+      "bars": [
+        {
+          "from": 1,
+          "to": 15,
+          "who": "client",
+          "text": "Materiales"
+        }
+      ],
+      "ms": [
+        {
+          "day": 15,
+          "text": "Materiales completos",
+          "big": false
+        }
+      ]
+    },
+    {
+      "label": "Carga de contenido",
+      "sub": "En el CMS",
+      "bars": [
+        {
+          "from": 16,
+          "to": 35,
+          "who": "client",
+          "text": "Carga de contenido"
+        }
+      ],
+      "ms": []
+    },
+    {
+      "label": "Lanzamiento",
+      "sub": "Soft 11 dic · Final 18 dic",
+      "bars": [],
+      "ms": [
+        {
+          "day": 35,
+          "text": "Soft launch",
+          "big": false
+        },
+        {
+          "day": 40,
+          "text": "18 dic",
+          "big": true
+        }
+      ]
+    }
   ];
 
   const g = document.getElementById("gantt");

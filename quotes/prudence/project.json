@@ -1,0 +1,29 @@
+{
+  "slug": "prudence",
+  "client": "Prudence",
+  "clientLong": "Prudence / DKT",
+  "project": "Sitio narrativo",
+  "domain": "prudence.com.mx",
+  "clickup": {
+    "epic": "17tn04949nq",
+    "projectsList": "1400400000001292"
+  },
+  "start": "2026-10-26",
+  "launch": "2026-12-18",
+  "softLaunch": "2026-12-11",
+  "weeklyReview": { "weekday": 3, "label": "Revisión semanal", "sub": "30 minutos, mismo día y hora" },
+  "phases": [
+    { "id": "17tn049ajkb", "label": "Narrativa + Diseño", "sub": "Textos, guion, Hero, Historia", "who": "soda", "start": "2026-10-26", "end": "2026-11-25" },
+    { "id": "17tn049ajkc", "label": "Desarrollo", "sub": "Productos, videos, blog, form", "who": "soda", "start": "2026-11-02", "end": "2026-12-04" },
+    { "id": "17tn048qhpx", "label": "QA y capacitación", "sub": "Celular, SEO, redirects, CMS", "who": "soda", "start": "2026-12-07", "end": "2026-12-17" },
+    { "id": "17tn049ajke", "label": "Materiales", "sub": "Marca, catálogo, textos, accesos", "who": "client", "start": "2026-10-26", "end": "2026-11-13" },
+    { "id": "17tn049ajkg", "label": "Carga de contenido", "sub": "En el CMS", "who": "client", "start": "2026-11-16", "end": "2026-12-11" }
+  ],
+  "milestones": [
+    { "date": "2026-11-13", "what": "Materiales completos", "who": "Prudence / DKT", "row": "Materiales" },
+    { "date": "2026-11-25", "what": "Diseño aprobado", "who": "Prudence / DKT", "row": "Narrativa + Diseño" },
+    { "date": "2026-12-11", "what": "Soft launch", "who": "Sitio en vivo para revisión", "row": "Lanzamiento" },
+    { "date": "2026-12-16", "what": "Visto bueno final", "who": "Prudence / DKT", "row": "QA y capacitación" },
+    { "date": "2026-12-18", "what": "Sitio en vivo", "who": "prudence.com.mx", "row": "Lanzamiento", "big": true }
+  ]
+}
