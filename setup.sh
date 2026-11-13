@@ -24,6 +24,7 @@ MANAGED_SKILLS=(
   "soda-help:soda-help.md"
   "soda-quote:soda-quote.md"
   "soda-ops:soda-ops.md"
+  "soda-conversions:soda-conversions.md"
   "screens:screens.md"
 )
 
@@ -40,6 +41,7 @@ Casa Soda — quick reference
     /soda-help       This quick reference, inside Claude Code
     /screens         Screenshot QA at fixed viewports
     /soda-quote      Client quotes and pricing
+    /soda-conversions Ads, landings and funnels — what to measure, what to fix
 
   Dev servers:
     Finsera            nvm use 20.19.6 && yarn start          → localhost:3000 / 3002
