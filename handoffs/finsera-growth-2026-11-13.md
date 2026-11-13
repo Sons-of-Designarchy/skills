@@ -18,7 +18,7 @@ https://gitlab.finseradev.net/finsera/web-ui/-/merge_requests/6469 · branch `sc
 - Dan runs the pipeline and merges; then cherry-pick to the current staging/release branch (last one used: `rc329`).
 
 ## Open before launching ad 2
-- **Ad creative `vs_schwab_v1`** (in `~/Desktop/finsera-reddit-ads/` on the NEW laptop only, sources in `src/`) says "Look before you buy a theme." → no longer matches the hero. Redo it with the "vs" title (message match). Review page: https://claude.ai/artifact/Mm2GKqkMaw2HPhGkzqySXC (6 other creatives too; Dan/Laurent pick).
+- **Ad creative `vs_schwab_v1`** (copied to `handoffs/finsera-reddit-ads/` in this repo, HTML sources in `src/`, re-render with `node src/gen.js && node src/render.js`) says "Look before you buy a theme." → no longer matches the hero. Redo it with the "vs" title (message match). Review page: https://claude.ai/artifact/Mm2GKqkMaw2HPhGkzqySXC (6 other creatives too; Dan/Laurent pick).
 - Schwab facts ("$250 minimum", "40+ themes, up to 25 stocks", "$0 to access", "adjust holdings") come from a Dec 2023 press release: confirm still true.
 - Disclaimer: page says "Research only"; the exact "Research tool, not a broker. Not investment advice." isn't on it. Ask Dan.
 - "We earn nothing when you invest": confirm with Laurent.

@@ -1,0 +1,28 @@
+@font-face{font-family:'Caslon';src:url('assets/caslon.woff2') format('woff2');font-weight:100 900}
+@font-face{font-family:'InterL';src:url('assets/Inter.ttf');font-weight:100 900}
+:root{--navy:#202541;--blue:#305A9C;--blue-l:#E9EFF8;--bg:#F5F7FB;--line:#E1E6EF;--muted:#5B6479;--green:#429672;--green-l:#ECF8EE;--white:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'InterL',sans-serif;color:var(--navy);background:var(--bg);-webkit-font-smoothing:antialiased}
+.ad{position:relative;overflow:hidden;background:var(--bg);display:flex}
+.wide{width:1200px;height:628px;padding:52px 60px;gap:52px;align-items:stretch;--h:58px;--p:21px;--pad:20px}
+.sq{width:1080px;height:1080px;padding:64px 72px;flex-direction:column;gap:32px;--h:72px;--p:27px}
+.sq .col.text{display:contents}.sq .brand{order:1}.sq .col.text>div:nth-child(2){order:2}.sq .foot{order:4}.sq .col.vis{order:3;min-height:0;overflow:hidden;flex:1}
+.sq .sub{margin-top:16px}.sq .foot .fine{margin-top:10px!important}
+.col{display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+.wide .col.text{flex:0 0 500px}.wide .col.vis{flex:1}
+.sq .col.vis{flex:1}
+.brand{font-family:'Caslon',serif;font-weight:600;font-size:28px;letter-spacing:.01em;display:flex;align-items:center;gap:10px}
+.sq .brand{font-size:38px}
+.brand i{width:12px;height:12px;border-radius:3px;background:var(--blue);display:block}
+h1{font-family:'Caslon',serif;font-weight:600;font-size:var(--h);line-height:1.04;letter-spacing:-.01em}
+.sub{font-size:var(--p);line-height:1.4;color:var(--muted);margin-top:22px}
+.pill{display:inline-flex;border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 16px;font-size:16px;font-weight:500;color:var(--navy)}
+.sq .pill{font-size:23px;padding:12px 22px}
+.cta{display:inline-flex;background:var(--blue);color:#fff;border-radius:10px;padding:14px 24px;font-weight:600;font-size:18px}
+.sq .cta{font-size:26px;padding:20px 34px;border-radius:14px}
+.fine{font-size:14px;color:var(--muted);line-height:1.35}
+.sq .fine{font-size:21px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px}
+.tag{display:inline-flex;font-size:13px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:var(--blue-l);color:var(--blue)}
+.sq .tag{font-size:19px;padding:7px 14px}
+.row{display:flex;align-items:center}
